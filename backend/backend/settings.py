@@ -18,15 +18,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ENV = os.environ
 
+SECRET_KEY = ENV["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = "RENDER" not in ENV
 
 ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = [
+    'render.apps.RenderConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
