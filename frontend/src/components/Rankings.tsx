@@ -1,9 +1,11 @@
 import React from 'react';
+import TitleSearch from '../api/TitleSearch';
+
 
 const Rankings: React.FC = () => {
     return (
       <div>
-        {/* Add your rankings component and logic here */}
+        <TitleSearch />
       </div>
     );
 };

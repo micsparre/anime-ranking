@@ -12,3 +12,11 @@ class UserAnimeRankingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAnimeRanking
         fields = '__all__'
+        
+from .models import Title
+
+class TitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Title
+        fields = '__all__'
+

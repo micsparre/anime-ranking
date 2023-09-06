@@ -11,3 +11,12 @@ class UserAnimeRanking(models.Model):
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     ranking = models.PositiveIntegerField()
     # Add more fields as needed
+    
+class Title(models.Model):
+    name = models.CharField(max_length=255)
+    media_id = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name
+    
+        
+    
