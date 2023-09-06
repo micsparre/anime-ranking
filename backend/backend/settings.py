@@ -53,6 +53,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://anime-ranking-frontend.onrender.com",
+    "*"
 ]
 
 
