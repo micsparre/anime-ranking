@@ -154,3 +154,5 @@ cython_debug/
 
 # specific files to not include
 tech-stack.txt
+mydatabase
+.vscode/

@@ -32,8 +32,8 @@ def get_titles_from_anilist(request):
 
         # Save the external data to your Title model
         for item in external_data:
-            Title.objects.create(name=item.get('title').get('english'), media_id=item.get("id"))
-            
+            if item.get('title').get('english') is not None:
+                Title.objects.create(name=item.get('title').get('english'), media_id=item.get("id"))
 
         # Retrieve and serialize the data from your Title model
         queryset = Title.objects.all()
