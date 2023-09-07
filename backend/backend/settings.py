@@ -86,12 +86,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'animerankingdb',
         'USER': 'animerankingdb_user',
-        'PASSWORD': ENV["DB_PASSWORD"],
-        'HOST': f"{ENV['HOST']}.oregon-postgres.render.com",
+        'PASSWORD': ENV["AR_DB_PASSWORD"],
+        'HOST': f"{ENV['AR_HOST']}.oregon-postgres.render.com",
         'PORT': '5432',
-    } if DEBUG else {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
     }
 }
 

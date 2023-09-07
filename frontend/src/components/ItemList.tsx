@@ -12,22 +12,23 @@ const ItemList: React.FC<ItemListProps> = ({items, loading, setLoading}) => {
   
   const onItemClick = (item : Title) => {
     // Construct the URL for your Django API
-    const apiUrl = `https://your-django-api-url/${item.id}`; // Modify the URL as needed
+    const apiUrl = `https://anime-ranking.onrender.com/api/create_title`;
+    const itemData = { media_id: item.id, title: item.title };
 
     setLoading(true);
 
     // Make a GET request to fetch details of the clicked item
     axios
-      .get(apiUrl)
+      .post(apiUrl, itemData)
       .then((response) => {
         // Handle the response data as needed
-        console.log('Item details:', response.data);
+        console.log('Item created:', response.data);
 
         // You can update your UI or state with the item details if necessary
         // For example, you can set the details in a state variable and render them in your component
       })
       .catch((error) => {
-        console.error('Error fetching item details:', error);
+        console.error('Error fetching item created details:', error);
       })
       .finally(() => {
         setLoading(false);

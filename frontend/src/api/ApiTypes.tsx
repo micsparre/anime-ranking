@@ -1,5 +1,5 @@
-// Define a type for the 'item' object
+// Define a type for the 'Title' object
 export type Title = {
-    id: number; // Replace 'number' with the actual type of 'id'
-    title: string; // Replace 'string' with the actual type of 'title'
+    id: number; 
+    title: string;
 };
