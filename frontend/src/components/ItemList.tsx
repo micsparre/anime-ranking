@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Title } from '../api/ApiTypes';
+import '../styles/ItemList.css';
 
 interface ItemListProps {
   items: Title[];
@@ -40,9 +41,9 @@ const ItemList: React.FC<ItemListProps> = ({items, loading, setLoading}) => {
         <p>Loading...</p>
     ) :
     (
-    <ul>
+    <ul className="item-list">
       {items.map((item : Title) => (
-        <li key={item.id} onClick={() => onItemClick(item)}>
+        <li className="list-item" key={item.id} onClick={() => onItemClick(item)}>
           {item.title}
         </li>
       ))}

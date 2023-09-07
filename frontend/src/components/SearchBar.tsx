@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Title } from '../api/ApiTypes';
+import '../styles/SearchBar.css';
 
 interface SearchBarProps {
     setData: React.Dispatch<React.SetStateAction<Title[]>>;
@@ -30,8 +31,9 @@ const SearchBar: React.FC<SearchBarProps> = ({setData, setLoading}) => {
     };
 
     return (
-        <div>
+        <div className="search-bar">
             <input
+                className="search-input"
                 type="text"
                 placeholder="Search anime titles"
                 value={searchTitle}
@@ -39,7 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = ({setData, setLoading}) => {
             />
 
             {/* Button to trigger the API request */}
-            <button onClick={handleSearch}>Search</button>
+            <button className="search-button" onClick={handleSearch}>Search</button>
 
         </div>
     );
