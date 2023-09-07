@@ -7,7 +7,7 @@ const TitleSearch: React.FC = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTitle, setSearchTitle] = useState(''); // State to hold the search title
-  const apiUrl = `https://anime-ranking.onrender.com/api/titles/?title=${searchTitle}`;
+  const apiUrl = `https://anime-ranking.onrender.com/api/titles`;
 
   const handleSearch = () => {
     setLoading(true);
