@@ -23,9 +23,9 @@ SECRET_KEY = ENV["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "RENDER" not in ENV
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', ]
 
-# Application definition
+CORS_ALLOW_ALL_ORIGINS = True
 
 INSTALLED_APPS = [
     # 'render.apps.RenderConfig',
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,14 +49,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://anime-ranking-frontend.onrender.com",
-    "*"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://anime-ranking-frontend.onrender.com",
+#     "*"
+# ]
 
 
 ROOT_URLCONF = 'backend.urls'
