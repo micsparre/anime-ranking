@@ -38,23 +38,6 @@ const SearchBar: React.FC = () => {
             {/* Button to trigger the API request */}
             <button onClick={handleSearch}>Search</button>
 
-            {loading ? (
-                <p>Loading...</p>
-            ) :
-            (
-                <ItemList />
-            )
-            // (
-            //     <div>
-            //         <h2>Data from Django API:</h2>
-            //         <ul>
-            //             {data.map((item: Title) => (
-            //                 <li key={item.id}>{item.title}</li>
-            //             ))}
-            //         </ul>
-            //     </div>
-            // )
-            }
         </div>
     );
 };
