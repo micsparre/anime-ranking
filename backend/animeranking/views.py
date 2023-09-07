@@ -17,7 +17,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from .api_integration import fetch_data_from_api
 
-@api_view(['POST'])
+@api_view(['GET'])
 def get_titles_from_anilist(request):
     print(f"request: {request}")
     
