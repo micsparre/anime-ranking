@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import ItemList from './ItemList';
+import { Title } from '../api/ApiTypes';
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+    setData: React.Dispatch<React.SetStateAction<Title[]>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({setData, setLoading}) => {
     const [searchTitle, setSearchTitle] = useState(''); // State to hold the search title
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
     const apiUrl = `https://anime-ranking.onrender.com/api/titles`;
 
     const handleSearch = () => {
