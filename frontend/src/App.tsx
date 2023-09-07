@@ -2,16 +2,14 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { HomePage, RankingsPage, RecommendationsPage } from './components';
+import { HomePage, RankingsPage, RecommendationsPage, Header } from './components';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Anime Ranking App</h1>
-        </header>
+        <Header />
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />

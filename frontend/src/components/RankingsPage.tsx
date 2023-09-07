@@ -4,7 +4,7 @@ import Rankings from "./Rankings";
 const RankingsPage: React.FC = () => {
     return (
       <div>
-        <h2>Anime Rankings</h2>
+        <h2>Add an anime you've watched</h2>
         <Rankings />
       </div>
     );
