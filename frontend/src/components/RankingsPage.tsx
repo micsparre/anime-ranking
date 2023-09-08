@@ -1,12 +1,12 @@
 import React from "react";
 import Rankings from "./Rankings";
+import Container from '@mui/material/Container';
 
 const RankingsPage: React.FC = () => {
     return (
-      <div>
-        <h2>Add an anime you've watched</h2>
+      <Container maxWidth="sm">
         <Rankings />
-      </div>
+      </Container>
     );
 };
 

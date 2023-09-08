@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { Title } from '../api/ApiTypes';
-import '../styles/ItemList.css';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 interface ItemListProps {
   items: Title[];
@@ -9,9 +11,9 @@ interface ItemListProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ItemList: React.FC<ItemListProps> = ({items, loading, setLoading}) => {
-  
-  const onItemClick = (item : Title) => {
+const ItemList: React.FC<ItemListProps> = ({ items, loading, setLoading }) => {
+
+  const onItemClick = (item: Title) => {
     // Construct the URL for your Django API
     const apiUrl = `https://anime-ranking.onrender.com/api/create_title`;
     const itemData = { media_id: item.id, title: item.title };
@@ -35,20 +37,20 @@ const ItemList: React.FC<ItemListProps> = ({items, loading, setLoading}) => {
         setLoading(false);
       });
   };
-  
+
   return (
     loading ? (
-        <p>Loading...</p>
-    ) :
-    (
-    <ul className="item-list">
-      {items.map((item : Title) => (
-        <li className="list-item" key={item.id} onClick={() => onItemClick(item)}>
-          {item.title}
-        </li>
-      ))}
-    </ul>
-  ));
-}
+      <p>Loading...</p>
+    ) : (
+      <List>
+        {items.map((item: Title) => (
+          <ListItem key={item.id} onClick={() => onItemClick(item)}>
+            <ListItemText primary={item.title} />
+          </ListItem>
+        ))}
+      </List>
+    )
+  );
+};
 
 export default ItemList;

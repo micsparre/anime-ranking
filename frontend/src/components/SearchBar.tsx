@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Title } from '../api/ApiTypes';
-import '../styles/SearchBar.css';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 interface SearchBarProps {
     setData: React.Dispatch<React.SetStateAction<Title[]>>;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({setData, setLoading}) => {
+const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
     const [searchTitle, setSearchTitle] = useState(''); // State to hold the search title
     const apiUrl = `https://anime-ranking.onrender.com/api/titles`;
 
@@ -31,19 +33,27 @@ const SearchBar: React.FC<SearchBarProps> = ({setData, setLoading}) => {
     };
 
     return (
-        <div className="search-bar">
-            <input
-                className="search-input"
-                type="text"
-                placeholder="Search anime titles"
-                value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
-            />
-
-            {/* Button to trigger the API request */}
-            <button className="search-button" onClick={handleSearch}>Search</button>
-
-        </div>
+        <Grid container spacing={2} alignItems="center">
+            <Grid item xs={8}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Search anime titles"
+                    margin="normal"
+                    value={searchTitle}
+                    onChange={(e) => setSearchTitle(e.target.value)}
+                />
+            </Grid>
+            <Grid item xs={4}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSearch}
+                >
+                    Search
+                </Button>
+            </Grid>
+        </Grid>
     );
 };
 
