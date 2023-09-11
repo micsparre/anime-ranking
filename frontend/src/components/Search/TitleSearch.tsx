@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import SearchBar from '../components/SearchBar';
-import ItemList from '../components/ItemList';
-import { Title } from '../api/ApiTypes';
+import SearchBar from './SearchBar';
+import ItemList from './ItemList';
 import Container from '@mui/material/Container';
+import {Anime} from '../Shared/Types';
 
 const TitleSearch: React.FC = () => {
-  const [data, setData] = useState<Title[]>([]);
+  const [data, setData] = useState<Anime[]>([]);
   const [loading, setLoading] = useState(false);
 
   return (

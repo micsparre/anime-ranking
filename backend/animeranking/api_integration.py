@@ -5,8 +5,8 @@ from django.conf import settings
 
 # fetch english titles from AniList GraphQL API
 def fetch_data_from_api(title):
-    url = 'https://graphql.anilist.co' 
-    
+    url = 'https://graphql.anilist.co'
+
     query = '''
             query ($query: String) {
             AnimeSearch: Page {
@@ -15,17 +15,24 @@ def fetch_data_from_api(title):
                 title {
                     english
                 }
+                genres
+                averageScore
+                popularity
+                startDate
+                endDate
+                nextAiringEpisode
             }
             }
             }
             '''
-    
+
     variables = {
         'query': title
     }
 
     try:
-        response = requests.post(url, json={'query': query, 'variables' : variables}, verify=False)
+        response = requests.post(
+            url, json={'query': query, 'variables': variables}, verify=False)
         response.raise_for_status()  # Check for HTTP errors
         raw_data = response.json()  # Parse JSON response
         data = raw_data['data']['AnimeSearch']['media']

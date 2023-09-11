@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Title } from '../api/ApiTypes';
+import { Anime } from '../Shared/Types';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 interface SearchBarProps {
-    setData: React.Dispatch<React.SetStateAction<Title[]>>;
+    setData: React.Dispatch<React.SetStateAction<Anime[]>>;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
