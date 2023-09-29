@@ -8,23 +8,35 @@ def fetch_data_from_api(title):
     url = 'https://graphql.anilist.co'
 
     query = '''
-            query ($query: String) {
+        query ($query: String) {
             AnimeSearch: Page {
                 media(search: $query, type: ANIME, format: TV) {
-                id
-                title {
-                    english
+                    id
+                    title {
+                        english
+                    }
+                    genres
+                    averageScore
+                    popularity
+                    startDate {
+                        year
+                        month
+                        day
+                    }
+                    endDate {
+                        year
+                        month
+                        day
+                    }
+                    nextAiringEpisode {
+                        airingAt
+                        timeUntilAiring
+                        episode
+                    }
                 }
-                genres
-                averageScore
-                popularity
-                startDate
-                endDate
-                nextAiringEpisode
             }
-            }
-            }
-            '''
+        }
+    '''
 
     variables = {
         'query': title

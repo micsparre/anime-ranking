@@ -1,4 +1,3 @@
-// src/components/Shared/Navbar.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material';
@@ -16,7 +15,7 @@ const Navbar: React.FC<ThemeProps> = ({ light, setLight }) => {
     <AppBar position="static">
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item>
+          <Grid item>
             <Typography variant="h6">
               <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
                 Home
@@ -49,9 +48,7 @@ const Navbar: React.FC<ThemeProps> = ({ light, setLight }) => {
               </Link>
             </Typography>
           </Grid>
-          {/* Add more navigation links */}
           <Grid item>
-            {/* Include your ToggleTheme component */}
             <ToggleTheme light={light} setLight={setLight} />
           </Grid>
         </Grid>
@@ -61,3 +58,4 @@ const Navbar: React.FC<ThemeProps> = ({ light, setLight }) => {
 };
 
 export default Navbar;
+

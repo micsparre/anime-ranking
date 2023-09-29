@@ -17,6 +17,7 @@ from rest_framework.authtoken.models import Token
 # Get the titles from the third-party API
 @api_view(['GET'])
 def get_titles_from_anilist(request):
+    breakpoint()
     # Get the 'title' query parameter from the request
     title_query = request.query_params.get('title', None)
     filtered_data = []

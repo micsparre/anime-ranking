@@ -13,9 +13,9 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const apiUrl = 'http://localhost:8000/api/login';
+    const apiUrl = process.env.REACT_APP_API_URL;
     try {
-      const response = await axios.post(apiUrl, credentials);
+      const response = await axios.post(apiUrl + '/api/login', credentials);
 
       if (response.status === 200) {
         // Successful login, handle authentication and redirection

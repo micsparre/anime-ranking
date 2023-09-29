@@ -12,14 +12,13 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
     const [searchTitle, setSearchTitle] = useState(''); // State to hold the search title
-    const apiUrl = `https://anime-ranking.onrender.com/api/titles`;
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const handleSearch = () => {
         setLoading(true);
 
         // Make a GET request to the Django API with the searchTitle parameter
         axios
-            .get(apiUrl, {
+            .get(apiUrl + '/api/titles', {
                 params: { title: searchTitle }, // Send the title parameter in the query
             })
             .then((response) => {

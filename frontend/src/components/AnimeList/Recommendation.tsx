@@ -8,9 +8,9 @@ const Recommendation = () => {
 
   useEffect(() => {
     const fetchRecommendations = async () => {
-      const apiUrl = 'http://localhost:8000/api/get-recommendations/'
+      const apiUrl = process.env.REACT_APP_API_URL;
       try {
-        const response = await axios.get('/api/recommendations/');
+        const response = await axios.get(apiUrl + '/api/recommendations/');
         if (response.status === 200) {
           setRecommendations(response.data.recommendations);
         }

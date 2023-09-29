@@ -13,9 +13,9 @@ const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const apiUrl = 'http://localhost:8000/api/register'
+    const apiUrl = process.env.REACT_APP_API_URL;
     try {
-      const response = await axios.post(apiUrl, user);
+      const response = await axios.post(apiUrl + '/api/register', user);
 
       if (response.status === 201) {
         // Successful registration, handle redirection or login

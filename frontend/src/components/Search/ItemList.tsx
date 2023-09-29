@@ -15,12 +15,12 @@ interface ItemListProps {
 const ItemList: React.FC<ItemListProps> = ({ items, loading, setLoading }) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const onItemClick = (item: Anime, index : number) => {
-    const apiUrl = `https://anime-ranking.onrender.com/api/create_title`;
+    const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { media_id: item.id, title: item.title };
     setSelectedIndex(index);
 
     axios
-      .post(apiUrl, itemData)
+      .post(apiUrl + 'create_title', itemData)
       .then((response) => {
         // Handle the response data as needed
         console.log('Item created:', response.data);

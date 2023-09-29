@@ -10,7 +10,8 @@ const AnimeList = () => {
   useEffect(() => {
     const fetchAnimeList = async () => {
       try {
-        const response = await axios.get('/api/anime-list/');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(apiUrl + '/api/anime-list/');
         if (response.status === 200) {
           setAnimeList(response.data);
         }
