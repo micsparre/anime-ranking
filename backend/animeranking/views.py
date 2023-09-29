@@ -17,7 +17,7 @@ from rest_framework.authtoken.models import Token
 # Get the titles from the third-party API
 @api_view(['GET'])
 def get_titles_from_anilist(request):
-    breakpoint()
+    # breakpoint()
     # Get the 'title' query parameter from the request
     title_query = request.query_params.get('title', None)
     filtered_data = []
@@ -31,38 +31,43 @@ def get_titles_from_anilist(request):
     return Response(filtered_data, status=status.HTTP_200_OK)
 
 # allows a user to add anime to their list
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_anime_to_user_list(request):
-    user = request.user.userprofile  # Assuming you have a UserProfile model associated with the user
-    
+    # Assuming you have a UserProfile model associated with the user
+    user = request.user.userprofile
+
     # Get the anime_id from the request data
     anime_id = request.data.get('anime_id')
     if not anime_id:
         return Response({'detail': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     # Check if the anime is not already in the user's list
     if UserAnimeList.objects.filter(user=user, anime__id=anime_id).exists():
         return Response({'detail': 'Anime is already in the user\'s list'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     # Create a new entry in the UserAnimeList
     user_anime = UserAnimeList(user=user, anime_id=anime_id)
     user_anime.save()
-    
+
     return Response({'detail': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
 
 #  lets a user update the ranking of an anime title in their list.
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def rank_anime(request):
     user = request.user.userprofile
-    
+
     anime_id = request.data.get('anime_id')
     ranking = request.data.get('ranking')
-    
+
     if not anime_id or not ranking:
         return Response({'detail': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     try:
         user_anime = UserAnimeList.objects.get(user=user, anime__id=anime_id)
         user_anime.ranking = ranking
@@ -72,21 +77,24 @@ def rank_anime(request):
         return Response({'detail': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
 
 # retrieves personalized anime recommendations for the user based on the recommendation algorithm
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_recommendations(request):
     user = request.user.userprofile
-    
+
     recommended_anime_titles = []
     # Implement your recommendation logic here, e.g., collaborative filtering or content-based filtering.
     # Generate a list of recommended anime titles based on the user's preferences.
     # recommended_anime_titles = your_recommendation_algorithm(user)
-    
+
     return Response({'recommendations': recommended_anime_titles}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def register_user(request):
-    breakpoint()
+    # breakpoint()
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
@@ -97,7 +105,9 @@ def register_user(request):
 
     # Create a new user
     try:
-        user = User.objects.create_user(username=username, password=password, email=email) # TODO: do we need both user saves?
+        # TODO: do we need both user saves?
+        user = User.objects.create_user(
+            username=username, password=password, email=email)
         user.save()
 
         # Optionally, create a UserProfile entry for additional user-related data
@@ -107,6 +117,7 @@ def register_user(request):
         return Response({'detail': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def user_login(request):

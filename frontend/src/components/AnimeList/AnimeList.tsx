@@ -1,8 +1,7 @@
 // src/components/AnimeList/AnimeList.tsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { Anime } from '../Shared/Types';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Anime } from "../Shared/Types";
 
 const AnimeList = () => {
   const [animeList, setAnimeList] = useState([]);
@@ -11,12 +10,12 @@ const AnimeList = () => {
     const fetchAnimeList = async () => {
       try {
         const apiUrl = process.env.REACT_APP_API_URL;
-        const response = await axios.get(apiUrl + '/api/anime-list/');
+        const response = await axios.get(apiUrl + "/api/anime-list/");
         if (response.status === 200) {
           setAnimeList(response.data);
         }
       } catch (error) {
-        console.error('Error fetching anime list:', error);
+        console.error("Error fetching anime list:", error);
       }
     };
 
@@ -24,18 +23,15 @@ const AnimeList = () => {
   }, []);
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center">
-        Anime List
-      </Typography>
-      <List>
-        {animeList.map((anime : Anime) => (
-          <ListItem key={anime.id}>
-            <ListItemText primary={anime.title} />
-          </ListItem>
+    <div>
+      <h4>Anime List</h4>
+      Anime List
+      <ul>
+        {animeList.map((anime: Anime) => (
+          <li key={anime.id}>anime.title</li>
         ))}
-      </List>
-    </Container>
+      </ul>
+    </div>
   );
 };
 

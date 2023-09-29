@@ -1,7 +1,6 @@
 // src/components/AnimeList/Recommendation.tsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Recommendation = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -10,12 +9,12 @@ const Recommendation = () => {
     const fetchRecommendations = async () => {
       const apiUrl = process.env.REACT_APP_API_URL;
       try {
-        const response = await axios.get(apiUrl + '/api/recommendations/');
+        const response = await axios.get(apiUrl + "/api/recommendations/");
         if (response.status === 200) {
           setRecommendations(response.data.recommendations);
         }
       } catch (error) {
-        console.error('Error fetching recommendations:', error);
+        console.error("Error fetching recommendations:", error);
       }
     };
 
@@ -23,18 +22,15 @@ const Recommendation = () => {
   }, []);
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center">
-        Recommendations
-      </Typography>
-      <List>
+    <div>
+      {" "}
+      <h4>Recommendations</h4>
+      <ul>
         {recommendations.map((animeTitle) => (
-          <ListItem key={animeTitle}>
-            <ListItemText primary={animeTitle} />
-          </ListItem>
+          <li key={animeTitle}>animeTitle</li>
         ))}
-      </List>
-    </Container>
+      </ul>
+    </div>
   );
 };
 

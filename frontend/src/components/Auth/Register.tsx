@@ -1,10 +1,9 @@
 // src/components/Auth/Register.tsx
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Button, Container, TextField, Typography } from '@mui/material';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Register = () => {
-  const [user, setUser] = useState({ username: '', password: '', email: '' });
+  const [user, setUser] = useState({ username: "", password: "", email: "" });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -15,7 +14,7 @@ const Register = () => {
     event.preventDefault();
     const apiUrl = process.env.REACT_APP_API_URL;
     try {
-      const response = await axios.post(apiUrl + '/api/register', user);
+      const response = await axios.post(apiUrl + "/api/register", user);
 
       if (response.status === 201) {
         // Successful registration, handle redirection or login
@@ -25,54 +24,44 @@ const Register = () => {
         // ...
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error("Registration error:", error);
     }
   };
 
   return (
-    <Container maxWidth="xs">
-      <Typography variant="h4" align="center">
-        Register
-      </Typography>
+    <div>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="Username"
+        <label htmlFor="username">Username:</label>
+        <input
           type="text"
+          id="username"
           name="username"
-          fullWidth
-          margin="normal"
           value={user.username}
           onChange={handleInputChange}
         />
-        <TextField
-          label="Password"
+        <br />
+        <label htmlFor="password">Password:</label>
+        <input
           type="password"
+          id="password"
           name="password"
-          fullWidth
-          margin="normal"
           value={user.password}
           onChange={handleInputChange}
         />
-        <TextField
-          label="Email"
+        <br />
+        <label htmlFor="email">Email:</label>
+        <input
           type="email"
+          id="email"
           name="email"
-          fullWidth
-          margin="normal"
           value={user.email}
           onChange={handleInputChange}
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-        >
-          Register
-        </Button>
+        <br />
+        <button type="submit">Register</button>
       </form>
-    </Container>
+    </div>
   );
 };
 

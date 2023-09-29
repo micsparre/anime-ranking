@@ -1,59 +1,58 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Anime } from '../Shared/Types';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import React, { useState } from "react";
+import axios from "axios";
+import { Anime } from "../Shared/Types";
 
 interface SearchBarProps {
-    setData: React.Dispatch<React.SetStateAction<Anime[]>>;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setData: React.Dispatch<React.SetStateAction<Anime[]>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
-    const [searchTitle, setSearchTitle] = useState(''); // State to hold the search title
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const handleSearch = () => {
-        setLoading(true);
+  const [searchTitle, setSearchTitle] = useState(""); // State to hold the search title
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const handleSearch = () => {
+    setLoading(true);
 
-        // Make a GET request to the Django API with the searchTitle parameter
-        axios
-            .get(apiUrl + '/api/titles', {
-                params: { title: searchTitle }, // Send the title parameter in the query
-            })
-            .then((response) => {
-                setData(response.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            });
-    };
+    // Make a GET request to the Django API with the searchTitle parameter
+    axios
+      .get(apiUrl + "/api/titles", {
+        params: { title: searchTitle }, // Send the title parameter in the query
+      })
+      .then((response) => {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+  };
 
-    return (
-        <Grid container spacing={2} alignItems="center">
-            <Grid item xs={8}>
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Search anime titles"
-                    margin="normal"
-                    value={searchTitle}
-                    onChange={(e) => setSearchTitle(e.target.value)}
-                />
-            </Grid>
-            <Grid item xs={4}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSearch}
-                >
-                    Search
-                </Button>
-            </Grid>
-        </Grid>
-    );
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <label htmlFor="searchTitle">Search anime titles:</label>
+      <input
+        type="text"
+        id="searchTitle"
+        name="searchTitle"
+        value={searchTitle}
+        onChange={(e) => setSearchTitle(e.target.value)}
+        style={{ marginLeft: "8px", marginRight: "8px" }}
+      />
+      <button
+        type="button"
+        onClick={handleSearch}
+        style={{
+          backgroundColor: "blue",
+          color: "white",
+          border: "none",
+          padding: "8px",
+        }}
+      >
+        Search
+      </button>
+    </div>
+  );
 };
 
 export default SearchBar;

@@ -1,61 +1,66 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material';
-import { ToggleTheme } from '../../theme'; // Import your ToggleTheme component
-import { ThemeProps } from './Types'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const styles = {
-  loginRegister: {
-    marginLeft: 'auto', // Push Login/Register links to the right
-  },
-};
-
-const Navbar: React.FC<ThemeProps> = ({ light, setLight }) => {
+const Navbar: React.FC = () => {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <Typography variant="h6">
-              <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-                Home
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="h6">
-              <Link to="/anime-list" style={{ color: 'white', textDecoration: 'none' }}>
-                Anime List
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="h6">
-              <Link to="/recommendations" style={{ color: 'white', textDecoration: 'none' }}>
-                Recommendations
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item style={styles.loginRegister}>
-            <Typography variant="h6">
-              <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-                Login
-              </Link>
-            </Typography>
-            <Typography variant="h6">
-              <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>
-                Register
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <ToggleTheme light={light} setLight={setLight} />
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+    <nav style={{ backgroundColor: "black", color: "white" }}>
+      <ul
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          listStyle: "none",
+          padding: "0",
+        }}
+      >
+        <li>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/anime-list"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Anime List
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/recommendations"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Recommendations
+          </Link>
+        </li>
+        <li
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Link
+            to="/login"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginRight: "8px",
+            }}
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Register
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 };
 
 export default Navbar;
-

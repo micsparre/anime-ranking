@@ -1,28 +1,28 @@
-import * as React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import { Anime } from '../Shared/Types';
-import Divider from '@mui/material/Divider';
+import * as React from "react";
+import { Anime } from "../Shared/Types";
 
 interface SelectedListItemProps {
-    selectedIndex: number;
-    handleListItemClick: (item: Anime, index: number) => void;
-    itemIndex: number;
-    item: Anime;
+  selectedIndex: number;
+  handleListItemClick: (item: Anime, index: number) => void;
+  itemIndex: number;
+  item: Anime;
 }
-
-const SelectedListItem: React.FC<SelectedListItemProps> = ({selectedIndex, handleListItemClick, itemIndex, item}) => {
+const SelectedListItem: React.FC<SelectedListItemProps> = ({
+  selectedIndex,
+  handleListItemClick,
+  itemIndex,
+  item,
+}) => {
   return (
-        <div>
-        <ListItemButton
-          selected={selectedIndex === itemIndex}
-          onClick={() => handleListItemClick(item, itemIndex)}
-        >
-            <ListItemText primary={item.title} />
-        </ListItemButton>
-        <Divider component="li" />
-        </div>
-        
+    <div>
+      <button
+        className={selectedIndex === itemIndex ? "selected" : ""}
+        onClick={() => handleListItemClick(item, itemIndex)}
+      >
+        {item.title}
+      </button>
+      <hr />
+    </div>
   );
 };
 
