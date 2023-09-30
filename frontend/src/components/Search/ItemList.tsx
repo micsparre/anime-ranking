@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../Shared/api";
 import { Anime } from "../Shared/Types";
 import SelectedListItem from "./SelectedListItem";
 
@@ -12,12 +12,13 @@ interface ItemListProps {
 const ItemList: React.FC<ItemListProps> = ({ items, loading, setLoading }) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const onItemClick = (item: Anime, index: number) => {
+    console.log("Item clicked:", item);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { media_id: item.id, title: item.title };
+    const itemData = { anime_id: item.id, title: item.title };
     setSelectedIndex(index);
 
-    axios
-      .post(apiUrl + "create_title", itemData)
+    api
+      .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
         // Handle the response data as needed
         console.log("Item created:", response.data);
@@ -33,13 +34,13 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, setLoading }) => {
     <div style={{ width: "100%", maxWidth: 360 }}>
       <ul>
         {items.map((item: Anime, index: number) => (
-          <li
-            className={selectedIndex === index ? "selected" : ""}
-            onClick={() => onItemClick(item, index)}
+          <SelectedListItem
+            selectedIndex={selectedIndex}
+            handleListItemClick={onItemClick}
             key={item.id}
-          >
-            {item.title}
-          </li>
+            itemIndex={index}
+            item={item}
+          />
         ))}
       </ul>
     </div>

@@ -1,7 +1,6 @@
-// src/components/AnimeList/AnimeList.tsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Anime } from "../Shared/Types";
+import { AnimeListItem } from "../Shared/Types";
+import api from "../Shared/api";
 
 const AnimeList = () => {
   const [animeList, setAnimeList] = useState([]);
@@ -10,7 +9,7 @@ const AnimeList = () => {
     const fetchAnimeList = async () => {
       try {
         const apiUrl = process.env.REACT_APP_API_URL;
-        const response = await axios.get(apiUrl + "/api/anime-list/");
+        const response = await api.get(apiUrl + "/api/anime-list");
         if (response.status === 200) {
           setAnimeList(response.data);
         }
@@ -27,8 +26,10 @@ const AnimeList = () => {
       <h4>Anime List</h4>
       Anime List
       <ul>
-        {animeList.map((anime: Anime) => (
-          <li key={anime.id}>anime.title</li>
+        {animeList.map((anime: AnimeListItem) => (
+          <li key={anime.id}>
+            Title: {anime.title} Ranking: {anime.ranking}
+          </li>
         ))}
       </ul>
     </div>

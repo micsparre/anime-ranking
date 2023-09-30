@@ -1,16 +1,44 @@
 # api_integration.py
 
 import requests
-from django.conf import settings
+from .models import Anime, Genre
+from datetime import date
+
+BASE_API_URL = 'https://graphql.anilist.co'
 
 # fetch english titles from AniList GraphQL API
-def fetch_data_from_api(title):
-    url = 'https://graphql.anilist.co'
 
+
+def fetch_data_from_api(arg, query):
+    """
+    Returns a list of objects from the third-party API.
+    """
+
+    variables = {
+        'query': arg
+    }
+
+    try:
+        response = requests.post(
+            BASE_API_URL, json={'query': query, 'variables': variables}, verify=False)
+        response.raise_for_status()  # Check for HTTP errors
+        raw_data = response.json()  # Parse JSON response
+        data = raw_data['data']['AnimeSearch']['media']
+        return data
+    except requests.exceptions.RequestException as e:
+        # Handle request errors or exceptions
+        print(f"Error: {e}")
+        return None
+
+
+def fetch_anime_obj(id):
+    """
+    Returns an anime object from the third-party API given an id.
+    """
     query = '''
-        query ($query: String) {
+        query ($query: Int) {
             AnimeSearch: Page {
-                media(search: $query, type: ANIME, format: TV) {
+                media(id: $query, type: ANIME, format: TV) {
                     id
                     title {
                         english
@@ -28,28 +56,53 @@ def fetch_data_from_api(title):
                         month
                         day
                     }
-                    nextAiringEpisode {
-                        airingAt
-                        timeUntilAiring
-                        episode
+                }
+            }
+        }
+    '''
+    anime_data = fetch_data_from_api(id, query)[0]
+    anime_obj = build_anime(anime_data)
+    return anime_obj
+
+
+def fetch_anime_titles(title):
+    """
+    Returns a list of anime titles from the third-party API.
+    """
+    query = '''
+        query ($query: String) {
+            AnimeSearch: Page {
+                media(search: $query, type: ANIME, format: TV) {
+                    id
+                    title {
+                        english
                     }
                 }
             }
         }
     '''
+    return fetch_data_from_api(title, query)
 
-    variables = {
-        'query': title
-    }
 
-    try:
-        response = requests.post(
-            url, json={'query': query, 'variables': variables}, verify=False)
-        response.raise_for_status()  # Check for HTTP errors
-        raw_data = response.json()  # Parse JSON response
-        data = raw_data['data']['AnimeSearch']['media']
-        return data
-    except requests.exceptions.RequestException as e:
-        # Handle request errors or exceptions
-        print(f"Error: {e}")
-        return None
+def build_anime(data):
+    """
+    Builds an Anime model object from API data.
+    """
+    # Extract data fields
+    id = data['id']
+    title = data['title']['english']
+    genres = data['genres']
+    average_score = data['averageScore']
+    popularity = data['popularity']
+    start_date = date(data['startDate']['year'],
+                      data['startDate']['month'], data['startDate']['day'])
+    end_date = date(data['endDate']['year'], data['endDate']
+                    ['month'], data['endDate']['day'])
+    anime_obj = Anime(id=id, title=title, average_score=average_score,
+                      popularity=popularity, start_date=start_date, end_date=end_date)
+    anime_obj.save()
+    for genre in genres:
+        genre_obj = Genre.objects.get_or_create(name=genre)[0]
+        anime_obj.genre.add(genre_obj)
+    anime_obj.save()
+    return anime_obj

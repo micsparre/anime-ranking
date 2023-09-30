@@ -156,3 +156,5 @@ cython_debug/
 tech-stack.txt
 mydatabase
 .vscode/
+
+backend/anime-ranking.db

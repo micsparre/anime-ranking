@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../Shared/api";
 import { Anime } from "../Shared/Types";
 
 interface SearchBarProps {
@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
     setLoading(true);
 
     // Make a GET request to the Django API with the searchTitle parameter
-    axios
+    api
       .get(apiUrl + "/api/titles", {
         params: { title: searchTitle }, // Send the title parameter in the query
       })

@@ -22,8 +22,9 @@ const Login = () => {
       if (response.status === 200) {
         // Successful login, handle authentication and redirection
         const data = response.data;
-        // Store authentication token and redirect to a protected route
-        // ...
+        // Store authentication token
+        localStorage.setItem("token", data.token);
+        // redirect to a protected route
 
         // For now, just log the response
         console.log("Successful login", data);
@@ -39,7 +40,6 @@ const Login = () => {
 
   return (
     <div>
-      <h4>Login</h4>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
         <input
@@ -59,7 +59,7 @@ const Login = () => {
           onChange={handleInputChange}
         />
         <br />
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

@@ -13,6 +13,14 @@ cd backend
 py manage.py runserver
 ```
 
+#### Update DB with new models
+
+```bash
+cd backend
+py manage.py makemigrations
+py manage.py migrate
+```
+
 ### Frontend
 
 #### Start the server

@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -89,6 +92,9 @@ DATABASES = {
         'PASSWORD': ENV["AR_DB_PASSWORD"],
         'HOST': f"{ENV['AR_HOST']}.oregon-postgres.render.com",
         'PORT': '5432',
+    } if ENV["ENVIRONMENT"] == "prd" else {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'anime-ranking.db',
     }
 }
 

@@ -10,6 +10,7 @@ import Home from "./Home";
 
 const AnimeRoutes: React.FC = () => (
   <Router>
+    <Navbar />
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

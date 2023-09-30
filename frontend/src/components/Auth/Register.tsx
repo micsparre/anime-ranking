@@ -1,9 +1,15 @@
 // src/components/Auth/Register.tsx
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../Shared/api";
 
 const Register = () => {
-  const [user, setUser] = useState({ username: "", password: "", email: "" });
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+  });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -14,7 +20,7 @@ const Register = () => {
     event.preventDefault();
     const apiUrl = process.env.REACT_APP_API_URL;
     try {
-      const response = await axios.post(apiUrl + "/api/register", user);
+      const response = await api.post(apiUrl + "/api/register", user);
 
       if (response.status === 201) {
         // Successful registration, handle redirection or login
@@ -30,8 +36,25 @@ const Register = () => {
 
   return (
     <div>
-      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="first_name">First Name:</label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          value={user.first_name}
+          onChange={handleInputChange}
+        />
+        <br />
+        <label htmlFor="last_name">Last Name:</label>
+        <input
+          type="text"
+          id="last_name"
+          name="last_name"
+          value={user.last_name}
+          onChange={handleInputChange}
+        />
+        <br />
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -59,7 +82,7 @@ const Register = () => {
           onChange={handleInputChange}
         />
         <br />
-        <button type="submit">Register</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
