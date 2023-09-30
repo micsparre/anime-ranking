@@ -3,57 +3,46 @@ import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   return (
-    <nav style={{ backgroundColor: "black", color: "white" }}>
-      <ul
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          listStyle: "none",
-          padding: "0",
-        }}
-      >
-        <li>
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+    <nav className="bg-blue-900 p-4 flex justify-between">
+      <ul className="inline-block space-x-6">
+        <li className="inline-block">
+          <Link
+            to="/"
+            className="text-white hover:text-blue-300 transition duration-300"
+          >
             Home
           </Link>
         </li>
-        <li>
+        <li className="inline-block">
           <Link
             to="/anime-list"
-            style={{ color: "white", textDecoration: "none" }}
+            className="text-white hover:text-blue-300 transition duration-300"
           >
             Anime List
           </Link>
         </li>
-        <li>
+        <li className="inline-block">
           <Link
             to="/recommendations"
-            style={{ color: "white", textDecoration: "none" }}
+            className="text-white hover:text-blue-300 transition duration-300"
           >
             Recommendations
           </Link>
         </li>
-        <li
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+      </ul>
+      <ul className="inline-block space-x-6">
+        <li className="inline-block">
           <Link
             to="/login"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              marginRight: "8px",
-            }}
+            className="text-white hover:text-blue-300 transition duration-300"
           >
             Login
           </Link>
+        </li>
+        <li className="inline-block">
           <Link
             to="/register"
-            style={{ color: "white", textDecoration: "none" }}
+            className="text-white hover:text-blue-300 transition duration-300"
           >
             Register
           </Link>
