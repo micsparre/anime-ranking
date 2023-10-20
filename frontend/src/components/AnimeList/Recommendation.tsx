@@ -24,7 +24,7 @@ const Recommendation = () => {
   return (
     <div>
       {" "}
-      <h4>Recommendations</h4>
+      <h4 className="text-3xl font-bold">Recommendations</h4>
       <ul>
         {recommendations.map((animeTitle) => (
           <li key={animeTitle}>animeTitle</li>

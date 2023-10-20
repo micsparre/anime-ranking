@@ -66,7 +66,6 @@ def add_anime_to_user_list(request):
     # Check if the anime is not already in the user's list
     if UserAnimeList.objects.filter(user=user, anime__id=anime_id).exists():
         return Response({'detail': 'Anime is already in the user\'s list'}, status=status.HTTP_400_BAD_REQUEST)
-    breakpoint()
     anime_obj = fetch_anime_obj(anime_id)
 
     ranking = 10  # Set the default ranking to 10 TODO: get from client

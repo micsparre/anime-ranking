@@ -23,8 +23,7 @@ const AnimeList = () => {
 
   return (
     <div>
-      <h4>Anime List</h4>
-      Anime List
+      <h4 className="text-3xl font-bold">Anime List</h4>
       <ul>
         {animeList.map((anime: AnimeListItem) => (
           <li key={anime.id}>
