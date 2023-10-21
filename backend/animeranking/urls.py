@@ -24,6 +24,8 @@ urlpatterns = [
     path('get-username', views.get_username,
          name='get_username'),  # check if username exists
 
+    path("remove-anime-from-list", views.remove_anime_from_user_list),
+
     # attempt to login a user
     path('login', views.user_login, name='user_login')
 ]

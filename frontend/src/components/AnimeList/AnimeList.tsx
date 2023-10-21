@@ -7,15 +7,19 @@ const AnimeList = () => {
 
   useEffect(() => {
     const fetchAnimeList = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_API_URL;
-        const response = await api.get(apiUrl + "/api/anime-list");
-        if (response.status === 200) {
-          setAnimeList(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching anime list:", error);
-      }
+      const apiUrl = process.env.REACT_APP_API_URL;
+
+      await api
+        .get(apiUrl + "/api/anime-list")
+        .then((response) => {
+          console.log(response);
+          if (response.status === 200) {
+            setAnimeList(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     fetchAnimeList();
@@ -41,7 +45,9 @@ const AnimeList = () => {
                       {anime.ranking}
                     </span>
                   </div>
-                  {/* <p className="mt-1 text-gray-500 text-sm truncate">{anime.synopsis}</p> */}
+                  <p className="mt-1 text-gray-500 text-sm truncate">
+                    {"test"}
+                  </p>
                 </div>
               </div>
             </li>

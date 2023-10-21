@@ -37,14 +37,12 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
   }, [items, loading]);
 
   const onItemClick = (item: Anime) => {
-    console.log("Item clicked:", item);
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
     setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
-        console.log("Item created:", response.data);
         setAnimeList([...animeList, item]);
       })
       .catch((error) => {

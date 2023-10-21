@@ -175,3 +175,23 @@ def get_username(request):
         return Response({'exists': True}, status=status.HTTP_200_OK)
     else:
         return Response({'exists': False}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def remove_anime_from_user_list(request):
+    """
+    Removes an anime from the user's list.
+    """
+    user = request.user.userprofile
+
+    anime_id = request.data.get('anime_id')
+    if not anime_id:
+        return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user_anime = UserAnimeList.objects.get(user=user, anime__id=anime_id)
+        user_anime.delete()
+        return Response({'message': 'Anime removed from the user\'s list'}, status=status.HTTP_200_OK)
+    except UserAnimeList.DoesNotExist:
+        return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
