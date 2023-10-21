@@ -6,9 +6,11 @@ const Account = () => {
   const [user, setUser] = useState<User>();
 
   const handleSignOut = async () => {
+    window.location.href = "/login";
+    // delay a second to allow the redirect to happen
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setUser(undefined);
     localStorage.clear();
-    window.location.href = "/login";
   };
 
   useEffect(() => {
