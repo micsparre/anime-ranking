@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AnimeListItem } from "../Shared/Types";
+import { FaTimes } from "react-icons/fa";
 import api from "../Shared/api";
 
 const AnimeList = () => {
@@ -25,6 +26,21 @@ const AnimeList = () => {
     fetchAnimeList();
   }, []);
 
+  const handleRemoveAnime = (item: AnimeListItem) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const itemData = { anime_id: item.id };
+    api
+      .post(apiUrl + "/api/remove-anime-from-list", itemData)
+      .then((response) => {
+        setAnimeList(
+          animeList.filter((anime: AnimeListItem) => anime.id !== item.id)
+        );
+      })
+      .catch((error) => {
+        console.error("Error fetching item removed details:", error);
+      });
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -49,6 +65,12 @@ const AnimeList = () => {
                     {"test"}
                   </p>
                 </div>
+                <button
+                  className="bg-gray-300 hover:bg-red-700 text-white font-bold py-2 px-2 rounded flex items-center justify-center h-6 w-6"
+                  onClick={() => handleRemoveAnime(anime)}
+                >
+                  <FaTimes />
+                </button>
               </div>
             </li>
           ))}

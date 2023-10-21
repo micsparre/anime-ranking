@@ -36,7 +36,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
     }
   }, [items, loading]);
 
-  const onItemClick = (item: Anime) => {
+  const onItemClickAdd = (item: Anime) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
     setAddAnimeLoading(item);
@@ -48,6 +48,21 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
       .catch((error) => {
         console.error("Error fetching item created details:", error);
       });
+  };
+
+  const onItemClickRemove = (item: Anime) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const itemData = { anime_id: item.id };
+    setAddAnimeLoading(item);
+    api
+      .post(apiUrl + "/api/remove-anime-from-list", itemData)
+      .then((response) => {
+        setAnimeList(animeList.filter((anime) => anime.id !== item.id));
+      })
+      .catch((error) => {
+        console.error("Error fetching item removed details:", error);
+      });
+    setAddAnimeLoading(undefined);
   };
 
   const isAnimeAdded = (anime: Anime) => {
@@ -78,8 +93,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
               <div className="ml-auto flex relative">
                 {isAnimeAdded(item) ? (
                   <button
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
-                    disabled
+                    onClick={() => onItemClickRemove(item)}
+                    className="bg-green-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
                   >
                     <FaCheck />
                   </button>
@@ -87,7 +102,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
                   <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
                 ) : (
                   <button
-                    onClick={() => onItemClick(item)}
+                    onClick={() => onItemClickAdd(item)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
                   >
                     +
