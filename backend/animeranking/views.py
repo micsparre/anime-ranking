@@ -10,16 +10,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 
-# from .serializers import UserAnimeListSerializer
-# from .serializers import UserSerializer
-
 
 @api_view(['GET'])
 def get_titles_from_anilist(request):
     """
     Returns a list of anime titles from the third-party API.
     """
-    # breakpoint()
     # Get the 'title' query parameter from the request
     title_query = request.query_params.get('title', None)
     filtered_data = []
@@ -61,11 +57,11 @@ def add_anime_to_user_list(request):
     # Get the anime_id from the request data
     anime_id = request.data.get('anime_id')
     if not anime_id:
-        return Response({'detail': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     # Check if the anime is not already in the user's list
     if UserAnimeList.objects.filter(user=user, anime__id=anime_id).exists():
-        return Response({'detail': 'Anime is already in the user\'s list'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Anime is already in the user\'s list'}, status=status.HTTP_400_BAD_REQUEST)
     anime_obj = fetch_anime_obj(anime_id)
 
     ranking = 10  # Set the default ranking to 10 TODO: get from client
@@ -74,7 +70,7 @@ def add_anime_to_user_list(request):
     user_anime = UserAnimeList(user=user, anime=anime_obj, ranking=ranking)
     user_anime.save()
 
-    return Response({'detail': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
+    return Response({'message': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
@@ -89,15 +85,15 @@ def rank_anime(request):
     ranking = request.data.get('ranking')
 
     if not anime_id or not ranking:
-        return Response({'detail': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         user_anime = UserAnimeList.objects.get(user=user, anime__id=anime_id)
         user_anime.ranking = ranking
         user_anime.save()
-        return Response({'detail': 'Anime ranking updated'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
     except UserAnimeList.DoesNotExist:
-        return Response({'detail': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -129,7 +125,7 @@ def register_user(request):
 
     # Validate input data
     if not username or not password or not email or not first_name or not last_name:
-        return Response({'detail': 'First name, last name, username, password, and email are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'First name, last name, username, password, and email are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     # Create a new user
     try:
@@ -141,9 +137,9 @@ def register_user(request):
         user_profile = UserProfile(user=user)
         user_profile.save()
 
-        return Response({'detail': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
     except Exception as e:
-        return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -163,4 +159,19 @@ def user_login(request):
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key, 'username': user.username}, status=status.HTTP_200_OK)
     else:
-        return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'message': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+def get_username(request):
+    """
+    Checks if a username is already taken.
+    """
+    username = request.query_params.get('username', None)
+    if not username:
+        return Response({'message': 'username parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(username=username).exists():
+        return Response({'exists': True}, status=status.HTTP_200_OK)
+    else:
+        return Response({'exists': False}, status=status.HTTP_200_OK)

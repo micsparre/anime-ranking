@@ -10,7 +10,7 @@ const TitleSearch: React.FC = () => {
   return (
     <div>
       <SearchBar setData={setData} setLoading={setLoading} />
-      <ItemList items={data} loading={loading} setLoading={setLoading} />
+      <ItemList items={data} loading={loading} />
     </div>
   );
 };

@@ -23,9 +23,16 @@ py manage.py migrate
 
 ### Frontend
 
-#### Start the server
+#### Start the React server
 
 ```bash
 cd frontend
 npm run start
+```
+
+#### Start the tailwind css watch
+
+```bash
+cd frontend
+npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch
 ```

@@ -21,6 +21,9 @@ urlpatterns = [
     path('register', views.register_user,
          name='register_user'),  # create a user
 
+    path('get-username', views.get_username,
+         name='get_username'),  # check if username exists
+
     # attempt to login a user
     path('login', views.user_login, name='user_login')
 ]

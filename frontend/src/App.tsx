@@ -2,7 +2,6 @@
 
 import React from "react";
 import AnimeRoutes from "./components/Routes";
-import Footer from "./components/Shared/Footer";
 
 function App() {
   return (
@@ -10,7 +9,6 @@ function App() {
       <main className="flex-grow">
         <AnimeRoutes />
       </main>
-      <Footer />
     </div>
   );
 }

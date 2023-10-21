@@ -8,49 +8,45 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
-  const [searchTitle, setSearchTitle] = useState(""); // State to hold the search title
+  const [query, setQuery] = useState("");
   const apiUrl = process.env.REACT_APP_API_URL;
   const handleSearch = () => {
     setLoading(true);
 
-    // Make a GET request to the Django API with the searchTitle parameter
     api
       .get(apiUrl + "/api/titles", {
-        params: { title: searchTitle }, // Send the title parameter in the query
+        params: { title: query },
       })
       .then((response) => {
         setData(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching titles:", error);
         setLoading(false);
       });
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <label htmlFor="searchTitle">Search anime titles:</label>
-      <input
-        type="text"
-        id="searchTitle"
-        name="searchTitle"
-        value={searchTitle}
-        onChange={(e) => setSearchTitle(e.target.value)}
-        style={{ marginLeft: "8px", marginRight: "8px" }}
-      />
-      <button
-        type="button"
-        onClick={handleSearch}
-        style={{
-          backgroundColor: "blue",
-          color: "white",
-          border: "none",
-          padding: "8px",
-        }}
-      >
-        Search
-      </button>
+    <div className="mt-16 flex justify-center pt-8">
+      <div className="w-full max-w-md">
+        <input
+          type="text"
+          placeholder="Search by title"
+          id="searchTitle"
+          name="searchTitle"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="block w-full px-4 py-2 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+        />
+        <button
+          type="button"
+          onClick={handleSearch}
+          className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Search
+        </button>
+      </div>
     </div>
   );
 };

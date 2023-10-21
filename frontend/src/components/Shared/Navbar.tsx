@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-blue-900 p-4 flex justify-between">
+    <nav className="fixed top-0 w-full bg-blue-900 p-4 flex justify-between">
       <ul className="inline-block space-x-6">
         <li className="inline-block">
           <Link
@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
             to="/register"
             className="text-white hover:text-blue-300 transition duration-300"
           >
-            Register
+            Sign up
           </Link>
         </li>
       </ul>
