@@ -37,7 +37,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
           name="searchTitle"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="block w-full px-4 py-2 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+          className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
         />
         <button
           type="button"

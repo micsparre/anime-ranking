@@ -195,3 +195,13 @@ def remove_anime_from_user_list(request):
         return Response({'message': 'Anime removed from the user\'s list'}, status=status.HTTP_200_OK)
     except UserAnimeList.DoesNotExist:
         return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    """
+    Returns the user's profile data.
+    """
+    user = request.user.userprofile
+    return Response({'username': user.user.username, 'first_name': user.user.first_name, 'last_name': user.user.last_name, 'email': user.user.email}, status=status.HTTP_200_OK)

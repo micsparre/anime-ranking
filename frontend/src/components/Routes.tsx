@@ -5,6 +5,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import AnimeList from "./AnimeList/AnimeList";
 import Recommendation from "./AnimeList/Recommendation";
+import Account from "./Auth/Account";
 import Navbar from "./Shared/Navbar";
 import Home from "./Home";
 
@@ -16,6 +17,7 @@ const AnimeRoutes: React.FC = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/anime-list" element={<AnimeList />} />
       <Route path="/recommendations" element={<Recommendation />} />
+      <Route path="/account" element={<Account />} />
       <Route path="/" element={<Home />} />
     </Routes>
   </Router>

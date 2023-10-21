@@ -132,7 +132,7 @@ const Register = () => {
                   htmlFor="first_name"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  First Name:
+                  First Name
                 </label>
                 <input
                   type="text"
@@ -151,7 +151,7 @@ const Register = () => {
                   htmlFor="last_name"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  Last Name:
+                  Last Name
                 </label>
                 <input
                   type="text"
@@ -170,7 +170,7 @@ const Register = () => {
                   htmlFor="email"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  Email:
+                  Email
                 </label>
                 <input
                   type="email"
@@ -179,6 +179,7 @@ const Register = () => {
                   value={user.email}
                   onChange={handleInputChange}
                   className="border rounded-lg py-2 px-3 w-full"
+                  placeholder="you@example.com"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">{errors.email}</p>
@@ -189,7 +190,7 @@ const Register = () => {
                   htmlFor="password"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  Password:
+                  Password
                 </label>
                 <input
                   type="password"
@@ -208,7 +209,7 @@ const Register = () => {
                   htmlFor="username"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  Username:
+                  Username
                 </label>
                 <input
                   type="text"
@@ -216,7 +217,7 @@ const Register = () => {
                   name="username"
                   value={user.username}
                   onChange={handleInputChange}
-                  className="border rounded-lg py-2 px-3 w-full"
+                  className="required:border-red-500 invalid:border-red-500 border rounded-lg py-2 px-3 w-full"
                 />
                 {errors.username && (
                   <p className="text-red-500 text-sm">{errors.username}</p>
