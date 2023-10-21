@@ -12,6 +12,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
+  const [addAnimeLoading, setAddAnimeLoading] = useState<Anime>();
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -39,7 +40,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
     console.log("Item clicked:", item);
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
-
+    setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
@@ -84,6 +85,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
                   >
                     <FaCheck />
                   </button>
+                ) : addAnimeLoading == item ? (
+                  <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
                 ) : (
                   <button
                     onClick={() => onItemClick(item)}
