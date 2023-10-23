@@ -12,9 +12,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Searching for:", query);
     setLoading(true);
-
     api
       .get(apiUrl + "/api/titles", {
         params: { title: query },

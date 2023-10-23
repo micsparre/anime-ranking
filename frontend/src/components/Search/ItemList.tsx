@@ -13,6 +13,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
   const [addAnimeLoading, setAddAnimeLoading] = useState<Anime>();
+  const [sortedItems, setSortedItems] = useState<Anime[]>([]);
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -20,11 +21,20 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
       .get(apiUrl + "/api/anime-list")
       .then((response) => {
         setAnimeList(response.data);
+        const sorted = items.reduce((acc: any[], anime: Anime) => {
+          if (isAnimeAdded(anime)) {
+            acc.unshift(anime);
+          } else {
+            acc.push(anime);
+          }
+          return acc;
+        }, [] as Anime[]);
+        setSortedItems(sorted);
       })
       .catch((error) => {
         console.error("Error fetching anime list:", error);
       });
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     if (loading) {
@@ -82,7 +92,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
         </div>
       ) : (
         <ul className="divide-y divide-gray-200">
-          {items.map((item: Anime) => (
+          {sortedItems.map((item: Anime) => (
             <li key={item.id} className="py-4 flex">
               <div className="ml-4">
                 <div className="text-lg font-medium text-gray-900">
