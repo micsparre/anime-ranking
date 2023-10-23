@@ -3,18 +3,25 @@ import api from "../Shared/api";
 import { Anime } from "../Shared/Types";
 import { FaSpinner, FaCheck } from "react-icons/fa";
 import getDescription from "../Shared/Anime";
+import { get as Levenshtein } from "fast-levenshtein";
 
 interface ItemListProps {
   items: Anime[];
   loading: boolean;
+  query: string;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
+const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
   const [addAnimeLoading, setAddAnimeLoading] = useState<Anime>();
   const [sortedItems, setSortedItems] = useState<Anime[]>([]);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  const isAnimeAdded = (anime: Anime) => {
+    return animeList.some((item) => item.id === anime.id);
+  };
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -22,14 +29,20 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
       .get(apiUrl + "/api/anime-list")
       .then((response) => {
         setAnimeList(response.data);
-        const sorted = items.reduce((acc: any[], anime: Anime) => {
-          if (isAnimeAdded(anime)) {
-            acc.unshift(anime);
-          } else {
-            acc.push(anime);
-          }
-          return acc;
-        }, [] as Anime[]);
+        const sorted = items
+          .sort((a, b) => {
+            const aDistance = Levenshtein(a.title, query);
+            const bDistance = Levenshtein(b.title, query);
+            return aDistance - bDistance || a.title.localeCompare(b.title);
+          })
+          .reduce((acc: any[], anime: Anime) => {
+            if (isAnimeAdded(anime)) {
+              acc.unshift(anime);
+            } else {
+              acc.push(anime);
+            }
+            return acc;
+          }, [] as Anime[]);
         setSortedItems(sorted);
       })
       .catch((error) => {
@@ -46,8 +59,6 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
       setSearchMessage("");
     }
   }, [items, loading, searched]);
-
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const onItemClickAdd = (item: Anime) => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -91,10 +102,6 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
         console.error("Error fetching item removed details:", error);
       });
     setAddAnimeLoading(undefined);
-  };
-
-  const isAnimeAdded = (anime: Anime) => {
-    return animeList.some((item) => item.id === anime.id);
   };
 
   return (

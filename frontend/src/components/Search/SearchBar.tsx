@@ -5,10 +5,16 @@ import { Anime } from "../Shared/Types";
 interface SearchBarProps {
   setData: React.Dispatch<React.SetStateAction<Anime[]>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
-  const [query, setQuery] = useState("");
+const SearchBar: React.FC<SearchBarProps> = ({
+  setData,
+  setLoading,
+  query,
+  setQuery,
+}) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
