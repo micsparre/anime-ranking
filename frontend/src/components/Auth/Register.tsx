@@ -89,19 +89,12 @@ const Register = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Submitting form:", user);
-
       try {
         setCreatingUser(true);
         const response = await api.post(apiUrl + "/api/register", user);
         setCreatingUser(false);
         if (response.status === 201) {
           setRegistrationSuccess(true);
-          console.log("Successful registration", response.data);
-        } else {
-          // Handle registration error
-          // ...
-          console.log("Registration error", response.data);
         }
       } catch (error) {
         console.error("Registration error:", error);

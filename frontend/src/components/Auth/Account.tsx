@@ -7,8 +7,6 @@ const Account = () => {
 
   const handleSignOut = async () => {
     window.location.href = "/login";
-    // delay a second to allow the redirect to happen
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     setUser(undefined);
     localStorage.clear();
   };

@@ -34,7 +34,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
     } else {
       setSearchMessage("");
     }
-  }, [items, loading]);
+  }, [items, loading, searched]);
 
   const onItemClickAdd = (item: Anime) => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -98,7 +98,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading }) => {
                   >
                     <FaCheck />
                   </button>
-                ) : addAnimeLoading == item ? (
+                ) : addAnimeLoading === item ? (
                   <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
                 ) : (
                   <button

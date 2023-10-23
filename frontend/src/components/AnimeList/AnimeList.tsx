@@ -13,13 +13,12 @@ const AnimeList = () => {
       await api
         .get(apiUrl + "/api/anime-list")
         .then((response) => {
-          console.log(response);
           if (response.status === 200) {
             setAnimeList(response.data);
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error("Error fetching anime list:", error);
         });
     };
 

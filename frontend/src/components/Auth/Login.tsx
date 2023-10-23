@@ -31,16 +31,12 @@ const Login = () => {
     api
       .post(apiUrl + "/api/login", credentials)
       .then((response) => {
-        console.log("Login response:", response);
-
         setLoggingIn(false);
         if (response.status === 200) {
           setErrorMessage("");
           const data = response.data as SuccessfulLoginResponse;
           localStorage.setItem("token", data.token);
-          // redirect to a protected route
           window.location.href = "/";
-          console.log("Successful login", data);
         }
       })
       .catch((error) => {
