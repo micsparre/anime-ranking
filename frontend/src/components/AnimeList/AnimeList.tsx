@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AnimeListItem } from "../Shared/Types";
 import { FaTimes } from "react-icons/fa";
 import api from "../Shared/api";
+import getDescription from "../Shared/Anime";
 
 const AnimeList = () => {
   const [animeList, setAnimeList] = useState([]);
@@ -43,8 +44,7 @@ const AnimeList = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <h4 className="text-3xl font-bold">Anime List</h4>
-        <ul className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
           {animeList.map((anime: AnimeListItem) => (
             <li
               key={anime.id}
@@ -56,20 +56,22 @@ const AnimeList = () => {
                     <h3 className="text-gray-900 text-sm font-medium truncate">
                       {anime.title}
                     </h3>
-                    <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                      {anime.ranking}
-                    </span>
                   </div>
                   <p className="mt-1 text-gray-500 text-sm truncate">
-                    {"test"}
+                    {getDescription(anime)}
                   </p>
                 </div>
-                <button
-                  className="bg-gray-300 hover:bg-red-700 text-white font-bold py-2 px-2 rounded flex items-center justify-center h-6 w-6"
-                  onClick={() => handleRemoveAnime(anime)}
-                >
-                  <FaTimes />
-                </button>
+                <div className="flex flex-col items-center">
+                  <span className="flex-shrink-0 px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+                    {anime.ranking}
+                  </span>
+                  <button
+                    className="mt-3 bg-gray-300 hover:bg-red-700 text-white font-bold py-2 px-2 rounded flex items-center justify-center h-6 w-6"
+                    onClick={() => handleRemoveAnime(anime)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
               </div>
             </li>
           ))}

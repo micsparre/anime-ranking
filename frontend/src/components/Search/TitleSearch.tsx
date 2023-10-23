@@ -8,7 +8,7 @@ const TitleSearch: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div>
+    <div className="py-6 bg-gray-100 min-h-screen">
       <SearchBar setData={setData} setLoading={setLoading} />
       <ItemList items={data} loading={loading} />
     </div>

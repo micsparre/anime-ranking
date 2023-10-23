@@ -44,6 +44,7 @@ def fetch_anime_obj(id):
                         english
                     }
                     genres
+                    episodes
                     averageScore
                     popularity
                     startDate {
@@ -77,6 +78,13 @@ def fetch_anime_titles(title):
                     title {
                         english
                     }
+                    episodes
+                    startDate {
+                        year
+                    }
+                    endDate {
+                        year
+                    }
                 }
             }
         }
@@ -92,6 +100,7 @@ def build_anime(data):
     id = data['id']
     title = data['title']['english']
     genres = data['genres']
+    episodes = data['episodes']
     average_score = data['averageScore']
     popularity = data['popularity']
     start_date = date(data['startDate']['year'],
@@ -99,7 +108,7 @@ def build_anime(data):
     end_date = date(data['endDate']['year'], data['endDate']
                     ['month'], data['endDate']['day'])
     anime_obj = Anime(id=id, title=title, average_score=average_score,
-                      popularity=popularity, start_date=start_date, end_date=end_date)
+                      popularity=popularity, episodes=episodes, start_date=start_date, end_date=end_date)
     anime_obj.save()
     for genre in genres:
         genre_obj = Genre.objects.get_or_create(name=genre)[0]

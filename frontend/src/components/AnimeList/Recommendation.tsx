@@ -22,8 +22,7 @@ const Recommendation = () => {
   }, []);
 
   return (
-    <div>
-      {" "}
+    <div className="py-6 bg-gray-100 min-h-screen mt-8">
       <h4 className="text-3xl font-bold">Recommendations</h4>
       <ul>
         {recommendations.map((animeTitle) => (

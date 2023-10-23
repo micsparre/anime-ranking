@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   const isLoggedIn = localStorage.getItem("token") !== null;
   return (
     <nav className="fixed top-0 w-full bg-blue-900 p-4 flex justify-between">
-      <ul className="inline-block space-x-6">
+      <ul className="inline-block space-x-6 text-sm">
         <li className="inline-block">
           <Link
             to="/"
@@ -14,25 +14,31 @@ const Navbar: React.FC = () => {
             Home
           </Link>
         </li>
-        <li className="inline-block">
-          <Link
-            to="/anime-list"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
-            Anime List
-          </Link>
-        </li>
-        <li className="inline-block">
-          <Link
-            to="/recommendations"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
-            Recommendations
-          </Link>
-        </li>
+        {isLoggedIn ? (
+          <>
+            <li className="inline-block">
+              <Link
+                to="/anime-list"
+                className="text-white hover:text-blue-300 transition duration-300"
+              >
+                Your List
+              </Link>
+            </li>
+            <li className="inline-block">
+              <Link
+                to="/recommendations"
+                className="text-white hover:text-blue-300 transition duration-300"
+              >
+                Recommendations
+              </Link>
+            </li>
+          </>
+        ) : (
+          <> </>
+        )}
       </ul>
       {isLoggedIn ? (
-        <ul className="inline-block space-x-6">
+        <ul className="inline-block space-x-6 text-sm">
           <li className="inline-block">
             <Link
               to="/account"
@@ -43,7 +49,7 @@ const Navbar: React.FC = () => {
           </li>
         </ul>
       ) : (
-        <ul className="inline-block space-x-6">
+        <ul className="inline-block space-x-6 text-sm">
           <li className="inline-block">
             <Link
               to="/login"

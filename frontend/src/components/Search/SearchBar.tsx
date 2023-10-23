@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
   };
 
   return (
-    <div className="mt-16 flex justify-center pt-8">
+    <div className="mt-16 flex justify-center pt-8 p-6">
       <div className="w-full max-w-md">
         <form onSubmit={handleSearch}>
           <input
@@ -38,7 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setData, setLoading }) => {
             name="searchTitle"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+            className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md bg-white-100 border-transparent focus:border-white-900 focus:bg-white focus:ring-0"
           />
           <button
             type="submit"

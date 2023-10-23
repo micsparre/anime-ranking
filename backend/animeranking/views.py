@@ -25,7 +25,7 @@ def get_titles_from_anilist(request):
         for item in external_data:
             if item.get('title').get('english') is not None:
                 filtered_data.append(
-                    {'id': item.get('id'), 'title': item.get('title').get('english')})
+                    {'id': item.get('id'), 'title': item.get('title').get('english'), 'start_date': item.get('startDate').get('year'), 'end_date': item.get('endDate').get('year'), 'episodes': item.get('episodes')})
     return Response(filtered_data, status=status.HTTP_200_OK)
 
 
@@ -35,13 +35,16 @@ def get_anime_list(request):
     """
     Returns a list of anime titles from the user's list.
     """
-    # breakpoint()
     user = request.user.userprofile
     user_anime_list = UserAnimeList.objects.filter(user=user)
     user_anime_list_data = []
     for item in user_anime_list:
+        start_date = item.anime.start_date.strftime(
+            '%Y') if item.anime.start_date else None
+        end_date = item.anime.end_date.strftime(
+            '%Y') if item.anime.end_date else None
         user_anime_list_data.append(
-            {'id': item.anime.id, 'title': item.anime.title, 'ranking': item.ranking})
+            {'id': item.anime.id, 'title': item.anime.title, 'ranking': item.ranking, 'start_date': start_date, 'end_date': end_date, 'episodes': item.anime.episodes})
     return Response(user_anime_list_data, status=status.HTTP_200_OK)
 
 
