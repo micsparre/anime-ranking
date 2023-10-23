@@ -15,9 +15,19 @@ const SearchBar: React.FC<SearchBarProps> = ({
   query,
   setQuery,
 }) => {
+  const [isStale, setIsStale] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+    setIsStale(true);
+  };
+
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!isStale) {
+      return;
+    }
     setLoading(true);
     api
       .get(apiUrl + "/api/titles", {
@@ -31,6 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         console.error("Error fetching titles:", error);
         setLoading(false);
       });
+    setIsStale(false);
   };
 
   return (
@@ -43,7 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             id="searchTitle"
             name="searchTitle"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => handleOnChange(e)}
             className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md bg-white-100 border-transparent focus:border-white-900 focus:bg-white focus:ring-0"
           />
           <button

@@ -35,14 +35,11 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
             const bDistance = Levenshtein(b.title, query);
             return aDistance - bDistance || a.title.localeCompare(b.title);
           })
-          .reduce((acc: any[], anime: Anime) => {
-            if (isAnimeAdded(anime)) {
-              acc.unshift(anime);
-            } else {
-              acc.push(anime);
-            }
-            return acc;
-          }, [] as Anime[]);
+          .sort((a, b) => {
+            const aAdded = isAnimeAdded(a);
+            const bAdded = isAnimeAdded(b);
+            return aAdded === bAdded ? 0 : aAdded ? -1 : 1;
+          });
         setSortedItems(sorted);
       })
       .catch((error) => {
