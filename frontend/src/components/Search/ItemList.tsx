@@ -186,7 +186,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
             <ul className="divide-y divide-gray-200">
               {sortedItems.map((item: Anime) => (
                 <li key={item.id} className="flex py-4">
-                  <div className="ml-4">
+                  <div className="ml-4 mr-10">
                     <div className="text-lg font-medium text-gray-900">
                       {item.title}
                     </div>
@@ -194,7 +194,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
                       {getDescription(item)}
                     </div>
                   </div>
-                  <div className="ml-auto flex relative mt-1">
+                  <div className="ml-auto flex mt-1">
                     {isAnimeAdded(item) ? (
                       <button
                         onClick={() => onItemClickRemove(item)}
