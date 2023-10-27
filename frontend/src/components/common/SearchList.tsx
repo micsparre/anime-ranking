@@ -4,16 +4,20 @@ import { AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
 import LoadingSpinner from "./LoadingSpinner";
 import DisplayMessage from "./DisplayMessage";
-import AnimeItem from "./AnimeItem";
+import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 
-interface ItemListProps {
+interface SearchAnimeListProps {
   items: AnimeObject[];
   loading: boolean;
   query: string;
 }
 
-const AnimeItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
+const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
+  items,
+  loading,
+  query,
+}) => {
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
@@ -47,6 +51,7 @@ const AnimeItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
       .catch((error) => {
         setSortedItems(items);
       });
+    // eslint-disable-next-line
   }, [items, query]);
 
   useEffect(() => {
@@ -114,28 +119,30 @@ const AnimeItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="w-full max-w-md mx-auto">
-          {searchMessage ? (
-            <DisplayMessage message={searchMessage} />
-          ) : (
-            <ul className="divide-y divide-gray-200">
-              {sortedItems.map((item: AnimeObject) => (
-                <li key={item.id} className="flex py-4">
-                  <AnimeItem
-                    item={item}
-                    isAdded={isAnimeAdded(item)}
-                    handleAddAnime={handleAddAnime}
-                    handleRemoveAnime={handleRemoveAnime}
-                    loading={addAnimeLoading === item}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="flex justify-center pr-6 pl-6">
+          <div className="w-full max-w-md">
+            {searchMessage ? (
+              <DisplayMessage message={searchMessage} />
+            ) : (
+              <ul className="divide-y divide-gray-200">
+                {sortedItems.map((item: AnimeObject) => (
+                  <li key={item.id} className="flex py-4">
+                    <SearchItem
+                      item={item}
+                      isAdded={isAnimeAdded(item)}
+                      handleAddAnime={handleAddAnime}
+                      handleRemoveAnime={handleRemoveAnime}
+                      loading={addAnimeLoading === item}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       )}
     </>
   );
 };
 
-export default AnimeItemList;
+export default SearchAnimeList;

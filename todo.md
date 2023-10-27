@@ -9,11 +9,12 @@
     - whether an anime show is bookmarked or not
   - api to retrieve user's bookmarked anime shows
 - add ability to delete account (and all associated data)
+- server-side validation for user input
+- server-side filtering of recommendations that user has already watched (due to mismatch of gpt title vs anilist title)
 
 ## frontend
 
 - add button to refresh recommendations
-- un-duplicate repeated logic from [Recommendation.tsx](frontend/components/Recommendation.tsx) and [AnimeItemList.tsx](frontend/components/common/AnimeItemList.tsx)
 - add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
 - add ability to bookmark anime shows
   - add bookmark button to the search page
@@ -23,3 +24,8 @@
     - displays a list of items that the user has added to their bookmarks
     - needs a bookmark button on search and recommendation pages
 - add ranking modal when adding an anime to your list
+- click an anime item object to open a detailed modal
+  - displays more information about the anime
+  - add a button to add the anime to your list
+- navbar buttons clickable while recommendations loading
+- loading spinner on load of user anime list

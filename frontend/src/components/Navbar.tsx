@@ -29,21 +29,19 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 w-full bg-blue-900 p-4 flex justify-between">
       <ul className="inline-block space-x-6 text-md flex-grow">
-        <li className="inline-block">
-          <Link
-            to="/"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
-            Home
-          </Link>
-        </li>
+        <Link
+          to="/"
+          className="text-white hover:text-blue-300 transition duration-300"
+        >
+          <li className="inline-block">Home</li>
+        </Link>
         {isLoggedIn ? (
           <>
             <li className="inline-block">
               <div className="container mx-auto flex justify-between items-center">
                 <div className="relative group">
                   <button
-                    className="text-white group-hover:text-gray-300 focus:outline-none"
+                    className="text-white hover:text-blue-300 focus:outline-none"
                     onClick={toggleDropdown}
                   >
                     <div className="flex items-center">
@@ -75,7 +73,7 @@ const Navbar: React.FC = () => {
                           className=" transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 hover:text-blue-300 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
                             Your List
                           </li>
                         </Link>
@@ -85,7 +83,7 @@ const Navbar: React.FC = () => {
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 hover:text-blue-300 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
                             Bookmarks
                           </li>
                         </Link>
@@ -95,7 +93,7 @@ const Navbar: React.FC = () => {
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 hover:text-blue-300 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
                             Recommendations
                           </li>
                         </Link>
@@ -112,33 +110,27 @@ const Navbar: React.FC = () => {
       </ul>
       {isLoggedIn ? (
         <ul className="inline-block space-x-6 text-md">
-          <li className="inline-block">
-            <Link
-              to="/account"
-              className="text-white hover:text-blue-300 transition duration-300"
-            >
-              Account
-            </Link>
-          </li>
+          <Link
+            to="/account"
+            className="text-white hover:text-blue-300 transition duration-300"
+          >
+            <li className="inline-block">Account</li>
+          </Link>
         </ul>
       ) : (
         <ul className="inline-block space-x-6 text-md">
-          <li className="inline-block">
-            <Link
-              to="/login"
-              className="text-white hover:text-blue-300 transition duration-300"
-            >
-              Login
-            </Link>
-          </li>
-          <li className="inline-block">
-            <Link
-              to="/register"
-              className="text-white hover:text-blue-300 transition duration-300"
-            >
-              Sign up
-            </Link>
-          </li>
+          <Link
+            to="/login"
+            className="text-white hover:text-blue-300 transition duration-300"
+          >
+            <li className="inline-block">Login</li>
+          </Link>
+          <Link
+            to="/register"
+            className="text-white hover:text-blue-300 transition duration-300"
+          >
+            <li className="inline-block">Sign up</li>
+          </Link>
         </ul>
       )}
     </nav>

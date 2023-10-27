@@ -8,11 +8,11 @@ import {
 } from "react-router-dom";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
-import UserAnimeItemList from "./pages/UserAnimeItemList";
+import UserAnime from "./common/UserList";
 import Recommendation from "./pages/Recommendation";
 import Account from "./authentication/Account";
 import Navbar from "./Navbar";
-import AnimeSearch from "./pages/AnimeSearch";
+import SearchAnime from "./pages/SearchAnime";
 
 const AnimeRoutes: React.FC = () => {
   const isLoggedIn = localStorage.getItem("token") !== null;
@@ -28,13 +28,13 @@ const AnimeRoutes: React.FC = () => {
           path="/register"
           element={isLoggedIn ? <Navigate to="/" /> : <Register />}
         />
-        <Route path="/anime-list" element={<UserAnimeItemList />} />
+        <Route path="/anime-list" element={<UserAnime />} />
         <Route path="/recommendations" element={<Recommendation />} />
         <Route
           path="/account"
           element={isLoggedIn ? <Account /> : <Navigate to="/login" />}
         />
-        <Route path="/" element={<AnimeSearch />} />
+        <Route path="/" element={<SearchAnime />} />
       </Routes>
     </Router>
   );

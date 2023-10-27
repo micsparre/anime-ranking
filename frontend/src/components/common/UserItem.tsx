@@ -1,17 +1,14 @@
 import React from "react";
-import { UserAnimeObject } from "../common/types";
-import getDescription from "../common/utils";
+import { UserAnimeObject } from "./types";
+import getDescription from "./utils";
 import { FaTimes } from "react-icons/fa";
 
-interface UserAnimeItemProps {
+interface UserItemProps {
   item: UserAnimeObject;
   handleRemoveAnime: (item: UserAnimeObject) => void;
 }
 
-const UserAnimeItem: React.FC<UserAnimeItemProps> = ({
-  item,
-  handleRemoveAnime,
-}) => {
+const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
   return (
     <div className="w-full flex items-center justify-between p-6 space-x-6">
       <div className="flex-1 truncate">
@@ -39,4 +36,4 @@ const UserAnimeItem: React.FC<UserAnimeItemProps> = ({
   );
 };
 
-export default UserAnimeItem;
+export default UserItem;

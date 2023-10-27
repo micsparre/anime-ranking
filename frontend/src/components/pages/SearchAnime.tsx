@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import SearchBar from "../common/SearchBar";
-import ItemList from "../common/AnimeItemList";
+import SearchList from "../common/SearchList";
 import { AnimeObject } from "../common/types";
 
-const AnimeSearch: React.FC = () => {
+const SearchAnime: React.FC = () => {
   const [data, setData] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
@@ -16,9 +16,9 @@ const AnimeSearch: React.FC = () => {
         query={query}
         setQuery={setQuery}
       />
-      <ItemList items={data} loading={loading} query={query} />
+      <SearchList items={data} loading={loading} query={query} />
     </div>
   );
 };
 
-export default AnimeSearch;
+export default SearchAnime;

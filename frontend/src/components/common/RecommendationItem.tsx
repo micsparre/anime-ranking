@@ -1,9 +1,9 @@
 import React from "react";
-import { AnimeObject } from "./types";
 import getDescription from "./utils";
 import { FaSpinner, FaCheck } from "react-icons/fa";
+import { AnimeObject } from "./types";
 
-interface AnimeItemProps {
+interface RecommendationItemProps {
   item: AnimeObject;
   isAdded: boolean;
   handleAddAnime: (item: AnimeObject) => void;
@@ -11,18 +11,24 @@ interface AnimeItemProps {
   loading: boolean;
 }
 
-const AnimeItem: React.FC<AnimeItemProps> = ({
+const RecommendationItem: React.FC<RecommendationItemProps> = ({
   item,
   isAdded,
-  handleAddAnime,
   handleRemoveAnime,
+  handleAddAnime,
   loading,
 }) => {
   return (
-    <>
-      <div className="ml-4 mr-10">
-        <div className="text-lg font-medium text-gray-900">{item.title}</div>
-        <div className="text-sm text-gray-500">{getDescription(item)}</div>
+    <div className="w-full flex items-center justify-between p-6 space-x-6">
+      <div className="flex-1 truncate">
+        <div className="flex items-center space-x-3">
+          <h3 className="text-gray-900 text-sm font-medium truncate">
+            {item.title}
+          </h3>
+        </div>
+        <p className="mt-1 text-gray-500 text-sm truncate">
+          {getDescription(item)}
+        </p>
       </div>
       <div className="ml-auto flex mt-1">
         {isAdded ? (
@@ -43,8 +49,8 @@ const AnimeItem: React.FC<AnimeItemProps> = ({
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
-export default AnimeItem;
+export default RecommendationItem;

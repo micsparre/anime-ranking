@@ -10,7 +10,8 @@ Based on the information above, respond with a list of 15 anime tv shows (not mo
 
 I don't want any responses above or below the list. 
 Let me be clear, just respond with the list in the requested format - nothing else - no numbers, no bullet points, no explanation of the list. 
-Don't respond with: "Sure, here's a list of 10 anime tv shows (not movies) for your best friend based on the shows they've already watched:" or anything else along those lines."""
+Don't respond with: "Sure, here's a list of 15 anime tv shows (not movies) for your best friend based on the shows they've already watched:" or anything else along those lines.
+"""
 
 
 def get_recommendations_as_list(details: str) -> list:

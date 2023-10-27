@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UserAnimeItem from "../common/UserAnimeItem";
-import { UserAnimeObject } from "../common/types";
-import api from "../common/api";
+import UserItem from "./UserItem";
+import { UserAnimeObject } from "./types";
+import api from "./api";
 
-const UserAnimeList: React.FC = () => {
+const UserList: React.FC = () => {
   const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
 
   useEffect(() => {
@@ -40,24 +40,19 @@ const UserAnimeList: React.FC = () => {
       });
   };
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
-          {animeList.map((item: UserAnimeObject) => (
-            <li
-              key={item.id}
-              className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
-            >
-              <UserAnimeItem
-                item={item}
-                handleRemoveAnime={handleRemoveAnime}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
+        {animeList.map((item: UserAnimeObject) => (
+          <li
+            key={item.id}
+            className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
+          >
+            <UserItem item={item} handleRemoveAnime={handleRemoveAnime} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default UserAnimeList;
+export default UserList;
