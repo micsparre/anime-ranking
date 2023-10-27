@@ -59,7 +59,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
     }
   }, [items, loading, searched]);
 
-  const onItemClickAdd = (item: AnimeObject) => {
+  const handleAddAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -78,7 +78,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
       });
   };
 
-  const onItemClickRemove = (item: AnimeObject) => {
+  const handleRemoveAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     setAddAnimeLoading(item);
@@ -124,8 +124,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
                   <AnimeItem
                     item={item}
                     isAdded={isAnimeAdded(item)}
-                    onItemClickAdd={onItemClickAdd}
-                    onItemClickRemove={onItemClickRemove}
+                    handleAddAnime={handleAddAnime}
+                    handleRemoveAnime={handleRemoveAnime}
                     loading={addAnimeLoading === item}
                   />
                 </li>

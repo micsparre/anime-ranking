@@ -6,16 +6,16 @@ import { FaSpinner, FaCheck } from "react-icons/fa";
 interface AnimeItemProps {
   item: AnimeObject;
   isAdded: boolean;
-  onItemClickAdd: (item: AnimeObject) => void;
-  onItemClickRemove: (item: AnimeObject) => void;
+  handleAddAnime: (item: AnimeObject) => void;
+  handleRemoveAnime: (item: AnimeObject) => void;
   loading: boolean;
 }
 
 const AnimeItem: React.FC<AnimeItemProps> = ({
   item,
   isAdded,
-  onItemClickAdd,
-  onItemClickRemove,
+  handleAddAnime,
+  handleRemoveAnime,
   loading,
 }) => {
   return (
@@ -27,7 +27,7 @@ const AnimeItem: React.FC<AnimeItemProps> = ({
       <div className="ml-auto flex mt-1">
         {isAdded ? (
           <button
-            onClick={() => onItemClickRemove(item)}
+            onClick={() => handleRemoveAnime(item)}
             className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
           >
             <FaCheck />
@@ -36,7 +36,7 @@ const AnimeItem: React.FC<AnimeItemProps> = ({
           <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
         ) : (
           <button
-            onClick={() => onItemClickAdd(item)}
+            onClick={() => handleAddAnime(item)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
           >
             +

@@ -17,7 +17,7 @@ const Recommendation = () => {
     return animeList.some((item) => item.id === anime.id);
   };
 
-  const onItemClickAdd = (item: AnimeObject) => {
+  const handleAddAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
 
@@ -32,7 +32,7 @@ const Recommendation = () => {
       });
   };
 
-  const onItemClickRemove = (item: AnimeObject) => {
+  const handleRemoveAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     setAddAnimeLoading(item);
@@ -55,6 +55,7 @@ const Recommendation = () => {
         const response = await api.get(apiUrl + "/api/recommendations");
         if (response.status === 200) {
           setRecommendations(response.data);
+          console.log("recommendations", response.data);
         }
       } catch (error) {
         console.error("Error fetching recommendations:", error);
@@ -62,25 +63,30 @@ const Recommendation = () => {
       setLoading(false);
     };
 
-    fetchRecommendations();
-  }, []);
+    const fetchAnimeList = async () => {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      try {
+        const response = await api.get(apiUrl + "/api/anime-list");
+        if (response.status === 200) {
+          setAnimeList(response.data);
+          // if anime in anime list, remove it from recommendations
+          console.log("recommendations before", recommendations);
+          setRecommendations(
+            recommendations.filter(
+              (anime: UserAnimeObject) =>
+                !response.data.some((item: AnimeObject) => item.id === anime.id)
+            )
+          );
+          console.log("recommendations after", recommendations);
+        }
+      } catch (error) {
+        console.error("Error fetching anime list:", error);
+      }
+    };
 
-  const handleRemoveAnime = (item: UserAnimeObject) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { anime_id: item.id };
-    api
-      .post(apiUrl + "/api/remove-anime-from-list", itemData)
-      .then((response) => {
-        setRecommendations(
-          recommendations.filter(
-            (anime: UserAnimeObject) => anime.id !== item.id
-          )
-        );
-      })
-      .catch((error) => {
-        console.error("Error fetching item removed details:", error);
-      });
-  };
+    fetchRecommendations();
+    fetchAnimeList();
+  }, []);
 
   return (
     (loading && <LoadingSpinner />) || (
@@ -106,7 +112,7 @@ const Recommendation = () => {
                   <div className="ml-auto flex mt-1">
                     {isAnimeAdded(anime) ? (
                       <button
-                        onClick={() => onItemClickRemove(anime)}
+                        onClick={() => handleRemoveAnime(anime)}
                         className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
                       >
                         <FaCheck />
@@ -115,7 +121,7 @@ const Recommendation = () => {
                       <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
                     ) : (
                       <button
-                        onClick={() => onItemClickAdd(anime)}
+                        onClick={() => handleAddAnime(anime)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
                       >
                         +

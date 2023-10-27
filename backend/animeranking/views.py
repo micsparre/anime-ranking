@@ -205,11 +205,19 @@ def get_recommendations(request):
     user = request.user.userprofile
     user_anime_list = UserAnimeList.objects.filter(user=user)
     user_anime_list_data = [item.anime.title for item in user_anime_list]
+    print(f"User's anime list: {user_anime_list_data}")
     recommendations = get_recommendations_as_list(
         ", ".join(user_anime_list_data))
     data = []
     for rec in recommendations:
-        item = fetch_anime_titles(rec)[0]
+        if len(data) == 9:
+            break
+        response_data = fetch_anime_titles(rec)
+        if response_data:
+            item = response_data[0]
+        else:
+            print(f"couldn't find tv show for: {rec}")
+            continue
         if item.get('title').get('english') is not None:
             data.append(
                 {'id': item.get('id'), 'title': item.get('title').get('english'), 'start_date': item.get('startDate').get('year'), 'end_date': item.get('endDate').get('year'), 'episodes': item.get('episodes')})

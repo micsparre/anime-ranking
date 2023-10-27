@@ -20,7 +20,7 @@ def fetch_data_from_api(arg, query):
 
     try:
         response = requests.post(
-            BASE_API_URL, json={'query': query, 'variables': variables}, verify=False)
+            BASE_API_URL, json={'query': query, 'variables': variables}, verify=True)
         response.raise_for_status()  # Check for HTTP errors
         raw_data = response.json()  # Parse JSON response
         data = raw_data['data']['AnimeSearch']['media']

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import api from "../common/api";
-import { AnimeObject } from "../common/types";
+import api from "./api";
+import { AnimeObject } from "./types";
 
 interface SearchBarProps {
   setData: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
