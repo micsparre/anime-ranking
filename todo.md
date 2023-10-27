@@ -4,12 +4,8 @@
 
 - add email verification after a user signs up
   - isVerified flag?
-- recommendation system
-- bookmarks database table
-  - fields
-    - user_id
-    - anime_id
-    - created_at
+- bookmarks database field
+  - add ability to flag an anime show as bookmarked
   - api to retrieve user's bookmarked anime shows
 - add ability to delete account (and all associated data)
 
@@ -35,3 +31,4 @@
   - [ItemList.tsx](frontend/components/ItemList.tsx) -> [SearchItems.tsx](frontend/components/SearchItems.tsx)
   - [AnimeList/](frontend/components/AnimeList) -> [UserLists/](frontend/components/UserLists)
   - [Auth](frontend/components/Auth) -> [AuthPages](frontend/components/AuthPages)
+- add ranking modal when adding an anime to your list

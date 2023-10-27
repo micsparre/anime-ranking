@@ -1,6 +1,6 @@
 // src/components/Auth/Login.tsx
 import React, { useState } from "react";
-import api from "../Shared/api";
+import api from "../common/api";
 
 interface SuccessfulLoginResponse {
   token: string;

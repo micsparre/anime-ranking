@@ -11,7 +11,7 @@ import Register from "./Auth/Register";
 import AnimeList from "./AnimeList/AnimeList";
 import Recommendation from "./AnimeList/Recommendation";
 import Account from "./Auth/Account";
-import Navbar from "./Shared/Navbar";
+import Navbar from "./Navbar";
 import Home from "./Home";
 
 const AnimeRoutes: React.FC = () => {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import ItemList from "./ItemList";
-import { Anime } from "../Shared/Types";
+import { AnimeItem } from "../common/types";
 
 const TitleSearch: React.FC = () => {
-  const [data, setData] = useState<Anime[]>([]);
+  const [data, setData] = useState<AnimeItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
 

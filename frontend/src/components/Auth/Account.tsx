@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { User } from "../Shared/Types";
-import api from "../Shared/api";
+import { User } from "../common/types";
+import api from "../common/api";
 
 const Account = () => {
   const [user, setUser] = useState<User>();

@@ -1,6 +1,6 @@
-import { Anime } from "./Types";
+import { AnimeItem } from "./types";
 
-const getDescription = (anime: Anime) => {
+const getDescription = (anime: AnimeItem) => {
   const startDate = anime.start_date;
   const endDate = anime.end_date;
   let description = "";

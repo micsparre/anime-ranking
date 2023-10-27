@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../Shared/api";
+import api from "../common/api";
 
 interface User {
   first_name: string;

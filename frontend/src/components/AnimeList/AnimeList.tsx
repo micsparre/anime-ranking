@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { AnimeListItem } from "../Shared/Types";
+import { UserAnimeItem } from "../common/types";
 import { FaTimes } from "react-icons/fa";
-import api from "../Shared/api";
-import getDescription from "../Shared/Anime";
+import api from "../common/api";
+import getDescription from "../common/utils";
 
 const AnimeList = () => {
-  const [animeList, setAnimeList] = useState<AnimeListItem[]>([]);
+  const [animeList, setAnimeList] = useState<UserAnimeItem[]>([]);
 
   useEffect(() => {
     const fetchAnimeList = async () => {
@@ -26,14 +26,14 @@ const AnimeList = () => {
     fetchAnimeList();
   }, []);
 
-  const handleRemoveAnime = (item: AnimeListItem) => {
+  const handleRemoveAnime = (item: UserAnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     api
       .post(apiUrl + "/api/remove-anime-from-list", itemData)
       .then((response) => {
         setAnimeList(
-          animeList.filter((anime: AnimeListItem) => anime.id !== item.id)
+          animeList.filter((anime: UserAnimeItem) => anime.id !== item.id)
         );
       })
       .catch((error) => {
@@ -45,7 +45,7 @@ const AnimeList = () => {
     <div className="bg-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
-          {animeList.map((anime: AnimeListItem) => (
+          {animeList.map((anime: UserAnimeItem) => (
             <li
               key={anime.id}
               className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"

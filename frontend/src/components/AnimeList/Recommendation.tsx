@@ -1,23 +1,22 @@
 // src/components/AnimeList/Recommendation.tsx
 import React, { useEffect, useState } from "react";
-import { AnimeListItem } from "../Shared/Types";
-import { FaTimes } from "react-icons/fa";
-import api from "../Shared/api";
-import getDescription from "../Shared/Anime";
-import { Anime } from "../Shared/Types";
+import { UserAnimeItem } from "../common/types";
+import api from "../common/api";
+import getDescription from "../common/utils";
+import { AnimeItem } from "../common/types";
 import { FaSpinner, FaCheck } from "react-icons/fa";
 
 const Recommendation = () => {
-  const [recommendations, setRecommendations] = useState<AnimeListItem[]>([]);
-  const [animeList, setAnimeList] = useState<Anime[]>([]);
-  const [addAnimeLoading, setAddAnimeLoading] = useState<Anime>();
+  const [recommendations, setRecommendations] = useState<UserAnimeItem[]>([]);
+  const [animeList, setAnimeList] = useState<AnimeItem[]>([]);
+  const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeItem>();
   const [loading, setLoading] = useState(false);
 
-  const isAnimeAdded = (anime: Anime) => {
+  const isAnimeAdded = (anime: AnimeItem) => {
     return animeList.some((item) => item.id === anime.id);
   };
 
-  const onItemClickAdd = (item: Anime) => {
+  const onItemClickAdd = (item: AnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
 
@@ -32,7 +31,7 @@ const Recommendation = () => {
       });
   };
 
-  const onItemClickRemove = (item: Anime) => {
+  const onItemClickRemove = (item: AnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     setAddAnimeLoading(item);
@@ -65,14 +64,14 @@ const Recommendation = () => {
     fetchRecommendations();
   }, []);
 
-  const handleRemoveAnime = (item: AnimeListItem) => {
+  const handleRemoveAnime = (item: UserAnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     api
       .post(apiUrl + "/api/remove-anime-from-list", itemData)
       .then((response) => {
         setRecommendations(
-          recommendations.filter((anime: AnimeListItem) => anime.id !== item.id)
+          recommendations.filter((anime: UserAnimeItem) => anime.id !== item.id)
         );
       })
       .catch((error) => {
@@ -89,7 +88,7 @@ const Recommendation = () => {
       <div className="bg-gray-100 min-h-screen">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
-            {recommendations.map((anime: AnimeListItem) => (
+            {recommendations.map((anime: UserAnimeItem) => (
               <li
                 key={anime.id}
                 className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"

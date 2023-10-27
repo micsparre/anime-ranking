@@ -6,7 +6,7 @@ Can you help me recommend anime shows to my best friend? For context, here is th
 
 {details}
 
-Based on the information above, respond with a list of 10 anime titles not in the user's list of watched shows as a list in the format: ["example title 1", "example title 2", ...].
+Based on the information above, respond with a list of 9 anime titles not in the user's list of watched shows as a list in the format: ["example title 1", "example title 2", ...].
 
 I don't want any responses above or below the list. 
 Let me be clear, just respond with the list in the requested format - nothing else - no numbers, no bullet points, no explanation of the list. 

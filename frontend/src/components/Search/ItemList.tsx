@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import api from "../Shared/api";
-import { Anime } from "../Shared/Types";
+import api from "../common/api";
+import { AnimeItem } from "../common/types";
 import { FaSpinner, FaCheck } from "react-icons/fa";
-import getDescription from "../Shared/Anime";
+import getDescription from "../common/utils";
 import { get as Levenshtein } from "fast-levenshtein";
 
 interface ItemListProps {
-  items: Anime[];
+  items: AnimeItem[];
   loading: boolean;
   query: string;
 }
 
 const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
-  const [animeList, setAnimeList] = useState<Anime[]>([]);
+  const [animeList, setAnimeList] = useState<AnimeItem[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
-  const [addAnimeLoading, setAddAnimeLoading] = useState<Anime>();
-  const [sortedItems, setSortedItems] = useState<Anime[]>([]);
+  const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeItem>();
+  const [sortedItems, setSortedItems] = useState<AnimeItem[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
-  const isAnimeAdded = (anime: Anime) => {
+  const isAnimeAdded = (anime: AnimeItem) => {
     return animeList.some((item) => item.id === anime.id);
   };
 
@@ -57,7 +57,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
     }
   }, [items, loading, searched]);
 
-  const onItemClickAdd = (item: Anime) => {
+  const onItemClickAdd = (item: AnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -86,7 +86,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
     window.location.href = "/register";
   };
 
-  const onItemClickRemove = (item: Anime) => {
+  const onItemClickRemove = (item: AnimeItem) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
     setAddAnimeLoading(item);
@@ -184,7 +184,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
             </div>
           ) : (
             <ul className="divide-y divide-gray-200">
-              {sortedItems.map((item: Anime) => (
+              {sortedItems.map((item: AnimeItem) => (
                 <li key={item.id} className="flex py-4">
                   <div className="ml-4 mr-10">
                     <div className="text-lg font-medium text-gray-900">
