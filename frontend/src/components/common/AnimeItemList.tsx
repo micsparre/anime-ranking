@@ -13,7 +13,7 @@ interface ItemListProps {
   query: string;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
+const AnimeItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
@@ -138,4 +138,4 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
   );
 };
 
-export default ItemList;
+export default AnimeItemList;
