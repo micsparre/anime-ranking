@@ -19,7 +19,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
   const [sortedItems, setSortedItems] = useState<Anime[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
-  const isAnimeAdded = (animeList: Anime[], anime: Anime) => {
+  const isAnimeAdded = (anime: Anime) => {
     return animeList.some((item) => item.id === anime.id);
   };
 
@@ -36,8 +36,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
             return aDistance - bDistance || a.title.localeCompare(b.title);
           })
           .sort((a, b) => {
-            const aAdded = isAnimeAdded(animeList, a);
-            const bAdded = isAnimeAdded(animeList, b);
+            const aAdded = isAnimeAdded(a);
+            const bAdded = isAnimeAdded(b);
             return aAdded === bAdded ? 0 : aAdded ? -1 : 1;
           });
         setSortedItems(sorted);
@@ -45,7 +45,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
       .catch((error) => {
         setSortedItems(items);
       });
-  }, [items, query, animeList]);
+  }, [items, query]);
 
   useEffect(() => {
     if (loading) {
@@ -195,7 +195,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, loading, query }) => {
                     </div>
                   </div>
                   <div className="ml-auto flex mt-1">
-                    {isAnimeAdded(animeList, item) ? (
+                    {isAnimeAdded(item) ? (
                       <button
                         onClick={() => onItemClickRemove(item)}
                         className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"

@@ -11,13 +11,20 @@
     - anime_id
     - created_at
   - api to retrieve user's bookmarked anime shows
+- add ability to delete account (and all associated data)
 
 ## frontend
 
-- BookmarksPage.tsx:
-  - similar to [AnimeList.tsx](frontend/components/AnimeList.tsx)
-  - displays a list of items that the user has added to their bookmarks
-  - needs a bookmark button on search and recommendation pages
+- add button to refresh recommendations
+- un-duplicate repeated logic from [Recommendation.tsx](frontend/components/Recommendation.tsx) and [AnimeList.tsx](frontend/components/AnimeList.tsx)
+- add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
+- add ability to bookmark anime shows
+  - add a button to the search page
+  - add a button to the recommendation page
+  - BookmarksPage.tsx:
+    - similar to [AnimeList.tsx](frontend/components/AnimeList.tsx)
+    - displays a list of items that the user has added to their bookmarks
+    - needs a bookmark button on search and recommendation pages
 - rename folders / files
   - [AnimeList.tsx](frontend/components/AnimeList.tsx) -> [AnimeListPage.tsx](frontend/components/AnimeListPage.tsx)
   - [Recommendation.tsx](frontend/components/Recommendation.tsx) -> [RecommendationsPage.tsx](frontend/components/RecommendationsPage.tsx)

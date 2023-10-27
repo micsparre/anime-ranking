@@ -103,10 +103,16 @@ def build_anime(data):
     episodes = data['episodes']
     average_score = data['averageScore']
     popularity = data['popularity']
-    start_date = date(data['startDate']['year'],
-                      data['startDate']['month'], data['startDate']['day'])
-    end_date = date(data['endDate']['year'], data['endDate']
-                    ['month'], data['endDate']['day'])
+    if data['startDate']['year'] is None or data['startDate']['month'] is None or data['startDate']['day'] is None:
+        start_date = None
+    else:
+        start_date = date(data['startDate']['year'],
+                          data['startDate']['month'], data['startDate']['day'])
+    if data['endDate']['year'] is None or data['endDate']['month'] is None or data['endDate']['day'] is None:
+        end_date = None
+    else:
+        end_date = date(data['endDate']['year'], data['endDate']
+                        ['month'], data['endDate']['day'])
     anime_obj = Anime(id=id, title=title, average_score=average_score,
                       popularity=popularity, episodes=episodes, start_date=start_date, end_date=end_date)
     anime_obj.save()

@@ -9,6 +9,7 @@ from .models import UserAnimeList, UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
+from .openai import get_recommendations_as_list
 
 
 @api_view(['GET'])
@@ -97,22 +98,6 @@ def rank_anime(request):
         return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
     except UserAnimeList.DoesNotExist:
         return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_recommendations(request):
-    """
-    Returns a list of anime titles recommended for the user.
-    """
-    user = request.user.userprofile
-
-    recommended_anime_titles = []
-    # Implement your recommendation logic here, e.g., collaborative filtering or content-based filtering.
-    # Generate a list of recommended anime titles based on the user's preferences.
-    # recommended_anime_titles = your_recommendation_algorithm(user)
-
-    return Response({'recommendations': recommended_anime_titles}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -208,3 +193,24 @@ def get_user_info(request):
     """
     user = request.user.userprofile
     return Response({'username': user.user.username, 'first_name': user.user.first_name, 'last_name': user.user.last_name, 'email': user.user.email}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_recommendations(request):
+    """
+    Returns a list of anime titles recommended for the user.
+    """
+    # Get the user's list of watched anime
+    user = request.user.userprofile
+    user_anime_list = UserAnimeList.objects.filter(user=user)
+    user_anime_list_data = [item.anime.title for item in user_anime_list]
+    recommendations = get_recommendations_as_list(
+        ", ".join(user_anime_list_data))
+    data = []
+    for rec in recommendations:
+        item = fetch_anime_titles(rec)[0]
+        if item.get('title').get('english') is not None:
+            data.append(
+                {'id': item.get('id'), 'title': item.get('title').get('english'), 'start_date': item.get('startDate').get('year'), 'end_date': item.get('endDate').get('year'), 'episodes': item.get('episodes')})
+    return Response(data, status=status.HTTP_200_OK)

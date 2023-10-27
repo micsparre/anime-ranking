@@ -5,7 +5,7 @@ import api from "../Shared/api";
 import getDescription from "../Shared/Anime";
 
 const AnimeList = () => {
-  const [animeList, setAnimeList] = useState([]);
+  const [animeList, setAnimeList] = useState<AnimeListItem[]>([]);
 
   useEffect(() => {
     const fetchAnimeList = async () => {
