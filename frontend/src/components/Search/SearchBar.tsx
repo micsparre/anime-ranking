@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import api from "../common/api";
-import { AnimeItem } from "../common/types";
+import { AnimeObject } from "../common/types";
 
 interface SearchBarProps {
-  setData: React.Dispatch<React.SetStateAction<AnimeItem[]>>;
+  setData: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;

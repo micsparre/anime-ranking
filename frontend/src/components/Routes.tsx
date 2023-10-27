@@ -6,11 +6,11 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Login from "./Auth/Login";
-import Register from "./Auth/Register";
+import Login from "./authentication/Login";
+import Register from "./authentication/Register";
 import AnimeList from "./AnimeList/AnimeList";
 import Recommendation from "./AnimeList/Recommendation";
-import Account from "./Auth/Account";
+import Account from "./authentication/Account";
 import Navbar from "./Navbar";
 import Home from "./Home";
 

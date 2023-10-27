@@ -1,4 +1,4 @@
-export interface AnimeItem {
+export interface AnimeObject {
   id: number;
   title: string;
   start_date: string;
@@ -6,7 +6,7 @@ export interface AnimeItem {
   episodes: number;
 }
 
-export interface UserAnimeItem {
+export interface UserAnimeObject {
   id: number;
   title: string;
   ranking: number;
