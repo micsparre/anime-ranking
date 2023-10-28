@@ -29,3 +29,15 @@
   - add a button to add the anime to your list
 - navbar buttons clickable while recommendations loading
 - loading spinner on load of user anime list
+
+## other
+
+- CICD pipeline
+  - github actions?
+  - docker?
+- deploy website
+  - heroku?
+- deploy backend
+  - postgres vs sqlite?
+  - where?
+- add a [LICENSE](LICENSE)
