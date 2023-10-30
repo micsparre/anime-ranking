@@ -201,24 +201,33 @@ def get_recommendations(request):
     """
     Returns a list of anime titles recommended for the user.
     """
-    # Get the user's list of watched anime
     user = request.user.userprofile
     user_anime_list = UserAnimeList.objects.filter(user=user)
-    user_anime_list_data = [item.anime.title for item in user_anime_list]
-    print(f"User's anime list: {user_anime_list_data}")
+    user_titles, user_ids = set(), set()
+    for item in user_anime_list:
+        user_titles.add(item.anime.title)
+        user_ids.add(item.anime.id)
     recommendations = get_recommendations_as_list(
-        ", ".join(user_anime_list_data))
+        ", ".join(user_titles))
     data = []
+    recs_count = 0
     for rec in recommendations:
-        if len(data) == 9:
-            break
         response_data = fetch_anime_titles(rec)
         if response_data:
             item = response_data[0]
         else:
             print(f"couldn't find tv show for: {rec}")
             continue
+        if item.get('id') in user_ids:  # don't recommend shows already in the user's list
+            continue
         if item.get('title').get('english') is not None:
-            data.append(
-                {'id': item.get('id'), 'title': item.get('title').get('english'), 'start_date': item.get('startDate').get('year'), 'end_date': item.get('endDate').get('year'), 'episodes': item.get('episodes')})
+            data.append({
+                'id': item.get('id'),
+                'title': item.get('title').get('english'),
+                'start_date': item.get('startDate').get('year'),
+                'end_date': item.get('endDate').get('year'),
+                'episodes': item.get('episodes')})
+            recs_count += 1
+            if recs_count == 9:
+                break
     return Response(data, status=status.HTTP_200_OK)

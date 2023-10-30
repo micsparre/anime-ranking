@@ -10,7 +10,9 @@
   - api to retrieve user's bookmarked anime shows
 - add ability to delete account (and all associated data)
 - server-side validation for user input
-- server-side filtering of recommendations that user has already watched (due to mismatch of gpt title vs anilist title)
+- add logging
+  - log all requests
+  - log all errors
 
 ## frontend
 
