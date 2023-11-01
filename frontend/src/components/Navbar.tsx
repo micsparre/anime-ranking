@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
                         </Link>
 
                         <Link
-                          to="/anime-list"
+                          to="/bookmarks"
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >

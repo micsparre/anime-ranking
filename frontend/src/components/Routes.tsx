@@ -10,6 +10,7 @@ import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import UserAnime from "./common/UserList";
 import Recommendations from "./pages/Recommendations";
+import Bookmarks from "./pages/Bookmarks";
 import Account from "./authentication/Account";
 import Navbar from "./Navbar";
 import SearchAnime from "./pages/SearchAnime";
@@ -29,6 +30,7 @@ const AnimeRoutes: React.FC = () => {
           element={isLoggedIn ? <Navigate to="/" /> : <Register />}
         />
         <Route path="/anime-list" element={<UserAnime />} />
+        <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="/recommendations" element={<Recommendations />} />
         <Route
           path="/account"
