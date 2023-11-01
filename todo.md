@@ -4,9 +4,8 @@
 
 - add email verification after a user signs up
   - isVerified flag?
-- bookmark field added to User's Anime table
-  - add flag
-    - whether an anime show is bookmarked or not
+- bookmark object added to User's bookmarks field
+  - whether an anime show is bookmarked
   - api to retrieve user's bookmarked anime shows
 - add ability to delete account (and all associated data)
 - server-side validation for user input

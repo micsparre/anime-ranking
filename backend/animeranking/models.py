@@ -4,7 +4,6 @@ from django.contrib.auth.models import User as AuthUser
 
 class UserProfile(models.Model):
     user = models.OneToOneField(AuthUser, on_delete=models.CASCADE)
-    # Add additional user-related fields if needed (e.g., profile picture, bio, etc.)
 
     def __str__(self):
         return self.user.username
@@ -30,7 +29,7 @@ class Genre(models.Model):
         return self.name
 
 
-class UserAnimeList(models.Model):
+class UserAnime(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     ranking = models.PositiveIntegerField()
@@ -43,9 +42,9 @@ class UserAnimeList(models.Model):
         return f"{self.user.user.username}'s list: {self.anime.title} (Ranking: {self.ranking})"
 
 
-class Recommendation(models.Model):
+class UserBookmarks(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Recommended for {self.user.user.username}: {self.anime.title}"
+        return f"Bookmarked for {self.user.user.username}: {self.anime.title}"

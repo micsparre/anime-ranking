@@ -28,6 +28,8 @@ urlpatterns = [
 
     path("get-user-info", views.get_user_info, name="get_user_info"),
 
+    path("bookmarks", views.get_bookmarks, name="get_bookmarks"),
+
     # attempt to login a user
     path('login', views.user_login, name='user_login')
 ]

@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from .api_integration import fetch_anime_titles, fetch_anime_obj
 from rest_framework.permissions import IsAuthenticated
-from .models import UserAnimeList, UserProfile
+from .models import UserAnime, UserProfile, UserBookmarks
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
@@ -37,7 +37,7 @@ def get_anime_list(request):
     Returns a list of anime titles from the user's list.
     """
     user = request.user.userprofile
-    user_anime_list = UserAnimeList.objects.filter(user=user)
+    user_anime_list = UserAnime.objects.filter(user=user)
     user_anime_list_data = []
     for item in user_anime_list:
         start_date = item.anime.start_date.strftime(
@@ -64,14 +64,14 @@ def add_anime_to_user_list(request):
         return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     # Check if the anime is not already in the user's list
-    if UserAnimeList.objects.filter(user=user, anime__id=anime_id).exists():
+    if UserAnime.objects.filter(user=user, anime__id=anime_id).exists():
         return Response({'message': 'Anime is already in the user\'s list'}, status=status.HTTP_400_BAD_REQUEST)
     anime_obj = fetch_anime_obj(anime_id)
 
     ranking = 10  # Set the default ranking to 10 TODO: get from client
 
-    # Create a new entry in the UserAnimeList
-    user_anime = UserAnimeList(user=user, anime=anime_obj, ranking=ranking)
+    # Create a new entry in the UserAnime
+    user_anime = UserAnime(user=user, anime=anime_obj, ranking=ranking)
     user_anime.save()
 
     return Response({'message': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
@@ -92,11 +92,11 @@ def rank_anime(request):
         return Response({'message': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        user_anime = UserAnimeList.objects.get(user=user, anime__id=anime_id)
+        user_anime = UserAnime.objects.get(user=user, anime__id=anime_id)
         user_anime.ranking = ranking
         user_anime.save()
         return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
-    except UserAnimeList.DoesNotExist:
+    except UserAnime.DoesNotExist:
         return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -178,10 +178,10 @@ def remove_anime_from_user_list(request):
         return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        user_anime = UserAnimeList.objects.get(user=user, anime__id=anime_id)
+        user_anime = UserAnime.objects.get(user=user, anime__id=anime_id)
         user_anime.delete()
         return Response({'message': 'Anime removed from the user\'s list'}, status=status.HTTP_200_OK)
-    except UserAnimeList.DoesNotExist:
+    except UserAnime.DoesNotExist:
         return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -202,7 +202,7 @@ def get_recommendations(request):
     Returns a list of anime titles recommended for the user.
     """
     user = request.user.userprofile
-    user_anime_list = UserAnimeList.objects.filter(user=user)
+    user_anime_list = UserAnime.objects.filter(user=user)
     user_titles, user_ids = set(), set()
     for item in user_anime_list:
         user_titles.add(item.anime.title)
@@ -231,3 +231,45 @@ def get_recommendations(request):
             if recs_count == 9:
                 break
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_bookmarks(request):
+    """
+    Returns a list of anime titles bookmarked by the user.
+    """
+    user = request.user.userprofile
+    user_bookmarks = UserBookmarks.objects.filter(user=user)
+    data = []
+    for item in user_bookmarks:
+        start_date = item.anime.start_date.strftime(
+            '%Y') if item.anime.start_date else None
+        end_date = item.anime.end_date.strftime(
+            '%Y') if item.anime.end_date else None
+        data.append(
+            {'id': item.anime.id, 'title': item.anime.title, 'start_date': start_date, 'end_date': end_date, 'episodes': item.anime.episodes})
+    return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def add_bookmark(request):
+    """
+    Adds an anime to the user's list.
+    """
+    user = request.user.userprofile
+    anime_id = request.query_params.get('anime_id')
+    if not anime_id:
+        return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check if the anime is not already in the user's list
+    if UserBookmarks.objects.filter(user=user, anime__id=anime_id).exists():
+        return Response({'message': 'Anime is already bookmarked'}, status=status.HTTP_400_BAD_REQUEST)
+    anime_obj = fetch_anime_obj(anime_id)
+
+    # Create a new entry in the UserAnime
+    user_bookmark = UserBookmarks(user=user, anime=anime_obj)
+    user_bookmark.save()
+
+    return Response({'message': 'Anime bookmarked'}, status=status.HTTP_201_CREATED)
