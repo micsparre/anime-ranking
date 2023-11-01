@@ -74,6 +74,11 @@ def add_anime_to_user_list(request):
     user_anime = UserAnime(user=user, anime=anime_obj, ranking=ranking)
     user_anime.save()
 
+    if UserBookmarks.objects.filter(user=user, anime__id=anime_id).exists():
+        user_bookmark = UserBookmarks.objects.get(
+            user=user, anime__id=anime_id)
+        user_bookmark.delete()
+
     return Response({'message': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
 
 
@@ -252,14 +257,14 @@ def get_bookmarks(request):
     return Response(data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_bookmark(request):
     """
     Adds an anime to the user's list.
     """
     user = request.user.userprofile
-    anime_id = request.query_params.get('anime_id')
+    anime_id = request.data.get('anime_id')
     if not anime_id:
         return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -272,10 +277,14 @@ def add_bookmark(request):
     user_bookmark = UserBookmarks(user=user, anime=anime_obj)
     user_bookmark.save()
 
+    if UserAnime.objects.filter(user=user, anime__id=anime_id).exists():
+        user_anime = UserAnime.objects.get(user=user, anime__id=anime_id)
+        user_anime.delete()
+
     return Response({'message': 'Anime bookmarked'}, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def remove_bookmark(request):
     """
@@ -283,7 +292,7 @@ def remove_bookmark(request):
     """
     user = request.user.userprofile
 
-    anime_id = request.query_params.get('anime_id')
+    anime_id = request.data.get('anime_id')
     if not anime_id:
         return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 

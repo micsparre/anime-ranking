@@ -1,11 +1,14 @@
 import React from "react";
 import { AnimeObject } from "./types";
 import getDescription from "./utils";
-import { FaSpinner, FaCheck } from "react-icons/fa";
+import { FaSpinner, FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 interface SearchItemProps {
   item: AnimeObject;
   isAdded: boolean;
+  isBookmarked: boolean;
+  handleAddBookmark: (item: AnimeObject) => void;
+  handleRemoveBookmark: (item: AnimeObject) => void;
   handleAddAnime: (item: AnimeObject) => void;
   handleRemoveAnime: (item: AnimeObject) => void;
   loading: boolean;
@@ -14,6 +17,9 @@ interface SearchItemProps {
 const SearchItem: React.FC<SearchItemProps> = ({
   item,
   isAdded,
+  isBookmarked,
+  handleAddBookmark,
+  handleRemoveBookmark,
   handleAddAnime,
   handleRemoveAnime,
   loading,
@@ -35,12 +41,29 @@ const SearchItem: React.FC<SearchItemProps> = ({
         ) : loading ? (
           <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
         ) : (
-          <button
-            onClick={() => handleAddAnime(item)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-          >
-            +
-          </button>
+          <div>
+            <button
+              onClick={() => handleAddAnime(item)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
+            >
+              +
+            </button>
+            {isBookmarked ? (
+              <button
+                onClick={() => handleRemoveBookmark(item)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
+              >
+                <FaBookmark />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleAddBookmark(item)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
+              >
+                <FaRegBookmark />
+              </button>
+            )}
+          </div>
         )}
       </div>
     </>

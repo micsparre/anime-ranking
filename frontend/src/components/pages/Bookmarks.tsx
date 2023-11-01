@@ -7,7 +7,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import BookmarkList from "../common/BookmarkList";
 
 const Bookmarks: React.FC = () => {
-  const [bookmarks, setBookmarks] = useState<UserAnimeObject[]>([]);
+  const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,8 +36,8 @@ const Bookmarks: React.FC = () => {
           setAnimeList(response.data);
           // if anime in anime list, remove it from bookmarks (server side?)
           console.log("bookmarks before", bookmarks);
-          setBookmarks(
-            bookmarks.filter(
+          setAnimeList(
+            animeList.filter(
               (anime: UserAnimeObject) =>
                 !response.data.some((item: AnimeObject) => item.id === anime.id)
             )
@@ -60,6 +60,7 @@ const Bookmarks: React.FC = () => {
         <BookmarkList
           bookmarks={bookmarks}
           animeList={animeList}
+          setBookmarks={setBookmarks}
           setAnimeList={setAnimeList}
         />
       </div>

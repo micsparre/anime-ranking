@@ -6,6 +6,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import DisplayMessage from "./DisplayMessage";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
+import { addBookmark, removeBookmark } from "./bookmark";
 
 interface SearchAnimeListProps {
   items: AnimeObject[];
@@ -19,6 +20,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   query,
 }) => {
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
+  const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
   const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeObject>();
@@ -27,6 +29,10 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
 
   const isAnimeAdded = (anime: AnimeObject) => {
     return animeList.some((item) => item.id === anime.id);
+  };
+
+  const isBookmarkAdded = (anime: AnimeObject) => {
+    return bookmarks.some((item) => item.id === anime.id);
   };
 
   useEffect(() => {
@@ -51,6 +57,15 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       .catch((error) => {
         setSortedItems(items);
       });
+    api
+      .get(apiUrl + "/api/bookmarks")
+      .then((response) => {
+        setBookmarks(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching bookmarks:", error);
+      });
+
     // eslint-disable-next-line
   }, [items, query]);
 
@@ -98,6 +113,23 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     setAddAnimeLoading(undefined);
   };
 
+  const handleAddBookmark = async (item: AnimeObject) => {
+    const itemId = item.id;
+    const response = await addBookmark(itemId);
+    if (response) {
+      setBookmarks([...bookmarks, item]);
+    }
+    return true;
+  };
+
+  const handleRemoveBookmark = async (item: AnimeObject) => {
+    const itemId = item.id;
+    const response = await removeBookmark(itemId);
+    if (response) {
+      setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+    }
+  };
+
   const handleLoginClick = () => {
     setShowLoginPrompt(false);
     window.location.href = "/login";
@@ -130,6 +162,9 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                     <SearchItem
                       item={item}
                       isAdded={isAnimeAdded(item)}
+                      isBookmarked={isBookmarkAdded(item)}
+                      handleAddBookmark={handleAddBookmark}
+                      handleRemoveBookmark={handleRemoveBookmark}
                       handleAddAnime={handleAddAnime}
                       handleRemoveAnime={handleRemoveAnime}
                       loading={addAnimeLoading === item}

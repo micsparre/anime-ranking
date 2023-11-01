@@ -1,21 +1,27 @@
 import React from "react";
 import getDescription from "./utils";
-import { FaSpinner, FaCheck } from "react-icons/fa";
+import { FaSpinner, FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { AnimeObject } from "./types";
 
 interface RecommendationItemProps {
   item: AnimeObject;
   isAdded: boolean;
+  isBookmarked: boolean;
   handleAddAnime: (item: AnimeObject) => void;
   handleRemoveAnime: (item: AnimeObject) => void;
+  handleAddBookmark: (item: AnimeObject) => void;
+  handleRemoveBookmark: (item: AnimeObject) => void;
   loading: boolean;
 }
 
 const RecommendationItem: React.FC<RecommendationItemProps> = ({
   item,
   isAdded,
+  isBookmarked,
   handleRemoveAnime,
   handleAddAnime,
+  handleAddBookmark,
+  handleRemoveBookmark,
   loading,
 }) => {
   return (
@@ -41,12 +47,30 @@ const RecommendationItem: React.FC<RecommendationItemProps> = ({
         ) : loading ? (
           <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
         ) : (
-          <button
-            onClick={() => handleAddAnime(item)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
-          >
-            +
-          </button>
+          <div>
+            <button
+              onClick={() => handleAddAnime(item)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
+            >
+              +
+            </button>
+
+            {isBookmarked ? (
+              <button
+                onClick={() => handleRemoveBookmark(item)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
+              >
+                <FaBookmark />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleAddBookmark(item)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
+              >
+                <FaRegBookmark />
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

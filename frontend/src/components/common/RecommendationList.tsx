@@ -2,21 +2,30 @@ import React, { useState } from "react";
 import { UserAnimeObject, AnimeObject } from "./types";
 import api from "./api";
 import RecommendationItem from "./RecommendationItem";
+import { addBookmark, removeBookmark } from "./bookmark";
 
 interface RecommendationListProps {
   recommendations: UserAnimeObject[];
   animeList: AnimeObject[];
+  bookmarks: AnimeObject[];
   setAnimeList: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
+  setBookmarks: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
 }
 
 const RecommendationList: React.FC<RecommendationListProps> = ({
   recommendations,
   animeList,
+  bookmarks,
   setAnimeList,
+  setBookmarks,
 }) => {
   const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeObject>();
   const isAnimeAdded = (anime: AnimeObject) => {
     return animeList.some((item) => item.id === anime.id);
+  };
+
+  const isBookmarkAdded = (anime: AnimeObject) => {
+    return bookmarks.some((item) => item.id === anime.id);
   };
 
   const handleAddAnime = (item: AnimeObject) => {
@@ -48,6 +57,23 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
       });
     setAddAnimeLoading(undefined);
   };
+
+  const handleRemoveBookmark = async (item: AnimeObject) => {
+    const itemId = item.id;
+    const response = await removeBookmark(itemId);
+    if (response) {
+      setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+    }
+  };
+
+  const handleAddBookmark = async (item: AnimeObject) => {
+    const itemId = item.id;
+    const response = await addBookmark(itemId);
+    if (response) {
+      setBookmarks([...bookmarks, item]);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
@@ -59,8 +85,11 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
             <RecommendationItem
               item={item}
               isAdded={isAnimeAdded(item)}
+              isBookmarked={isBookmarkAdded(item)}
               handleRemoveAnime={handleRemoveAnime}
               handleAddAnime={handleAddAnime}
+              handleAddBookmark={handleAddBookmark}
+              handleRemoveBookmark={handleRemoveBookmark}
               loading={addAnimeLoading === item}
             />
           </li>

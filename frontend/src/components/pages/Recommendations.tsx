@@ -9,6 +9,7 @@ import RecommendationList from "../common/RecommendationList";
 const Recommendations: React.FC = () => {
   const [recommendations, setRecommendations] = useState<UserAnimeObject[]>([]);
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
+  const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
 
   // eslint-disable-next-line
@@ -60,7 +61,9 @@ const Recommendations: React.FC = () => {
         <RecommendationList
           recommendations={recommendations}
           animeList={animeList}
+          bookmarks={bookmarks}
           setAnimeList={setAnimeList}
+          setBookmarks={setBookmarks}
         />
       </div>
     )
