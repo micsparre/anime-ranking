@@ -6,7 +6,7 @@ import { AnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import RecommendationList from "../common/RecommendationList";
 
-const Recommendation: React.FC = () => {
+const Recommendations: React.FC = () => {
   const [recommendations, setRecommendations] = useState<UserAnimeObject[]>([]);
   const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
@@ -67,4 +67,4 @@ const Recommendation: React.FC = () => {
   );
 };
 
-export default Recommendation;
+export default Recommendations;

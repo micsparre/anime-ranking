@@ -9,7 +9,7 @@ import {
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import UserAnime from "./common/UserList";
-import Recommendation from "./pages/Recommendation";
+import Recommendations from "./pages/Recommendations";
 import Account from "./authentication/Account";
 import Navbar from "./Navbar";
 import SearchAnime from "./pages/SearchAnime";
@@ -29,7 +29,7 @@ const AnimeRoutes: React.FC = () => {
           element={isLoggedIn ? <Navigate to="/" /> : <Register />}
         />
         <Route path="/anime-list" element={<UserAnime />} />
-        <Route path="/recommendations" element={<Recommendation />} />
+        <Route path="/recommendations" element={<Recommendations />} />
         <Route
           path="/account"
           element={isLoggedIn ? <Account /> : <Navigate to="/login" />}

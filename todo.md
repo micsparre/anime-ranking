@@ -11,8 +11,8 @@
 - add ability to delete account (and all associated data)
 - server-side validation for user input
 - add logging
-  - log all requests
-  - log all errors
+  - requests
+  - errors
 
 ## frontend
 
@@ -21,15 +21,14 @@
 - add ability to bookmark anime shows
   - add bookmark button to the search page
   - add bookmark button to the recommendation page
-  - [BookmarksPage.tsx](frontend/components/pages/BookmarksPage.tsx):
-    - similar to [UserAnimeItemList.tsx](frontend/components/pages/UserAnimeItemList.tsx)
+  - [Bookmarks.tsx](frontend/components/pages/BookmarksPage.tsx):
+    - similar to [UserList.tsx](frontend/components/pages/UserList.tsx)
     - displays a list of items that the user has added to their bookmarks
     - needs a bookmark button on search and recommendation pages
 - add ranking modal when adding an anime to your list
 - click an anime item object to open a detailed modal
   - displays more information about the anime
   - add a button to add the anime to your list
-- navbar buttons clickable while recommendations loading
 - loading spinner on load of user anime list
 
 ## other
@@ -43,3 +42,8 @@
   - postgres vs sqlite?
   - where?
 - add a [LICENSE](LICENSE)
+
+## bugs
+
+- navbar buttons clickable while recommendations loading
+- lists dropdown not closable
