@@ -23,7 +23,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
-  const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeObject>();
   const [sortedItems, setSortedItems] = useState<AnimeObject[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
@@ -72,7 +71,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   useEffect(() => {
     if (loading) {
       setSearched(true);
-    } else if (items.length === 0 && !loading && searched) {
+    } else if (items.length === 0 && searched) {
       setSearchMessage("No results found. Please try another search.");
     } else {
       setSearchMessage("");
@@ -87,7 +86,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       setShowLoginPrompt(true);
       return;
     }
-    setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
@@ -101,7 +99,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   const handleRemoveAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
-    setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/remove-anime-from-list", itemData)
       .then((response) => {
@@ -110,7 +107,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       .catch((error) => {
         console.error("Error fetching item removed details:", error);
       });
-    setAddAnimeLoading(undefined);
   };
 
   const handleAddBookmark = async (item: AnimeObject) => {
@@ -167,7 +163,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                       handleRemoveBookmark={handleRemoveBookmark}
                       handleAddAnime={handleAddAnime}
                       handleRemoveAnime={handleRemoveAnime}
-                      loading={addAnimeLoading === item}
                     />
                   </li>
                 ))}

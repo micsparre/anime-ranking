@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimeObject } from "./types";
 import getDescription from "./utils";
-import { FaSpinner, FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 interface SearchItemProps {
   item: AnimeObject;
@@ -11,7 +11,6 @@ interface SearchItemProps {
   handleRemoveBookmark: (item: AnimeObject) => void;
   handleAddAnime: (item: AnimeObject) => void;
   handleRemoveAnime: (item: AnimeObject) => void;
-  loading: boolean;
 }
 
 const SearchItem: React.FC<SearchItemProps> = ({
@@ -22,7 +21,6 @@ const SearchItem: React.FC<SearchItemProps> = ({
   handleRemoveBookmark,
   handleAddAnime,
   handleRemoveAnime,
-  loading,
 }) => {
   return (
     <>
@@ -38,8 +36,6 @@ const SearchItem: React.FC<SearchItemProps> = ({
           >
             <FaCheck />
           </button>
-        ) : loading ? (
-          <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
         ) : (
           <div>
             <button

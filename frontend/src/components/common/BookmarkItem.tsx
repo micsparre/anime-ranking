@@ -1,6 +1,11 @@
 import React from "react";
 import getDescription from "./utils";
-import { FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import {
+  FaCheckSquare,
+  FaRegPlusSquare,
+  FaBookmark,
+  FaRegBookmark,
+} from "react-icons/fa";
 import { AnimeObject } from "./types";
 interface BookmarkItemProps {
   item: AnimeObject;
@@ -33,13 +38,13 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({
           {getDescription(item)}
         </p>
       </div>
-      <div className="ml-auto flex mt-1">
+      <div className="'grid grid-cols-1 place-items-center">
         {isAdded ? (
           <button
             onClick={() => handleRemoveAnime(item)}
             className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
           >
-            <FaCheck />
+            <FaCheckSquare />
           </button>
         ) : (
           <div>
@@ -47,7 +52,7 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({
               onClick={() => handleAddAnime(item)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
             >
-              +
+              <FaRegPlusSquare />
             </button>
 
             {isBookmarked ? (

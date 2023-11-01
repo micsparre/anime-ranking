@@ -1,6 +1,6 @@
 import React from "react";
 import getDescription from "./utils";
-import { FaSpinner, FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { AnimeObject } from "./types";
 
 interface RecommendationItemProps {
@@ -11,7 +11,6 @@ interface RecommendationItemProps {
   handleRemoveAnime: (item: AnimeObject) => void;
   handleAddBookmark: (item: AnimeObject) => void;
   handleRemoveBookmark: (item: AnimeObject) => void;
-  loading: boolean;
 }
 
 const RecommendationItem: React.FC<RecommendationItemProps> = ({
@@ -22,7 +21,6 @@ const RecommendationItem: React.FC<RecommendationItemProps> = ({
   handleAddAnime,
   handleAddBookmark,
   handleRemoveBookmark,
-  loading,
 }) => {
   return (
     <div className="w-full flex items-center justify-between p-6 space-x-6">
@@ -44,8 +42,6 @@ const RecommendationItem: React.FC<RecommendationItemProps> = ({
           >
             <FaCheck />
           </button>
-        ) : loading ? (
-          <FaSpinner className="w-10 h-10 text-blue-500 animate-spin" />
         ) : (
           <div>
             <button

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { UserAnimeObject, AnimeObject } from "./types";
 import api from "./api";
 import RecommendationItem from "./RecommendationItem";
@@ -19,7 +19,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
   setAnimeList,
   setBookmarks,
 }) => {
-  const [addAnimeLoading, setAddAnimeLoading] = useState<AnimeObject>();
   const isAnimeAdded = (anime: AnimeObject) => {
     return animeList.some((item) => item.id === anime.id);
   };
@@ -32,7 +31,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
 
-    setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
@@ -46,7 +44,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
   const handleRemoveAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id };
-    setAddAnimeLoading(item);
     api
       .post(apiUrl + "/api/remove-anime-from-list", itemData)
       .then((response) => {
@@ -55,7 +52,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
       .catch((error) => {
         console.error("Error fetching item removed details:", error);
       });
-    setAddAnimeLoading(undefined);
   };
 
   const handleRemoveBookmark = async (item: AnimeObject) => {
@@ -90,7 +86,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
               handleAddAnime={handleAddAnime}
               handleAddBookmark={handleAddBookmark}
               handleRemoveBookmark={handleRemoveBookmark}
-              loading={addAnimeLoading === item}
             />
           </li>
         ))}

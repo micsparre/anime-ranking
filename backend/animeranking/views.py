@@ -208,12 +208,16 @@ def get_recommendations(request):
     """
     user = request.user.userprofile
     user_anime_list = UserAnime.objects.filter(user=user)
-    user_titles, user_ids = set(), set()
+    user_bookmarks = UserBookmarks.objects.filter(user=user)
+    ranked_titles, bookmark_titles, user_ids = set(), set(), set()
     for item in user_anime_list:
-        user_titles.add(item.anime.title)
+        ranked_titles.add(item.anime.title)
         user_ids.add(item.anime.id)
+    for bookmark in user_bookmarks:
+        bookmark_titles.add(bookmark.anime.title)
+        user_ids.add(bookmark.anime.id)
     recommendations = get_recommendations_as_list(
-        ", ".join(user_titles))
+        ranked_titles, bookmark_titles)
     data = []
     recs_count = 0
     for rec in recommendations:
@@ -223,7 +227,8 @@ def get_recommendations(request):
         else:
             print(f"couldn't find tv show for: {rec}")
             continue
-        if item.get('id') in user_ids:  # don't recommend shows already in the user's list
+        # don't recommend shows already in the user's ranked/bookmarked lists
+        if item.get('id') in user_ids:
             continue
         if item.get('title').get('english') is not None:
             data.append({
