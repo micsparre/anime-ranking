@@ -34,39 +34,48 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     return bookmarks.some((item) => item.id === anime.id);
   };
 
+  const sortItems = (items: AnimeObject[]) => {
+    return items
+      .sort((a, b) => {
+        const aDistance = Levenshtein(a.title, query);
+        const bDistance = Levenshtein(b.title, query);
+        return aDistance - bDistance || a.title.localeCompare(b.title);
+      })
+      .sort((a, b) => {
+        const aAdded = isAnimeAdded(a);
+        const bAdded = isAnimeAdded(b);
+        return aAdded === bAdded ? 0 : aAdded ? -1 : 1;
+      });
+  };
+
   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("token") !== null;
+    if (searched || !isLoggedIn) {
+      return;
+    }
     const apiUrl = process.env.REACT_APP_API_URL;
     api
       .get(apiUrl + "/api/anime-list")
       .then((response) => {
         setAnimeList(response.data);
-        const sorted = items
-          .sort((a, b) => {
-            const aDistance = Levenshtein(a.title, query);
-            const bDistance = Levenshtein(b.title, query);
-            return aDistance - bDistance || a.title.localeCompare(b.title);
-          })
-          .sort((a, b) => {
-            const aAdded = isAnimeAdded(a);
-            const bAdded = isAnimeAdded(b);
-            return aAdded === bAdded ? 0 : aAdded ? -1 : 1;
-          });
-        setSortedItems(sorted);
       })
       .catch((error) => {
-        setSortedItems(items);
+        console.error("Error fetching anime list:", error);
       });
     api
       .get(apiUrl + "/api/bookmarks")
       .then((response) => {
         setBookmarks(response.data);
       })
-      .catch((error) => {
-        console.error("Error fetching bookmarks:", error);
-      });
-
+      .catch((error) => {});
     // eslint-disable-next-line
-  }, [items, query]);
+  }, []);
+
+  useEffect(() => {
+    const sorted = sortItems(items);
+    setSortedItems(sorted);
+    // eslint-disable-next-line
+  }, [items]);
 
   useEffect(() => {
     if (loading) {
@@ -96,20 +105,12 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       });
   };
 
-  const handleRemoveAnime = (item: AnimeObject) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { anime_id: item.id };
-    api
-      .post(apiUrl + "/api/remove-anime-from-list", itemData)
-      .then((response) => {
-        setAnimeList(animeList.filter((anime) => anime.id !== item.id));
-      })
-      .catch((error) => {
-        console.error("Error fetching item removed details:", error);
-      });
-  };
-
   const handleAddBookmark = async (item: AnimeObject) => {
+    const isLoggedIn = localStorage.getItem("token") !== null;
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true);
+      return;
+    }
     const itemId = item.id;
     const response = await addBookmark(itemId);
     if (response) {
@@ -162,7 +163,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                       handleAddBookmark={handleAddBookmark}
                       handleRemoveBookmark={handleRemoveBookmark}
                       handleAddAnime={handleAddAnime}
-                      handleRemoveAnime={handleRemoveAnime}
                     />
                   </li>
                 ))}

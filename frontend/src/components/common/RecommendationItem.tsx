@@ -1,7 +1,7 @@
 import React from "react";
 import getDescription from "./utils";
-import { FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { AnimeObject } from "./types";
+import { AddButton, BookmarkButton, CheckButton } from "./Buttons";
 
 interface RecommendationItemProps {
   item: AnimeObject;
@@ -34,38 +34,19 @@ const RecommendationItem: React.FC<RecommendationItemProps> = ({
           {getDescription(item)}
         </p>
       </div>
-      <div className="ml-auto flex mt-1">
+      <div className="ml-auto flex mt-1 items-center justify-center">
         {isAdded ? (
-          <button
-            onClick={() => handleRemoveAnime(item)}
-            className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-          >
-            <FaCheck />
-          </button>
+          <CheckButton />
         ) : (
-          <div>
-            <button
-              onClick={() => handleAddAnime(item)}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center h-10 w-10"
-            >
-              +
-            </button>
-
-            {isBookmarked ? (
-              <button
-                onClick={() => handleRemoveBookmark(item)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-              >
-                <FaBookmark />
-              </button>
-            ) : (
-              <button
-                onClick={() => handleAddBookmark(item)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-              >
-                <FaRegBookmark />
-              </button>
-            )}
+          <div className="ml-auto flex mt-1 items-center justify-center">
+            <AddButton handleClick={handleAddAnime} item={item} />
+            <BookmarkButton
+              handleClick={
+                isBookmarked ? handleRemoveBookmark : handleAddBookmark
+              }
+              item={item}
+              isBookmarked={isBookmarked}
+            />
           </div>
         )}
       </div>

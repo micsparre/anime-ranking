@@ -14,7 +14,6 @@
 
 - add button to refresh recommendations
 - add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
-- style bookmark, add, remove buttons better
 - add ranking modal when adding an anime to your list
 - click an anime item object to open a detailed modal
   - displays more information about the anime
@@ -35,4 +34,4 @@
 ## bugs
 
 - navbar buttons clickable while recommendations loading
-- lists dropdown not closable
+- lists dropdown not closable on re-click

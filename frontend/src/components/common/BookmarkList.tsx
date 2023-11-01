@@ -2,7 +2,7 @@ import React from "react";
 import { UserAnimeObject, AnimeObject } from "./types";
 import api from "./api";
 import BookmarkItem from "./BookmarkItem";
-import { addBookmark, removeBookmark } from "./bookmark";
+import { removeBookmark } from "./bookmark";
 
 interface BookmarkListProps {
   bookmarks: AnimeObject[];
@@ -17,13 +17,6 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
   setBookmarks,
   setAnimeList,
 }) => {
-  const isAnimeAdded = (anime: AnimeObject) => {
-    return animeList.some((item) => item.id === anime.id);
-  };
-
-  const isBookmarkAdded = (anime: AnimeObject) => {
-    return bookmarks.some((item) => item.id === anime.id);
-  };
   const handleAddAnime = (item: AnimeObject) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const itemData = { anime_id: item.id, title: item.title };
@@ -39,32 +32,11 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
     setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
   };
 
-  const handleRemoveAnime = (item: AnimeObject) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { anime_id: item.id };
-    api
-      .post(apiUrl + "/api/remove-anime-from-list", itemData)
-      .then((response) => {
-        setAnimeList(animeList.filter((anime) => anime.id !== item.id));
-      })
-      .catch((error) => {
-        console.error("Error fetching item removed details:", error);
-      });
-  };
-
   const handleRemoveBookmark = async (item: AnimeObject) => {
     const itemId = item.id;
     const response = await removeBookmark(itemId);
     if (response) {
       setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
-    }
-  };
-
-  const handleAddBookmark = async (item: AnimeObject) => {
-    const itemId = item.id;
-    const response = await addBookmark(itemId);
-    if (response) {
-      setBookmarks([...bookmarks, item]);
     }
   };
 
@@ -78,12 +50,8 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
           >
             <BookmarkItem
               item={item}
-              isAdded={isAnimeAdded(item)}
-              isBookmarked={isBookmarkAdded(item)}
               removeBookmark={handleRemoveBookmark}
-              addBookmark={handleAddBookmark}
               handleAddAnime={handleAddAnime}
-              handleRemoveAnime={handleRemoveAnime}
             />
           </li>
         ))}

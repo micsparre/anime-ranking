@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimeObject } from "./types";
 import getDescription from "./utils";
-import { FaCheck, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { AddButton, BookmarkButton, CheckButton } from "./Buttons";
 
 interface SearchItemProps {
   item: AnimeObject;
@@ -10,7 +10,6 @@ interface SearchItemProps {
   handleAddBookmark: (item: AnimeObject) => void;
   handleRemoveBookmark: (item: AnimeObject) => void;
   handleAddAnime: (item: AnimeObject) => void;
-  handleRemoveAnime: (item: AnimeObject) => void;
 }
 
 const SearchItem: React.FC<SearchItemProps> = ({
@@ -20,7 +19,6 @@ const SearchItem: React.FC<SearchItemProps> = ({
   handleAddBookmark,
   handleRemoveBookmark,
   handleAddAnime,
-  handleRemoveAnime,
 }) => {
   return (
     <>
@@ -28,37 +26,19 @@ const SearchItem: React.FC<SearchItemProps> = ({
         <div className="text-lg font-medium text-gray-900">{item.title}</div>
         <div className="text-sm text-gray-500">{getDescription(item)}</div>
       </div>
-      <div className="ml-auto flex mt-1 items-center justify-center">
+      <div className="ml-auto flex mt-1 mr-2 items-center justify-center">
         {isAdded ? (
-          <button
-            onClick={() => handleRemoveAnime(item)}
-            className="bg-green-500 hover:bg-red-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-          >
-            <FaCheck />
-          </button>
+          <CheckButton />
         ) : (
-          <div>
-            <button
-              onClick={() => handleAddAnime(item)}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-            >
-              +
-            </button>
-            {isBookmarked ? (
-              <button
-                onClick={() => handleRemoveBookmark(item)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-              >
-                <FaBookmark />
-              </button>
-            ) : (
-              <button
-                onClick={() => handleAddBookmark(item)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center justify-center h-10 w-10"
-              >
-                <FaRegBookmark />
-              </button>
-            )}
+          <div className="ml-auto flex mt-1 items-center justify-center">
+            <AddButton handleClick={handleAddAnime} item={item} />
+            <BookmarkButton
+              handleClick={
+                isBookmarked ? handleRemoveBookmark : handleAddBookmark
+              }
+              item={item}
+              isBookmarked={isBookmarked}
+            />
           </div>
         )}
       </div>

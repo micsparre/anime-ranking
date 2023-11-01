@@ -55,11 +55,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
             name="searchTitle"
             value={query}
             onChange={(e) => handleOnChange(e)}
-            className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md bg-white-100 border-transparent focus:border-white-900 focus:bg-white focus:ring-0"
+            className="placeholder:italic placeholder:text-slate-400 block w-full px-4 py-2 rounded-md border border-gray-300"
           />
           <button
             type="submit"
-            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-700"
           >
             Search
           </button>
