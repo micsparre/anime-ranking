@@ -19,7 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    setQuery(event.target.value.toLowerCase());
     setIsStale(true);
   };
 

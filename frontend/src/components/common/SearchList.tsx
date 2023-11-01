@@ -37,9 +37,24 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   const sortItems = (items: AnimeObject[]) => {
     return items
       .sort((a, b) => {
-        const aDistance = Levenshtein(a.title, query);
-        const bDistance = Levenshtein(b.title, query);
-        return aDistance - bDistance || a.title.localeCompare(b.title);
+        if (a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase()) {
+          return 1;
+        }
+        if (a.title.toLocaleLowerCase() > b.title.toLocaleLowerCase()) {
+          return -1;
+        }
+        return 0;
+      })
+      .sort((a, b) => {
+        const aTitle = a.title.toLowerCase();
+        const bTitle = b.title.toLowerCase();
+        const aDistance = Levenshtein(aTitle, query);
+        const bDistance = Levenshtein(bTitle, query);
+        return (
+          aDistance -
+          bDistance +
+          (aTitle.includes(query) ? -100 : bTitle.includes(query) ? 100 : 0)
+        );
       })
       .sort((a, b) => {
         const aAdded = isAnimeAdded(a);
