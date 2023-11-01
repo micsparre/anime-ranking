@@ -273,3 +273,24 @@ def add_bookmark(request):
     user_bookmark.save()
 
     return Response({'message': 'Anime bookmarked'}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def remove_bookmark(request):
+    """
+    Removes an anime from the user's list.
+    """
+    user = request.user.userprofile
+
+    anime_id = request.query_params.get('anime_id')
+    if not anime_id:
+        return Response({'message': 'anime_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user_bookmark = UserBookmarks.objects.get(
+            user=user, anime__id=anime_id)
+        user_bookmark.delete()
+        return Response({'message': 'Anime removed from bookmarks'}, status=status.HTTP_200_OK)
+    except UserBookmarks.DoesNotExist:
+        return Response({'message': 'Anime not found in bookmarks'}, status=status.HTTP_404_NOT_FOUND)
