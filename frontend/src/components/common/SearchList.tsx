@@ -149,12 +149,17 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     window.location.href = "/register";
   };
 
+  const closeLoginPrompt = () => {
+    setShowLoginPrompt(false);
+  };
+
   return (
     <>
       {showLoginPrompt && (
         <LoginPrompt
           handleLoginClick={handleLoginClick}
           handleSignupClick={handleSignupClick}
+          closeLoginPrompt={closeLoginPrompt}
         />
       )}
       {showRankingModal && (
