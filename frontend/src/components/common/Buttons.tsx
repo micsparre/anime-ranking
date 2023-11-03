@@ -1,9 +1,14 @@
 import React from "react";
-import { AnimeObject } from "./types";
+import { AnimeObject, UserAnimeObject } from "./types";
 
 interface ButtonProps {
   handleClick: (item: AnimeObject) => void;
   item: AnimeObject;
+}
+
+interface RemoveButtonProps {
+  handleClick: (item: UserAnimeObject) => void;
+  item: UserAnimeObject;
 }
 
 interface BookmarkButtonProps {
@@ -31,7 +36,10 @@ export const AddButton: React.FC<ButtonProps> = ({ item, handleClick }) => {
   );
 };
 
-export const RemoveButton: React.FC<ButtonProps> = ({ item, handleClick }) => {
+export const RemoveButton: React.FC<RemoveButtonProps> = ({
+  item,
+  handleClick,
+}) => {
   return (
     <button
       onClick={() => handleClick(item)}
@@ -75,7 +83,7 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
 
 export const CheckButton: React.FC = () => {
   return (
-    <div className="inline-flex items-center justify-center w-8 h-8 text-indigo-100 transition-colors duration-150 border-2 border-green-600 rounded-full focus:shadow-outline">
+    <div className="inline-flex items-center justify-center w-8 h-8 mr-1 text-indigo-100 transition-colors duration-150 border-2 border-green-600 rounded-full focus:shadow-outline">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

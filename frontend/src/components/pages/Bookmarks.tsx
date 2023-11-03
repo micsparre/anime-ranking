@@ -1,6 +1,5 @@
 // src/components/AnimeList/Bookmark.tsx
 import React, { useEffect, useState } from "react";
-import { UserAnimeObject } from "../common/types";
 import api from "../common/api";
 import { AnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -38,7 +37,7 @@ const Bookmarks: React.FC = () => {
           console.log("bookmarks before", bookmarks);
           setAnimeList(
             animeList.filter(
-              (anime: UserAnimeObject) =>
+              (anime: AnimeObject) =>
                 !response.data.some((item: AnimeObject) => item.id === anime.id)
             )
           );

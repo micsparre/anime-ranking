@@ -35,3 +35,7 @@
 
 - navbar buttons clickable while recommendations loading
 - lists dropdown not closable on re-click
+
+## nice to haves
+
+- react query for caching

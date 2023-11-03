@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import api from "./api";
-import { AnimeObject } from "./types";
+import { UserAnimeObject, AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
 import LoadingSpinner from "./LoadingSpinner";
 import DisplayMessage from "./DisplayMessage";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import { addBookmark, removeBookmark } from "./bookmark";
+import RankingModal from "./RankingModal";
 
 interface SearchAnimeListProps {
   items: AnimeObject[];
@@ -19,12 +20,16 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   loading,
   query,
 }) => {
-  const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
+  const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
   const [sortedItems, setSortedItems] = useState<AnimeObject[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [showRankingModal, setShowRankingModal] = useState(false);
+  const [rankingItem, setRankingItem] = useState<UserAnimeObject>(
+    {} as UserAnimeObject
+  );
 
   const isAnimeAdded = (anime: AnimeObject) => {
     return animeList.some((item) => item.id === anime.id);
@@ -110,10 +115,12 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       setShowLoginPrompt(true);
       return;
     }
+    setShowRankingModal(true);
+    setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
     api
       .post(apiUrl + "/api/add-anime-to-list", itemData)
       .then((response) => {
-        setAnimeList([...animeList, item]);
+        setAnimeList([...animeList, rankingItem]);
       })
       .catch((error) => {
         console.error("Error fetching item created details:", error);
@@ -158,6 +165,13 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
         <LoginPrompt
           handleLoginClick={handleLoginClick}
           handleSignupClick={handleSignupClick}
+        />
+      )}
+      {showRankingModal && (
+        <RankingModal
+          item={rankingItem}
+          animeList={animeList}
+          onClose={() => setShowRankingModal(false)}
         />
       )}
       {loading ? (

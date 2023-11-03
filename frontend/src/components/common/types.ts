@@ -9,7 +9,7 @@ export interface AnimeObject {
 export interface UserAnimeObject {
   id: number;
   title: string;
-  ranking?: number;
+  ranking: number;
   start_date: string;
   end_date: string;
   episodes: number;
