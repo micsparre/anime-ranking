@@ -90,19 +90,24 @@ def rank_anime(request):
     """
     user = request.user.userprofile
 
-    anime_id = request.data.get('anime_id')
-    ranking = request.data.get('ranking')
+    ranking_list = request.data
+    print(ranking_list)
+    for item in ranking_list:
+        anime_id = item.get('anime_id')
+        ranking = item.get('ranking')
+        if not anime_id or not ranking:
+            return Response({'message': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if not anime_id or not ranking:
-        return Response({'message': 'anime_id and ranking are required'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user_anime = UserAnime.objects.get(user=user, anime__id=anime_id)
+            user_anime.ranking = ranking
+            user_anime.save()
+        except UserAnime.DoesNotExist:
+            anime_obj = fetch_anime_obj(anime_id)
+            user_anime = UserAnime(user=user, anime=anime_obj, ranking=ranking)
+            user_anime.save()
 
-    try:
-        user_anime = UserAnime.objects.get(user=user, anime__id=anime_id)
-        user_anime.ranking = ranking
-        user_anime.save()
-        return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
-    except UserAnime.DoesNotExist:
-        return Response({'message': 'Anime not found in the user\'s list'}, status=status.HTTP_404_NOT_FOUND)
+    return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

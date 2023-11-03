@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "./api";
+import { getUserAnimeList, getUserBookmarks } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
 import LoadingSpinner from "./LoadingSpinner";
@@ -73,21 +73,15 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     if (searched || !isLoggedIn) {
       return;
     }
-    const apiUrl = process.env.REACT_APP_API_URL;
-    api
-      .get(apiUrl + "/api/anime-list")
-      .then((response) => {
-        setAnimeList(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching anime list:", error);
-      });
-    api
-      .get(apiUrl + "/api/bookmarks")
-      .then((response) => {
-        setBookmarks(response.data);
-      })
-      .catch((error) => {});
+
+    getUserAnimeList().then((response) => {
+      setAnimeList([...response]);
+    });
+
+    getUserBookmarks().then((response) => {
+      setBookmarks([...response]);
+    });
+
     // eslint-disable-next-line
   }, []);
 
@@ -107,24 +101,20 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     }
   }, [items, loading, searched]);
 
-  const handleAddAnime = (item: AnimeObject) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { anime_id: item.id, title: item.title };
+  const openRankingModal = (item: AnimeObject) => {
     const isLoggedIn = localStorage.getItem("token") !== null;
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
       return;
     }
-    setShowRankingModal(true);
     setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
-    api
-      .post(apiUrl + "/api/add-anime-to-list", itemData)
-      .then((response) => {
-        setAnimeList([...animeList, rankingItem]);
-      })
-      .catch((error) => {
-        console.error("Error fetching item created details:", error);
-      });
+    setShowRankingModal(true);
+  };
+
+  const closeRankingAnime = async () => {
+    // TODO get ranking from rankingmodal object?
+    setShowRankingModal(false);
+    setAnimeList([...animeList, rankingItem]);
   };
 
   const handleAddBookmark = async (item: AnimeObject) => {
@@ -171,7 +161,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
         <RankingModal
           item={rankingItem}
           animeList={animeList}
-          onClose={() => setShowRankingModal(false)}
+          onClose={closeRankingAnime}
         />
       )}
       {loading ? (
@@ -191,7 +181,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                       isBookmarked={isBookmarkAdded(item)}
                       handleAddBookmark={handleAddBookmark}
                       handleRemoveBookmark={handleRemoveBookmark}
-                      handleAddAnime={handleAddAnime}
+                      handleAddAnime={openRankingModal}
                     />
                   </li>
                 ))}

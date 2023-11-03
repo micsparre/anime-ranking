@@ -32,7 +32,7 @@ class Genre(models.Model):
 class UserAnime(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
-    ranking = models.PositiveIntegerField()
+    ranking = models.FloatField()
 
     class Meta:
         # Ensure a user can't add the same anime more than once

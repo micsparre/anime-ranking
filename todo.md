@@ -2,6 +2,7 @@
 
 ## backend
 
+- incorporate rankings into recommendation flow
 - add ability to delete account (and all associated data)
 - server-side validation for user input
 - add logging
@@ -12,7 +13,10 @@
 
 ## frontend
 
-- add ranking modal when adding an anime to your list
+- ranking modal
+  - style ranking modal better
+  - add ranking modal to bookmarks and recommendations pages
+  - show ranking on page after finishing ranking flow
 - click an anime item object to open a detailed modal
   - displays more information about the anime
   - add a button to add the anime to your list
