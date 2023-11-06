@@ -43,3 +43,4 @@
 ## nice to haves
 
 - react query for caching
+- login remembering username / password (local storage?, autofill?)

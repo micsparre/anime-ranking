@@ -107,13 +107,13 @@ const RankingModal: React.FC<RankingModalProps> = ({
   const handleRankingGroup = (rankingGroup: string) => {
     setRankingGroup(rankingGroup);
     if (rankingGroup === "good") {
-      setRankingList(rankingList.filter((item) => item.ranking >= 6.6));
+      setRankingList(rankingList.filter((item) => item.ranking >= 6.7));
     } else if (rankingGroup === "mid") {
       setRankingList(
-        rankingList.filter((item) => item.ranking >= 3.3 && item.ranking < 6.6)
+        rankingList.filter((item) => item.ranking >= 3.4 && item.ranking < 6.7)
       );
     } else if (rankingGroup === "bad") {
-      setRankingList(rankingList.filter((item) => item.ranking < 3.3));
+      setRankingList(rankingList.filter((item) => item.ranking < 3.4));
     }
   };
 

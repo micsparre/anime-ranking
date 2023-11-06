@@ -9,6 +9,16 @@ interface UserItemProps {
 }
 
 const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
+  const getRankingColor = (ranking: number) => {
+    if (ranking >= 6.7) {
+      return "green";
+    } else if (ranking < 6.7 && ranking >= 3.4) {
+      return "yellow";
+    } else {
+      return "red";
+    }
+  };
+
   return (
     <div className="w-full flex items-center justify-between p-6 space-x-6">
       <div className="flex-1 truncate">
@@ -22,7 +32,11 @@ const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
         </p>
       </div>
       <div className="flex flex-col items-center">
-        <span className="flex-shrink-0 px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+        <span
+          className={`flex-shrink-0 px-2 py-0.5 text-xs font-medium rounded-full text-${getRankingColor(
+            item.ranking
+          )}-700 bg-${getRankingColor(item.ranking)}-100`}
+        >
           {item.ranking}
         </span>
         <RemoveButton handleClick={handleRemoveAnime} item={item} />
