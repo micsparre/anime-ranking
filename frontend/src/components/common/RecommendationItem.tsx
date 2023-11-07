@@ -1,5 +1,5 @@
 import React from "react";
-import getDescription from "./utils";
+import { getDescription } from "./utils";
 import { AnimeObject } from "./types";
 import { AddButton, BookmarkButton, CheckButton } from "./Buttons";
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { UserAnimeObject, AnimeObject } from "./types";
+import { UserAnimeObject } from "./types";
 import api from "./api";
+import { getRankingColor } from "./utils";
 
 interface RankingModalProps {
   item: UserAnimeObject;
@@ -26,7 +27,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
     setRankingItemIndex(null);
     const sortedAnimeList = animeList.sort((a, b) => a.ranking - b.ranking);
     setRankingList([...sortedAnimeList]);
-  }, []);
+  }, [animeList]);
 
   useEffect(() => {
     if (rankingGroup !== null && !isFinished) {
@@ -36,6 +37,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
     } else if (isFinished) {
       handleSubmit();
     }
+    // eslint-disable-next-line
   }, [rankingList]);
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
       const midIndex = Math.floor((bounds[0] + bounds[1]) / 2);
       setRankingItemIndex(midIndex);
     }
+    // eslint-disable-next-line
   }, [bounds]);
 
   const handleRanking = (isHigher: boolean) => {
@@ -118,25 +121,17 @@ const RankingModal: React.FC<RankingModalProps> = ({
   };
 
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center block p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-
-        <span
-          className="hidden inline-block align-middle h-screen"
-          aria-hidden="true"
-        ></span>
-
-        <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 align-middle max-w-lg w-full"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="bg-white p-5 pb-4">
-            <div className="text-left">
+    <div
+      className="relative z-10"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="flex min-h-full justify-center p-4 text-center items-center">
+          <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-lg h-52">
+            <div className="mt-5 px-4 text-left">
               <h3
                 className="text-sm leading-6 font-medium text-gray-400"
                 id="modal-headline"
@@ -144,60 +139,78 @@ const RankingModal: React.FC<RankingModalProps> = ({
                 Ranking: <i>{item.title}</i>
               </h3>
             </div>
-            <div className="flex justify-center">
-              <div className="mt-2">
-                {(rankingGroup !== null &&
-                  rankingItemIndex !== null &&
-                  !isFinished && (
-                    <div className="mt-4 justify-center items-center grid grid-cols-2 gap-x-6">
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
-                        onClick={() => handleRanking(false)}
-                      >
-                        <div className="text-sm">{item.title}</div>
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
-                        onClick={() => handleRanking(true)}
-                      >
-                        <div className="text-sm">
-                          {rankingList[rankingItemIndex] !== undefined &&
-                            rankingList[rankingItemIndex].title}
+            <div className="bg-white px-4 pb-5 pt-5">
+              <div className="flex justify-center items-center">
+                <div className="mt-2">
+                  {(rankingGroup !== null &&
+                    rankingItemIndex !== null &&
+                    !isFinished && (
+                      <div className="justify-center items-center grid grid-cols-2 gap-x-8">
+                        <div className="text-sm leading-4">
+                          <button
+                            type="button"
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col"
+                            onClick={() => handleRanking(false)}
+                          >
+                            <div className="mt-2 flex overflow-hidden">
+                              {item.title}
+                            </div>
+                          </button>
                         </div>
-                      </button>
-                    </div>
-                  )) || (
-                  <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-10">
-                    <div className="flex flex-col items-center justify-center">
-                      <button
-                        type="button"
-                        className=" items-center justify-center w-10 h-10 rounded-full bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                        onClick={() => handleRankingGroup("good")}
-                      ></button>
-                      <div className="mb-2 items-center justify-center text-gray-400">
-                        I liked it
+                        <div className="text-sm leading-4">
+                          <button
+                            type="button"
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col items-center"
+                            onClick={() => handleRanking(true)}
+                          >
+                            <div className="mt-2 flex overflow-hidden">
+                              {rankingList[rankingItemIndex] !== undefined &&
+                                rankingList[rankingItemIndex].title}
+                            </div>
+                            <div
+                              className={`flex items-center justify-center text-xs text-${getRankingColor(
+                                rankingList[rankingItemIndex]?.ranking
+                              )}-500`}
+                            >
+                              {rankingList[rankingItemIndex] !== undefined &&
+                                rankingList[rankingItemIndex].ranking}
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    )) || (
+                    <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-10">
+                      <div className="flex flex-col items-center justify-center">
+                        <button
+                          type="button"
+                          className="items-center justify-center w-10 h-10 rounded-full bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                          onClick={() => handleRankingGroup("good")}
+                        ></button>
+                        <div className="mb-2 items-center justify-center text-gray-400">
+                          I liked it
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-yellow-400 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                          onClick={() => handleRankingGroup("mid")}
+                        ></button>
+                        <div className="mb-2 text-gray-400">It was ok</div>
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                          onClick={() => handleRankingGroup("bad")}
+                        ></button>
+                        <div className="mb-2 text-gray-400">
+                          I didn't like it
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center">
-                      <button
-                        type="button"
-                        className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-yellow-400 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                        onClick={() => handleRankingGroup("mid")}
-                      ></button>
-                      <div className="mb-2 text-gray-400">It was ok</div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                      <button
-                        type="button"
-                        className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                        onClick={() => handleRankingGroup("bad")}
-                      ></button>
-                      <div className="mb-2 text-gray-400">I didn't like it</div>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>

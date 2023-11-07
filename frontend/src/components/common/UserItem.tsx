@@ -1,6 +1,6 @@
 import React from "react";
 import { UserAnimeObject } from "./types";
-import getDescription from "./utils";
+import { getDescription, getRankingColor } from "./utils";
 import { RemoveButton } from "./Buttons";
 
 interface UserItemProps {
@@ -9,16 +9,6 @@ interface UserItemProps {
 }
 
 const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
-  const getRankingColor = (ranking: number) => {
-    if (ranking >= 6.7) {
-      return "green";
-    } else if (ranking < 6.7 && ranking >= 3.4) {
-      return "yellow";
-    } else {
-      return "red";
-    }
-  };
-
   return (
     <div className="w-full flex items-center justify-between p-6 space-x-6">
       <div className="flex-1 truncate">

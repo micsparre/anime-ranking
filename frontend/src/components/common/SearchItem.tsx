@@ -1,6 +1,6 @@
 import React from "react";
 import { AnimeObject } from "./types";
-import getDescription from "./utils";
+import { getDescription } from "./utils";
 import { AddButton, BookmarkButton, CheckButton } from "./Buttons";
 
 interface SearchItemProps {

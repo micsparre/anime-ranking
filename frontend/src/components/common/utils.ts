@@ -1,6 +1,6 @@
 import { AnimeObject } from "./types";
 
-const getDescription = (anime: AnimeObject) => {
+export const getDescription = (anime: AnimeObject) => {
   const startDate = anime.start_date;
   const endDate = anime.end_date;
   let description = "";
@@ -29,4 +29,15 @@ const getDescription = (anime: AnimeObject) => {
   return description;
 };
 
-export default getDescription;
+export const getRankingColor = (ranking: number) => {
+  if (!ranking) {
+    return "gray";
+  }
+  if (ranking >= 6.7) {
+    return "green";
+  } else if (ranking < 6.7 && ranking >= 3.4) {
+    return "yellow";
+  } else {
+    return "red";
+  }
+};

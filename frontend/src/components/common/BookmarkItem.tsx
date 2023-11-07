@@ -1,5 +1,5 @@
 import React from "react";
-import getDescription from "./utils";
+import { getDescription } from "./utils";
 import { AddButton, BookmarkButton } from "./Buttons";
 import { AnimeObject } from "./types";
 interface BookmarkItemProps {
