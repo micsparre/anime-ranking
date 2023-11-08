@@ -14,10 +14,10 @@
 ## frontend
 
 - ranking modal
-  - style ranking modal better
   - add ranking modal to bookmarks and recommendations pages
   - show ranking on page after finishing ranking flow
-- click an anime item object to open a detailed modal
+  - x in top right corner to close modal
+- click an anime item object to open a detail modal
   - displays more information about the anime
   - add a button to add the anime to your list
 - add button to refresh recommendations
@@ -44,3 +44,7 @@
 
 - react query for caching
 - login remembering username / password (local storage?, autofill?)
+
+## questions
+
+- should I include movies or not?

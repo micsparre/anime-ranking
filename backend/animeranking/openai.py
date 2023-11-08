@@ -28,7 +28,7 @@ def get_recommendations_as_list(ranked_titles: list, bookmark_titles: list) -> l
         ranked_titles), bookmark_titles=", ".join(bookmark_titles))
     print(f"openai query: {content}")
     completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=[{"role": "user", "content": content}])
+        model="gpt-4-1106-preview", messages=[{"role": "user", "content": content}])
     try:
         response = completion.choices[0].message.content
         response = json.loads(response)
