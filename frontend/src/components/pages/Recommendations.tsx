@@ -1,14 +1,13 @@
 // src/components/AnimeList/Recommendation.tsx
 import React, { useEffect, useState } from "react";
-import { UserAnimeObject } from "../common/types";
+import { UserAnimeObject, AnimeObject } from "../common/types";
 import api from "../common/api";
-import { AnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import RecommendationList from "../common/RecommendationList";
 
 const Recommendations: React.FC = () => {
   const [recommendations, setRecommendations] = useState<UserAnimeObject[]>([]);
-  const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
+  const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
 

@@ -14,7 +14,6 @@
 ## frontend
 
 - ranking modal
-  - add ranking modal to bookmarks and recommendations pages
   - show ranking on page after finishing ranking flow
   - x in top right corner to close modal
 - click an anime item object to open a detail modal
