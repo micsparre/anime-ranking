@@ -111,7 +111,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     setShowRankingModal(true);
   };
 
-  const closeRankingAnime = async () => {
+  const closeRankingModal = async () => {
     // TODO get ranking from rankingmodal object?
     setShowRankingModal(false);
     setAnimeList([...animeList, rankingItem]);
@@ -166,7 +166,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
         <RankingModal
           item={rankingItem}
           animeList={animeList}
-          onClose={closeRankingAnime}
+          onClose={closeRankingModal}
         />
       )}
       {loading ? (

@@ -1,13 +1,13 @@
 // src/components/AnimeList/Bookmark.tsx
 import React, { useEffect, useState } from "react";
 import api from "../common/api";
-import { AnimeObject } from "../common/types";
+import { UserAnimeObject, AnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import BookmarkList from "../common/BookmarkList";
 
 const Bookmarks: React.FC = () => {
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
-  const [animeList, setAnimeList] = useState<AnimeObject[]>([]);
+  const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
 
   // eslint-disable-next-line
@@ -33,15 +33,6 @@ const Bookmarks: React.FC = () => {
         const response = await api.get(apiUrl + "/api/anime-list");
         if (response.status === 200) {
           setAnimeList(response.data);
-          // if anime in anime list, remove it from bookmarks (server side?)
-          console.log("bookmarks before", bookmarks);
-          setAnimeList(
-            animeList.filter(
-              (anime: AnimeObject) =>
-                !response.data.some((item: AnimeObject) => item.id === anime.id)
-            )
-          );
-          console.log("bookmarks after", bookmarks);
         }
       } catch (error) {
         console.error("Error fetching anime list:", error);

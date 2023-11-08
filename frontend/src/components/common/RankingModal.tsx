@@ -149,7 +149,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                         <div className="text-sm leading-4">
                           <button
                             type="button"
-                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col"
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col items-center"
                             onClick={() => handleRanking(false)}
                           >
                             <div className="mt-2 flex overflow-hidden">
@@ -178,38 +178,39 @@ const RankingModal: React.FC<RankingModalProps> = ({
                           </button>
                         </div>
                       </div>
-                    )) || (
-                    <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-10">
-                      <div className="flex flex-col items-center justify-center">
-                        <button
-                          type="button"
-                          className="items-center justify-center w-10 h-10 rounded-full bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                          onClick={() => handleRankingGroup("good")}
-                        ></button>
-                        <div className="mb-2 items-center justify-center text-gray-400">
-                          I liked it
+                    )) ||
+                    (!isFinished && (
+                      <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-10">
+                        <div className="flex flex-col items-center justify-center">
+                          <button
+                            type="button"
+                            className="items-center justify-center w-10 h-10 rounded-full bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            onClick={() => handleRankingGroup("good")}
+                          ></button>
+                          <div className="mb-2 items-center justify-center text-gray-400">
+                            I liked it
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                          <button
+                            type="button"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-yellow-400 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                            onClick={() => handleRankingGroup("mid")}
+                          ></button>
+                          <div className="mb-2 text-gray-400">It was ok</div>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                          <button
+                            type="button"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            onClick={() => handleRankingGroup("bad")}
+                          ></button>
+                          <div className="mb-2 text-gray-400">
+                            I didn't like it
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-yellow-400 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                          onClick={() => handleRankingGroup("mid")}
-                        ></button>
-                        <div className="mb-2 text-gray-400">It was ok</div>
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                          onClick={() => handleRankingGroup("bad")}
-                        ></button>
-                        <div className="mb-2 text-gray-400">
-                          I didn't like it
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                    ))}
                 </div>
               </div>
             </div>
