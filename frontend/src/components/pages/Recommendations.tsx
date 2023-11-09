@@ -1,4 +1,3 @@
-// src/components/AnimeList/Recommendation.tsx
 import React, { useEffect, useState } from "react";
 import { UserAnimeObject, AnimeObject } from "../common/types";
 import api from "../common/api";
@@ -13,19 +12,22 @@ const Recommendations: React.FC = () => {
 
   // eslint-disable-next-line
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = () => {
       setLoading(true);
       const apiUrl = process.env.REACT_APP_API_URL;
-      try {
-        const response = await api.get(apiUrl + "/api/recommendations");
-        if (response.status === 200) {
-          setRecommendations(response.data);
-          console.log("recommendations", response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching recommendations:", error);
-      }
-      setLoading(false);
+      api
+        .get(apiUrl + "/api/recommendations")
+        .then((response) => {
+          if (response.status === 200) {
+            setRecommendations(response.data);
+            console.log("recommendations", response.data);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching recommendations:", error);
+          setLoading(true);
+        });
     };
 
     const fetchAnimeList = async () => {

@@ -43,6 +43,8 @@
 
 - react query for caching
 - login remembering username / password (local storage?, autofill?)
+- change font
+- fix snorlax icon size
 
 ## questions
 

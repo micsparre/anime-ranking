@@ -139,7 +139,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                 Ranking: <i>{item.title}</i>
               </h3>
             </div>
-            <div className="bg-white px-4 pb-5 pt-5">
+            <div className="bg-white p-4">
               <div className="flex justify-center items-center">
                 <div className="mt-2">
                   {(rankingGroup !== null &&
@@ -149,7 +149,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                         <div className="text-sm leading-4">
                           <button
                             type="button"
-                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col items-center"
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-36 h-28 relative flex flex-col items-center"
                             onClick={() => handleRanking(false)}
                           >
                             <div className="mt-2 flex overflow-hidden">
@@ -160,7 +160,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                         <div className="text-sm leading-4">
                           <button
                             type="button"
-                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow w-40 h-28 relative flex flex-col items-center"
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow w-36 h-28 relative flex flex-col items-center"
                             onClick={() => handleRanking(true)}
                           >
                             <div className="mt-2 flex overflow-hidden">
@@ -180,7 +180,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                       </div>
                     )) ||
                     (!isFinished && (
-                      <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-10">
+                      <div className="mt-4 justify-center items-center grid grid-cols-3 gap-x-4">
                         <div className="flex flex-col items-center justify-center">
                           <button
                             type="button"
