@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { getUserAnimeList, getUserBookmarks } from "./api";
+import {
+  getUserAnimeList,
+  getUserBookmarks,
+  addBookmark,
+  removeBookmark,
+} from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
 import LoadingSpinner from "./LoadingSpinner";
 import DisplayMessage from "./DisplayMessage";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
-import { addBookmark, removeBookmark } from "./bookmark";
 import RankingModal from "./RankingModal";
 
 interface SearchAnimeListProps {
@@ -75,11 +79,11 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     }
 
     getUserAnimeList().then((response) => {
-      setAnimeList([...response]);
+      setAnimeList(response);
     });
 
     getUserBookmarks().then((response) => {
-      setBookmarks([...response]);
+      setBookmarks(response);
     });
 
     // eslint-disable-next-line

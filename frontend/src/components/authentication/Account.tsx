@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { User } from "../common/types";
-import api from "../common/api";
+import { getUser } from "../common/api";
 
 const Account = () => {
   const [user, setUser] = useState<User>();
@@ -14,16 +14,9 @@ const Account = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      api
-        .get(apiUrl + "/api/get-user-info")
-        .then((response) => {
-          const userData = response.data as User;
-          setUser(userData);
-        })
-        .catch((error) => {
-          console.error("Failed to get user details", error);
-        });
+      getUser().then((response) => {
+        setUser(response);
+      });
     }
   }, []);
 

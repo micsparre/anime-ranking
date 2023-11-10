@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "./api";
+import { getSearchTitles } from "./api";
 import { AnimeObject } from "./types";
 
 interface SearchBarProps {
@@ -16,7 +16,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setQuery,
 }) => {
   const [isStale, setIsStale] = useState(false);
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value.toLowerCase());
@@ -29,18 +28,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
       return;
     }
     setLoading(true);
-    api
-      .get(apiUrl + "/api/titles", {
-        params: { title: query },
-      })
-      .then((response) => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching titles:", error);
-        setLoading(false);
-      });
+    getSearchTitles(query).then((response) => {
+      setData(response);
+      setLoading(false);
+    });
     setIsStale(false);
   };
 

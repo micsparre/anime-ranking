@@ -22,7 +22,7 @@ urlpatterns = [
 
     path("remove-anime-from-list", views.remove_anime_from_user_list),
 
-    path("get-user-info", views.get_user_info, name="get_user_info"),
+    path("user", views.get_user_info, name="get_user_info"),
 
     path("bookmarks", views.get_bookmarks, name="get_bookmarks"),
 

@@ -8,7 +8,6 @@ interface RecommendationItemProps {
   isAdded: boolean;
   isBookmarked: boolean;
   handleAddAnime: (item: AnimeObject) => void;
-  handleRemoveAnime: (item: AnimeObject) => void;
   handleAddBookmark: (item: AnimeObject) => void;
   handleRemoveBookmark: (item: AnimeObject) => void;
 }
@@ -17,7 +16,6 @@ const RecommendationItem: React.FC<RecommendationItemProps> = ({
   item,
   isAdded,
   isBookmarked,
-  handleRemoveAnime,
   handleAddAnime,
   handleAddBookmark,
   handleRemoveBookmark,

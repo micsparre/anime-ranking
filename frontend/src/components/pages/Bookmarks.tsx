@@ -1,6 +1,6 @@
 // src/components/AnimeList/Bookmark.tsx
 import React, { useEffect, useState } from "react";
-import api from "../common/api";
+import { getUserAnimeList, getUserBookmarks } from "../common/api";
 import { UserAnimeObject, AnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import BookmarkList from "../common/BookmarkList";
@@ -10,38 +10,15 @@ const Bookmarks: React.FC = () => {
   const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // eslint-disable-next-line
   useEffect(() => {
-    const fetchBookmarks = async () => {
-      setLoading(true);
-      const apiUrl = process.env.REACT_APP_API_URL;
-      try {
-        const response = await api.get(apiUrl + "/api/bookmarks");
-        if (response.status === 200) {
-          setBookmarks(response.data);
-          console.log("bookmarks", response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching bookmarks:", error);
-      }
+    setLoading(true);
+    getUserBookmarks().then((response) => {
+      setBookmarks(response);
       setLoading(false);
-    };
-
-    const fetchAnimeList = async () => {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      try {
-        const response = await api.get(apiUrl + "/api/anime-list");
-        if (response.status === 200) {
-          setAnimeList(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching anime list:", error);
-      }
-    };
-
-    fetchBookmarks();
-    fetchAnimeList();
-    // eslint-disable-next-line
+    });
+    getUserAnimeList().then((response) => {
+      setAnimeList(response);
+    });
   }, []);
 
   return (

@@ -16,6 +16,7 @@
 - ranking modal
   - show ranking on page after finishing ranking flow
   - x in top right corner to close modal
+- abstract fetches in Recommendations to [api.ts](frontend/api.ts)
 - click an anime item object to open a detail modal
   - displays more information about the anime
   - add a button to add the anime to your list
@@ -45,6 +46,8 @@
 - login remembering username / password (local storage?, autofill?)
 - change font
 - fix snorlax icon size
+- friends / social features
+- export lists
 
 ## questions
 

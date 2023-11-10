@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { UserAnimeObject, AnimeObject } from "./types";
-import api from "./api";
 import RecommendationItem from "./RecommendationItem";
-import { addBookmark, removeBookmark } from "./bookmark";
+import { addBookmark, removeBookmark } from "./api";
 import RankingModal from "./RankingModal";
 
 interface RecommendationListProps {
-  recommendations: UserAnimeObject[];
+  recommendations: AnimeObject[];
   animeList: UserAnimeObject[];
   bookmarks: AnimeObject[];
   setAnimeList: React.Dispatch<React.SetStateAction<UserAnimeObject[]>>;
@@ -30,19 +29,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
 
   const isBookmarkAdded = (anime: AnimeObject) => {
     return bookmarks.some((item) => item.id === anime.id);
-  };
-
-  const handleRemoveAnime = (item: AnimeObject) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const itemData = { anime_id: item.id };
-    api
-      .post(apiUrl + "/api/remove-anime-from-list", itemData)
-      .then((response) => {
-        setAnimeList(animeList.filter((anime) => anime.id !== item.id));
-      })
-      .catch((error) => {
-        console.error("Error fetching item removed details:", error);
-      });
   };
 
   const handleRemoveBookmark = async (item: AnimeObject) => {
@@ -87,7 +73,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
       )}
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
-          {recommendations.map((item: UserAnimeObject) => (
+          {recommendations.map((item: AnimeObject) => (
             <li
               key={item.id}
               className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
@@ -96,7 +82,6 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
                 item={item}
                 isAdded={isAnimeAdded(item)}
                 isBookmarked={isBookmarkAdded(item)}
-                handleRemoveAnime={handleRemoveAnime}
                 handleAddAnime={openRankingModal}
                 handleAddBookmark={handleAddBookmark}
                 handleRemoveBookmark={handleRemoveBookmark}

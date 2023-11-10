@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UserAnimeObject, AnimeObject } from "./types";
 import BookmarkItem from "./BookmarkItem";
-import { removeBookmark } from "./bookmark";
+import { removeBookmark } from "./api";
 import RankingModal from "./RankingModal";
 
 interface BookmarkListProps {
