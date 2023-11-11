@@ -168,9 +168,10 @@ const RankingModal: React.FC<RankingModalProps> = ({
                                 rankingList[rankingItemIndex].title}
                             </div>
                             <div
-                              className={`flex items-center justify-center text-sm text-${getRankingColor(
-                                rankingList[rankingItemIndex]?.ranking
-                              )}-500`}
+                              className={`flex items-center justify-center text-sm ${getRankingColor(
+                                rankingList[rankingItemIndex]?.ranking,
+                                true
+                              )}`}
                             >
                               {rankingList[rankingItemIndex] !== undefined &&
                                 rankingList[rankingItemIndex].ranking}

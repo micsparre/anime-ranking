@@ -29,15 +29,31 @@ export const getDescription = (anime: AnimeObject) => {
   return description;
 };
 
-export const getRankingColor = (ranking: number) => {
+export const getRankingColor = (ranking: number, isText: boolean) => {
   if (!ranking) {
-    return "gray";
+    if (isText) {
+      return "text-gray-700";
+    } else {
+      return "bg-gray-100";
+    }
   }
   if (ranking >= 6.7) {
-    return "green";
+    if (isText) {
+      return "text-green-700";
+    } else {
+      return "bg-green-100";
+    }
   } else if (ranking < 6.7 && ranking >= 3.4) {
-    return "yellow";
+    if (isText) {
+      return "text-yellow-700";
+    } else {
+      return "bg-yellow-100";
+    }
   } else {
-    return "red";
+    if (isText) {
+      return "text-red-700";
+    } else {
+      return "bg-red-100";
+    }
   }
 };

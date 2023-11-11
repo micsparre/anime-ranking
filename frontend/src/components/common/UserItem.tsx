@@ -23,9 +23,10 @@ const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
       </div>
       <div className="flex flex-col items-center">
         <span
-          className={`flex-shrink-0 px-2 py-0.5 text-xs font-medium rounded-full text-${getRankingColor(
-            item.ranking
-          )}-700 bg-${getRankingColor(item.ranking)}-100`}
+          className={`flex-shrink-0 px-2 py-0.5 text-xs font-medium rounded-full ${getRankingColor(
+            item.ranking,
+            true
+          )} ${getRankingColor(item.ranking, false)}`}
         >
           {item.ranking}
         </span>
