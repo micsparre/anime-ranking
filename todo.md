@@ -38,6 +38,7 @@
 
 - navbar buttons clickable while recommendations loading
 - lists dropdown not closable on re-click
+- loading spinner too low on search page (set to 50%)
 
 ## nice to haves
 
