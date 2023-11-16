@@ -33,6 +33,7 @@ const LoginPrompt: React.FC<LoginPromptProps> = ({
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       aria-hidden="true"
+                      height="100%"
                     >
                       <path
                         strokeLinecap="round"

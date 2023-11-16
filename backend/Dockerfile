@@ -28,5 +28,3 @@ COPY . /code
 
 EXPOSE 8000
 ENTRYPOINT litefs mount
-
-# CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "backend.wsgi"]

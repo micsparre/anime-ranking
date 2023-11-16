@@ -29,7 +29,7 @@ proxy:
 # last command exits, LiteFS is shut down.
 exec:
   # Only run migrations on candidate nodes.
-  - cmd: "python manage.py makemigrations && python manage.py migrate"
+  - cmd: "DJANGO_SETTINGS_MODULE=backend.prd_settings python manage.py makemigrations && python manage.py migrate"
     if-candidate: true
   - cmd: "gunicorn --bind :8000 --workers 2 backend.wsgi"
 

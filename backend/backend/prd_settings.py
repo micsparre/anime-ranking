@@ -19,9 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 
-DEBUG = True
-
-environ.Env.read_env(BASE_DIR / '.env')
+environ.Env.read_env(BASE_DIR / '.env.production')
 
 SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
 
@@ -83,17 +81,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': env.db()
-    #     {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'animerankingdb',
-    #     'USER': 'animerankingdb_user',
-    #     'PASSWORD': ENV["AR_DB_PASSWORD"],
-    #     'HOST': f"{ENV['AR_HOST']}.oregon-postgres.render.com",
-    #     'PORT': '5432',
-    # } if ENV["ENVIRONMENT"] == "prd" else {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'anime-ranking.db',
-    # }
 }
 
 # Password validation

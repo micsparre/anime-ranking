@@ -39,6 +39,7 @@
 - navbar buttons clickable while recommendations loading
 - lists dropdown not closable on re-click
 - loading spinner too low on search page (set to 50%)
+- SVG's don't load on safari, chrome on mobile
 
 ## nice to haves
 

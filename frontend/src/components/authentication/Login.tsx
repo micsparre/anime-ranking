@@ -138,6 +138,7 @@ const Login = () => {
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   aria-hidden="true"
+                  height="100%"
                 >
                   <path
                     fillRule="evenodd"
