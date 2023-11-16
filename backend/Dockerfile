@@ -26,5 +26,7 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
+ENV DJANGO_SETTINGS_MODULE backend.prd_settings
+
 EXPOSE 8000
 ENTRYPOINT litefs mount
