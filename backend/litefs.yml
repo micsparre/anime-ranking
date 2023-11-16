@@ -59,4 +59,4 @@ lease:
 
     # A unique key shared by all nodes in the LiteFS cluster.
     # Change this if you are running multiple clusters in a single app!
-    key: "${FLY_APP_NAME}/main"
+    key: "${FLY_APP_NAME}/main-cluster"

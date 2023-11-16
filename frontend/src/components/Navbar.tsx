@@ -14,6 +14,7 @@ const Navbar: React.FC = () => {
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
+      console.log("clicked outside");
       setIsDropdownOpen(false);
     }
   };
@@ -39,7 +40,7 @@ const Navbar: React.FC = () => {
           <>
             <li className="inline-block">
               <div className="container mx-auto flex justify-between items-center">
-                <div className="relative group">
+                <div className="relative group" ref={dropdownRef}>
                   <button
                     className="text-white hover:text-blue-300 focus:outline-none"
                     onClick={toggleDropdown}
@@ -64,10 +65,7 @@ const Navbar: React.FC = () => {
                     </div>
                   </button>
                   {isDropdownOpen && (
-                    <div
-                      ref={dropdownRef}
-                      className="absolute mt-4 w-40 bg-white border rounded shadow-lg"
-                    >
+                    <div className="absolute mt-4 w-40 bg-white border rounded shadow-lg">
                       <ul>
                         <Link
                           to="/anime-list"

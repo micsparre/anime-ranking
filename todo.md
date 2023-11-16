@@ -7,6 +7,8 @@
 - server-side validation for user input
 - add email verification after a user signs up
   - isVerified flag?
+- keep track of costs due to volume attached to backend machine for sqlite
+  - look into neon.tech free postgres?
 
 ## frontend
 
@@ -22,19 +24,10 @@
 ## other
 
 - CICD pipeline
-  - github actions?
-  - docker?
-- deploy website
-  - heroku?
-- deploy backend
-  - postgres vs sqlite?
-  - where?
+  - github actions
 - add a [LICENSE](LICENSE)
 
 ## bugs
-
-- navbar buttons clickable while recommendations loading
-- lists dropdown not closable on re-click
 
 ## nice to haves
 
