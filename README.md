@@ -17,8 +17,8 @@ py manage.py runserver
 
 ```bash
 cd backend
-py manage.py makemigrations
-py manage.py migrate
+DJANGO_SETTINGS_MODULE=backend.dev_settings py manage.py makemigrations
+DJANGO_SETTINGS_MODULE=backend.dev_settings py manage.py migrate
 ```
 
 ### Frontend

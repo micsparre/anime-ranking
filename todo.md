@@ -5,9 +5,6 @@
 - incorporate rankings into recommendation flow
 - add ability to delete account (and all associated data)
 - server-side validation for user input
-- add logging
-  - requests
-  - errors
 - add email verification after a user signs up
   - isVerified flag?
 
@@ -38,13 +35,10 @@
 
 - navbar buttons clickable while recommendations loading
 - lists dropdown not closable on re-click
-- loading spinner too low on search page (set to 50%)
-- SVG's don't load on safari, chrome on mobile
 
 ## nice to haves
 
 - react query for caching
-- login remembering username / password (local storage?, autofill?)
 - change font
 - fix snorlax icon size
 - friends / social features

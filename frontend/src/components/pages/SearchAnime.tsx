@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../common/SearchBar";
 import SearchList from "../common/SearchList";
 import { AnimeObject } from "../common/types";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const SearchAnime: React.FC = () => {
   const [data, setData] = useState<AnimeObject[]>([]);
@@ -16,7 +17,11 @@ const SearchAnime: React.FC = () => {
         query={query}
         setQuery={setQuery}
       />
-      <SearchList items={data} loading={loading} query={query} />
+      <>
+        {(loading && <LoadingSpinner />) || (
+          <SearchList items={data} loading={loading} query={query} />
+        )}
+      </>
     </div>
   );
 };

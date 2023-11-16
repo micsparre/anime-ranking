@@ -7,7 +7,6 @@ import {
 } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
-import LoadingSpinner from "./LoadingSpinner";
 import DisplayMessage from "./DisplayMessage";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
@@ -173,32 +172,28 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
           onClose={closeRankingModal}
         />
       )}
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="flex justify-center pr-6 pl-6">
-          <div className="w-full max-w-md">
-            {searchMessage ? (
-              <DisplayMessage message={searchMessage} />
-            ) : (
-              <ul className="divide-y divide-gray-200">
-                {sortedItems.map((item: AnimeObject) => (
-                  <li key={item.id} className="flex py-4">
-                    <SearchItem
-                      item={item}
-                      isAdded={isAnimeAdded(item)}
-                      isBookmarked={isBookmarkAdded(item)}
-                      handleAddBookmark={handleAddBookmark}
-                      handleRemoveBookmark={handleRemoveBookmark}
-                      handleAddAnime={openRankingModal}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+      <div className="flex justify-center pr-6 pl-6">
+        <div className="w-full max-w-md">
+          {searchMessage ? (
+            <DisplayMessage message={searchMessage} />
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {sortedItems.map((item: AnimeObject) => (
+                <li key={item.id} className="flex py-4">
+                  <SearchItem
+                    item={item}
+                    isAdded={isAnimeAdded(item)}
+                    isBookmarked={isBookmarkAdded(item)}
+                    handleAddBookmark={handleAddBookmark}
+                    handleRemoveBookmark={handleRemoveBookmark}
+                    handleAddAnime={openRankingModal}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
