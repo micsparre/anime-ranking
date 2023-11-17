@@ -130,8 +130,8 @@ const RankingModal: React.FC<RankingModalProps> = ({
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full justify-center p-4 text-center items-center">
-          <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-lg h-52">
-            <div className="mt-5 px-4 text-left">
+          <div className="min-h-full relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-lg">
+            <div className="mt-5 px-4 text-left pointer-events-none">
               <h3
                 className="text-sm leading-6 font-medium text-gray-400"
                 id="modal-headline"
@@ -139,7 +139,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                 Ranking: <i>{item.title}</i>
               </h3>
             </div>
-            <div className="bg-white p-4">
+            <div className="bg-white p-4 flex-1 justify-center items-center">
               <div className="flex justify-center items-center">
                 <div className="mt-2">
                   {(rankingGroup !== null &&
@@ -207,7 +207,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                             onClick={() => handleRankingGroup("bad")}
                           ></button>
                           <div className="mb-2 text-gray-400">
-                            I didn't like it
+                            I disliked it
                           </div>
                         </div>
                       </div>
