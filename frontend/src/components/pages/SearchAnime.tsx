@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import SearchBar from "../common/SearchBar";
 import SearchList from "../common/SearchList";
-import { AnimeObject } from "../common/types";
+import { AnimeObject, UserAnimeObject } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 const SearchAnime: React.FC = () => {
   const [data, setData] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
 
   return (
     <div className="py-6 bg-gray-100 min-h-screen">
@@ -19,7 +20,13 @@ const SearchAnime: React.FC = () => {
       />
       <>
         {(loading && <LoadingSpinner />) || (
-          <SearchList items={data} loading={loading} query={query} />
+          <SearchList
+            items={data}
+            loading={loading}
+            query={query}
+            animeList={animeList}
+            setAnimeList={setAnimeList}
+          />
         )}
       </>
     </div>

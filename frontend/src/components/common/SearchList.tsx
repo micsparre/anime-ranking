@@ -16,14 +16,17 @@ interface SearchAnimeListProps {
   items: AnimeObject[];
   loading: boolean;
   query: string;
+  animeList: UserAnimeObject[];
+  setAnimeList: (animeList: UserAnimeObject[]) => void;
 }
 
 const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   items,
   loading,
   query,
+  animeList,
+  setAnimeList,
 }) => {
-  const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
@@ -76,7 +79,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     if (searched || !isLoggedIn) {
       return;
     }
-
     getUserAnimeList().then((response) => {
       setAnimeList(response);
     });
@@ -115,7 +117,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   };
 
   const closeRankingModal = async () => {
-    // TODO get ranking from rankingmodal object?
     setShowRankingModal(false);
     setAnimeList([...animeList, rankingItem]);
   };

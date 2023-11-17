@@ -43,7 +43,6 @@ const RankingModal: React.FC<RankingModalProps> = ({
   useEffect(() => {
     if (bounds[0] >= bounds[1]) {
       setIsFinished((prevState) => true);
-      console.log("found match");
       const newRankingList = [...rankingList];
       newRankingList.splice(bounds[0], 0, item);
       setRankingList(newRankingList);

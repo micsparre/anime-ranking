@@ -7,6 +7,9 @@ const Navbar: React.FC = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+    if (!isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -14,8 +17,8 @@ const Navbar: React.FC = () => {
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
-      console.log("clicked outside");
       setIsDropdownOpen(false);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
   };
 
