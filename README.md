@@ -1,6 +1,6 @@
 # anime-ranking
 
-Rank the animes you've watched against each other
+Rank the animes you've watched against each other, bookmark the shows you plan to watch, and get personalized recommendations.
 
 ## Local Development
 

@@ -29,6 +29,8 @@
 
 ## bugs
 
+- login authentication
+
 ## nice to haves
 
 - react query for caching
@@ -36,6 +38,9 @@
 - fix snorlax icon size
 - friends / social features
 - export lists
+- display messages on lists and bookmarks pages when there are no items
+- exit from ranking an anime (escape)
+- recommendations rate-limiting
 
 ## questions
 
