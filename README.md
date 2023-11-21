@@ -2,9 +2,11 @@
 
 Rank the animes you've watched against each other, bookmark the shows you plan to watch, and get personalized recommendations.
 
-## Local Development
+https://github.com/micsparre/anime-ranking/assets/67245304/19d484ef-4e5f-413a-a58f-721e6746391b
 
-### Backend
+## Local Development Setup
+
+### Backend (Django)
 
 #### Start the server
 
@@ -21,7 +23,7 @@ py manage.py makemigrations
 py manage.py migrate
 ```
 
-### Frontend
+### Frontend (React + Typescript + Tailwind)
 
 #### Start the React server
 
