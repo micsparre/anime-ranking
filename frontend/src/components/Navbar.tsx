@@ -27,6 +27,7 @@ const Navbar: React.FC = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, []);
 
   const isLoggedIn = localStorage.getItem("token") !== null;

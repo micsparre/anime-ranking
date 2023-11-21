@@ -7,29 +7,26 @@ import {
 } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import { get as Levenshtein } from "fast-levenshtein";
-import DisplayMessage from "./DisplayMessage";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import RankingModal from "./RankingModal";
 
 interface SearchAnimeListProps {
   items: AnimeObject[];
-  loading: boolean;
   query: string;
   animeList: UserAnimeObject[];
   setAnimeList: (animeList: UserAnimeObject[]) => void;
+  searched: boolean;
 }
 
 const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   items,
-  loading,
   query,
   animeList,
   setAnimeList,
+  searched,
 }) => {
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
-  const [searchMessage, setSearchMessage] = useState("");
-  const [searched, setSearched] = useState(false);
   const [sortedItems, setSortedItems] = useState<AnimeObject[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);
@@ -95,16 +92,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     setSortedItems(sorted);
     // eslint-disable-next-line
   }, [items]);
-
-  useEffect(() => {
-    if (loading) {
-      setSearched(true);
-    } else if (items.length === 0 && searched) {
-      setSearchMessage("No results found. Please try another search.");
-    } else {
-      setSearchMessage("");
-    }
-  }, [items, loading, searched]);
 
   const openRankingModal = (item: AnimeObject) => {
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -175,24 +162,20 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       )}
       <div className="flex justify-center pr-6 pl-6">
         <div className="w-full max-w-md">
-          {searchMessage ? (
-            <DisplayMessage message={searchMessage} />
-          ) : (
-            <ul className="divide-y divide-gray-200">
-              {sortedItems.map((item: AnimeObject) => (
-                <li key={item.id} className="flex py-4">
-                  <SearchItem
-                    item={item}
-                    isAdded={isAnimeAdded(item)}
-                    isBookmarked={isBookmarkAdded(item)}
-                    handleAddBookmark={handleAddBookmark}
-                    handleRemoveBookmark={handleRemoveBookmark}
-                    handleAddAnime={openRankingModal}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className="divide-y divide-gray-200">
+            {sortedItems.map((item: AnimeObject) => (
+              <li key={item.id} className="flex py-4">
+                <SearchItem
+                  item={item}
+                  isAdded={isAnimeAdded(item)}
+                  isBookmarked={isBookmarkAdded(item)}
+                  handleAddBookmark={handleAddBookmark}
+                  handleRemoveBookmark={handleRemoveBookmark}
+                  handleAddAnime={openRankingModal}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
