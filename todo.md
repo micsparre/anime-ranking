@@ -30,6 +30,7 @@
 ## bugs
 
 - login authentication
+- remove bookmark from anime after adding it to your list (server-side)
 
 ## nice to haves
 
