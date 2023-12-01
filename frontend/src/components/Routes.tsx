@@ -29,14 +29,24 @@ const AnimeRoutes: React.FC = () => {
           path="/register"
           element={isLoggedIn ? <Navigate to="/" /> : <Register />}
         />
-        <Route path="/anime-list" element={<UserAnime />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/recommendations" element={<Recommendations />} />
+        <Route
+          path="/anime-list"
+          element={!isLoggedIn ? <Navigate to="/login" /> : <UserAnime />}
+        />
+        <Route
+          path="/bookmarks"
+          element={!isLoggedIn ? <Navigate to="/login" /> : <Bookmarks />}
+        />
+        <Route
+          path="/recommendations"
+          element={!isLoggedIn ? <Navigate to="/login" /> : <Recommendations />}
+        />
         <Route
           path="/account"
           element={isLoggedIn ? <Account /> : <Navigate to="/login" />}
         />
         <Route path="/" element={<SearchAnime />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

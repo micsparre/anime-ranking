@@ -9,6 +9,9 @@
   - isVerified flag?
 - keep track of costs due to volume attached to backend machine for sqlite
   - look into neon.tech free postgres?
+- limit number of recommendations per day
+- add ability to change password
+- add user verification with frontend token for status checking
 
 ## frontend
 
@@ -20,6 +23,11 @@
   - add a button to add the anime to your list
 - add button to refresh recommendations
 - add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
+- refactor recommendations page
+  - add button to generate recommendations
+  - add customability of recommendations (genre, type, length, date, etc.)
+  - display number of recommendations left for the day
+- loading spinner while logging in / signing up
 
 ## other
 
@@ -29,7 +37,7 @@
 
 ## bugs
 
-- login authentication
+- login authentication, user info not loading but shows as logged in
 - remove bookmark from anime after adding it to your list (server-side)
 
 ## nice to haves
