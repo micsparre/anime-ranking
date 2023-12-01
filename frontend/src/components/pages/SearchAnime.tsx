@@ -10,6 +10,7 @@ const SearchAnime: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
+  const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [searchMessage, setSearchMessage] = useState("");
   const [searched, setSearched] = useState(false);
 
@@ -46,6 +47,8 @@ const SearchAnime: React.FC = () => {
                 query={query}
                 animeList={animeList}
                 setAnimeList={setAnimeList}
+                bookmarks={bookmarks}
+                setBookmarks={setBookmarks}
                 searched={searched}
               />
             )}

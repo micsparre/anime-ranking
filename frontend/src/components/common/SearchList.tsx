@@ -16,6 +16,8 @@ interface SearchAnimeListProps {
   query: string;
   animeList: UserAnimeObject[];
   setAnimeList: (animeList: UserAnimeObject[]) => void;
+  bookmarks: AnimeObject[];
+  setBookmarks: (bookmarks: AnimeObject[]) => void;
   searched: boolean;
 }
 
@@ -24,9 +26,10 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   query,
   animeList,
   setAnimeList,
+  bookmarks,
+  setBookmarks,
   searched,
 }) => {
-  const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
   const [sortedItems, setSortedItems] = useState<AnimeObject[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);

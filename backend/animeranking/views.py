@@ -74,11 +74,6 @@ def add_anime_to_user_list(request):
     user_anime = UserAnime(user=user, anime=anime_obj, ranking=ranking)
     user_anime.save()
 
-    if UserBookmarks.objects.filter(user=user, anime__id=anime_id).exists():
-        user_bookmark = UserBookmarks.objects.get(
-            user=user, anime__id=anime_id)
-        user_bookmark.delete()
-
     return Response({'message': 'Anime added to the user\'s list'}, status=status.HTTP_201_CREATED)
 
 
@@ -106,6 +101,11 @@ def rank_anime(request):
             anime_obj = fetch_anime_obj(anime_id)
             user_anime = UserAnime(user=user, anime=anime_obj, ranking=ranking)
             user_anime.save()
+
+        if UserBookmarks.objects.filter(user=user, anime__id=anime_id).exists():
+            user_bookmark = UserBookmarks.objects.get(
+                user=user, anime__id=anime_id)
+            user_bookmark.delete()
 
     return Response({'message': 'Anime ranking updated'}, status=status.HTTP_200_OK)
 

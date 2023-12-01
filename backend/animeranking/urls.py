@@ -6,8 +6,6 @@ urlpatterns = [
     path('titles', views.get_titles_from_anilist,
          name='get_titles_from_anilist'),
 
-    path('add-anime-to-list', views.add_anime_to_user_list),
-
     path('anime-list', views.get_anime_list),
 
     path('rank-anime', views.rank_anime),
