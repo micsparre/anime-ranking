@@ -11,15 +11,7 @@ const Recommendations: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchRecommendations = () => {
-      setLoading(true);
-      getRecommendations().then((response) => {
-        setRecommendations(response);
-        setLoading(false);
-      });
-    };
-
-    fetchRecommendations();
+    // fetchRecommendations();
     getUserAnimeList().then((response) => {
       setAnimeList(response);
       setRecommendations(
@@ -32,6 +24,19 @@ const Recommendations: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
+  const fetchRecommendations = () => {
+    setLoading(true);
+    getRecommendations().then((response) => {
+      setRecommendations(
+        response.filter(
+          (anime: AnimeObject) =>
+            !animeList.some((item: AnimeObject) => item.id === anime.id)
+        )
+      );
+      setLoading(false);
+    });
+  };
+
   return (
     (loading && <LoadingSpinner />) || (
       <div className="bg-gray-100 min-h-screen">
@@ -42,6 +47,14 @@ const Recommendations: React.FC = () => {
           setAnimeList={setAnimeList}
           setBookmarks={setBookmarks}
         />
+        <div className="flex flex-col items-center h-screen py-20">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            onClick={fetchRecommendations}
+          >
+            Generate Recommendations!
+          </button>
+        </div>
       </div>
     )
   );
