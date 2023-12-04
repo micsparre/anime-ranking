@@ -24,17 +24,18 @@
 - add button to refresh recommendations
 - add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
 - refactor recommendations page
-  - add button to generate recommendations
   - add customability of recommendations (genre, type, length, date, etc.)
   - display number of recommendations left for the day
 
 ## other
 
-- CICD pipeline
+- CICD pipeline?
   - github actions
 - add a [LICENSE](LICENSE)
 
 ## bugs
+
+- search titles sorting does not work correctly
 
 ## nice to haves
 
@@ -46,7 +47,3 @@
 - display messages on lists and bookmarks pages when there are no items
 - exit from ranking an anime (escape)
 - recommendations rate-limiting
-
-## questions
-
-- should I include movies or not?

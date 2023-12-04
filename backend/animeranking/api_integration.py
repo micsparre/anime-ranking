@@ -38,7 +38,7 @@ def fetch_anime_obj(id):
     query = '''
         query ($query: Int) {
             AnimeSearch: Page {
-                media(id: $query, type: ANIME) {
+                media(id: $query, type: ANIME, format: TV) {
                     id
                     title {
                         english
@@ -73,7 +73,7 @@ def fetch_anime_titles(title):
     query = '''
         query ($query: String) {
             AnimeSearch: Page {
-                media(search: $query, type: ANIME) {
+                media(search: $query, type: ANIME, format: TV) {
                     id
                     title {
                         english

@@ -2,21 +2,21 @@ import openai
 import json
 
 response_format = """
-Can you help me recommend anime tv shows and/or movies to my best friend? For context, 
+Can you help me recommend anime tv shows to my best friend? For context, 
 
-Here are the titles of the anime tv shows and/or movies they have watched:
+Here are the titles of the anime tv shows they have watched:
 
 {ranked_titles}
 
-Here are the titles of the anime tv shows and/or movies they have bookmarked to watch later:
+Here are the titles of the anime tv shows they have bookmarked to watch later:
 
 {bookmark_titles}
 
-Based on the information above, respond with a list of 15 anime tv shows and/or movies not in the user's list of watched/bookmarked content as a list in the format: ["example title 1", "example title 2", ...].
+Based on the information above, respond with a list of 15 anime tv shows not in the user's list of watched/bookmarked content as a list in the format: ["example title 1", "example title 2", ...].
 
 I don't want any responses above or below the list. 
 Let me be clear, just respond with the list in the requested format - nothing else - no numbers, no bullet points, no explanation of the list. 
-Don't respond with: "Sure, here's a list of 15 anime tv shows or movies for your best friend based on the content they've already watched/bookmarked:" or anything else along those lines.
+Don't respond with: "Sure, here's a list of 15 anime tv shows for your best friend based on the content they've already watched/bookmarked:" or anything else along those lines.
 """
 
 
