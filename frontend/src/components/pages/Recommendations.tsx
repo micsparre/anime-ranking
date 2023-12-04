@@ -47,7 +47,7 @@ const Recommendations: React.FC = () => {
           setAnimeList={setAnimeList}
           setBookmarks={setBookmarks}
         />
-        <div className="flex flex-col items-center h-screen py-20">
+        <div className="flex flex-col items-center h-screen">
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
             onClick={fetchRecommendations}

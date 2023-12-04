@@ -71,7 +71,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
           onClose={closeRankingModal}
         />
       )}
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto mt-14 sm:px-6 lg:px-8">
         <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-6">
           {recommendations.map((item: AnimeObject) => (
             <li

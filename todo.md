@@ -7,8 +7,6 @@
 - server-side validation for user input
 - add email verification after a user signs up
   - isVerified flag?
-- keep track of costs due to volume attached to backend machine for sqlite
-  - look into neon.tech free postgres?
 - limit number of recommendations per day
 - add ability to change password
 - add user verification with frontend token for status checking
@@ -21,7 +19,6 @@
 - click an anime item object to open a detail modal
   - displays more information about the anime
   - add a button to add the anime to your list
-- add button to refresh recommendations
 - add option to delete account on [AccountPage.tsx](frontend/components/AccountPage.tsx)
 - refactor recommendations page
   - add customability of recommendations (genre, type, length, date, etc.)
@@ -40,8 +37,7 @@
 ## nice to haves
 
 - react query for caching
-- change font
-- fix snorlax icon size
+- change font?
 - friends / social features
 - export lists
 - display messages on lists and bookmarks pages when there are no items
