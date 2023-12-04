@@ -9,8 +9,10 @@ const UserList: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getUserAnimeList().then((response) => {
       setAnimeList(response);
+      setLoading(false);
     });
   }, []);
 
