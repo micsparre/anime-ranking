@@ -1,6 +1,7 @@
 // src/components/Auth/Login.tsx
 import React, { useState } from "react";
 import api from "../common/api";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 interface SuccessfulLoginResponse {
   token: string;
@@ -18,6 +19,7 @@ const Login = () => {
   });
   const [loggingIn, setLoggingIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,6 +30,7 @@ const Login = () => {
     event.preventDefault();
     const apiUrl = process.env.REACT_APP_API_URL;
     setLoggingIn(true);
+    setLoading(true);
     api
       .post(apiUrl + "/api/login", credentials)
       .then((response) => {
@@ -37,6 +40,7 @@ const Login = () => {
           const data = response.data as SuccessfulLoginResponse;
           localStorage.setItem("token", data.token);
           window.location.href = "/";
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -44,12 +48,13 @@ const Login = () => {
         if (error.response.status === 401) {
           const data = error.response.data as UnsuccessfulLoginResponse;
           setErrorMessage(data.message);
+          setLoading(false);
         }
       });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex mt-8 justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -151,6 +156,7 @@ const Login = () => {
             </button>
           </div>
         </form>
+        {loading && <LoadingSpinner />}
       </div>
     </div>
   );

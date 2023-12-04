@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../common/api";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 interface User {
   first_name: string;
@@ -26,6 +27,7 @@ const Register = () => {
   const [errors, setErrors] = useState<Partial<User>>({});
   const [creatingUser, setCreatingUser] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -73,6 +75,7 @@ const Register = () => {
     } else if (user.username.length > 20) {
       newErrors.username = "Username must be less than 15 characters.";
     } else {
+      setLoading(true);
       await api
         .get(apiUrl + `/api/get-username?username=${user.username}`)
         .then((response) => {
@@ -80,9 +83,11 @@ const Register = () => {
           if (usernameAvailability.exists) {
             newErrors.username = "Username already exists.";
           }
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching username availibility:", error);
+          setLoading(false);
         });
     }
 
@@ -103,132 +108,138 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className=" bg-white p-10 rounded-lg shadow-lg max-w-md w-full space-y-8">
-        {registrationSuccess ? (
-          <div className="flex flex-col items-center">
-            <div className="text-green-500 font-bold text-center">
-              Account created successfully!
-            </div>
-            <button className="mt-5 bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded transition duration-300">
-              <Link to="/login" className="text-white">
-                Proceed to login
-              </Link>
-            </button>
+    <>
+      {(loading && <LoadingSpinner />) || (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+          <div className=" bg-white p-8 rounded-lg shadow-lg max-w-md w-full space-y-8">
+            {registrationSuccess ? (
+              <div className="flex flex-col items-center">
+                <div className="text-green-500 font-bold text-center">
+                  Account created successfully!
+                </div>
+                <button className="mt-5 bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded transition duration-300">
+                  <Link to="/login" className="text-white">
+                    Proceed to login
+                  </Link>
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-3xl font-bold mb-5">Sign up</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="first_name"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      id="first_name"
+                      name="first_name"
+                      value={user.first_name}
+                      onChange={handleInputChange}
+                      className="border rounded-lg py-2 px-3 w-full"
+                    />
+                    {errors.first_name && (
+                      <p className="text-red-500 text-sm">
+                        {errors.first_name}
+                      </p>
+                    )}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="last_name"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      id="last_name"
+                      name="last_name"
+                      value={user.last_name}
+                      onChange={handleInputChange}
+                      className="border rounded-lg py-2 px-3 w-full"
+                    />
+                    {errors.last_name && (
+                      <p className="text-red-500 text-sm">{errors.last_name}</p>
+                    )}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="email"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={user.email}
+                      onChange={handleInputChange}
+                      className="border rounded-lg py-2 px-3 w-full"
+                      placeholder="you@example.com"
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm">{errors.email}</p>
+                    )}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="password"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={user.password}
+                      onChange={handleInputChange}
+                      className="border rounded-lg py-2 px-3 w-full"
+                    />
+                    {errors.password && (
+                      <p className="text-red-500 text-sm">{errors.password}</p>
+                    )}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="username"
+                      className="block text-gray-700 font-bold mb-2"
+                    >
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      value={user.username}
+                      onChange={handleInputChange}
+                      className="required:border-red-500 invalid:border-red-500 border rounded-lg py-2 px-3 w-full"
+                    />
+                    {errors.username && (
+                      <p className="text-red-500 text-sm">{errors.username}</p>
+                    )}
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={creatingUser}
+                    aria-disabled={creatingUser}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </>
+            )}
           </div>
-        ) : (
-          <>
-            <h2 className="text-3xl font-bold mb-5">Sign up</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label
-                  htmlFor="first_name"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  value={user.first_name}
-                  onChange={handleInputChange}
-                  className="border rounded-lg py-2 px-3 w-full"
-                />
-                {errors.first_name && (
-                  <p className="text-red-500 text-sm">{errors.first_name}</p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="last_name"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  value={user.last_name}
-                  onChange={handleInputChange}
-                  className="border rounded-lg py-2 px-3 w-full"
-                />
-                {errors.last_name && (
-                  <p className="text-red-500 text-sm">{errors.last_name}</p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={user.email}
-                  onChange={handleInputChange}
-                  className="border rounded-lg py-2 px-3 w-full"
-                  placeholder="you@example.com"
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email}</p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="password"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={user.password}
-                  onChange={handleInputChange}
-                  className="border rounded-lg py-2 px-3 w-full"
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm">{errors.password}</p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="username"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Username
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={user.username}
-                  onChange={handleInputChange}
-                  className="required:border-red-500 invalid:border-red-500 border rounded-lg py-2 px-3 w-full"
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-sm">{errors.username}</p>
-                )}
-              </div>
-              <button
-                type="submit"
-                disabled={creatingUser}
-                aria-disabled={creatingUser}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Submit
-              </button>
-            </form>
-          </>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -27,7 +27,6 @@
   - add button to generate recommendations
   - add customability of recommendations (genre, type, length, date, etc.)
   - display number of recommendations left for the day
-- loading spinner while logging in / signing up
 
 ## other
 
@@ -36,9 +35,6 @@
 - add a [LICENSE](LICENSE)
 
 ## bugs
-
-- login authentication, user info not loading but shows as logged in
-- remove bookmark from anime after adding it to your list (server-side)
 
 ## nice to haves
 
