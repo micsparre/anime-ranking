@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "^10.4.16",
-    "axios": "^1.6.0",
+    "axios": "^1.6.2",
     "fast-levenshtein": "^3.0.0",
-    "postcss": "^8.4.31",
+    "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
