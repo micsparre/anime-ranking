@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+import os
 import sys
-# import os
-# from dotenv import load_dotenv
-# load_dotenv(".env.development", verbose=True)
 
 
 def main():
     """Run administrative tasks."""
+    if os.environ.get('VERCEL_ENV') == 'production':
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.prd_settings')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.dev_settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
