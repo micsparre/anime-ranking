@@ -23,6 +23,7 @@
 - refactor recommendations page
   - add customability of recommendations (genre, type, length, date, etc.)
   - display number of recommendations left for the day
+- error catching when backend not responding (leads to white screen on home page)
 
 ## other
 
