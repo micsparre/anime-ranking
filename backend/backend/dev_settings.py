@@ -88,8 +88,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'anime-ranking.db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'aws-0-us-west-1.pooler.supabase.com',
+        'NAME': 'animerankingdev',
+        'USER': 'postgres.mspbtzzkwshxrruavnnu',
+        'PORT': '5432',
+        'PASSWORD': env.str('DB_PASSWORD'),
     }
 }
 
