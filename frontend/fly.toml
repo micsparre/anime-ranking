@@ -1,22 +1,17 @@
-# fly.toml app configuration file generated for anime-ranking-django on 2023-11-12T21:47:12-08:00
+# fly.toml app configuration file generated for anime-ranking-react on 2023-11-14T11:13:27-08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "anime-ranking-django"
+app = "anime-ranking-react"
 primary_region = "sjc"
-console_command = "/code/manage.py shell"
 
-
-[env]
-  PORT = "8000"
+[build]
 
 [http_service]
-  internal_port = 8000
+  internal_port = 3000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
   processes = ["app"]
-
-

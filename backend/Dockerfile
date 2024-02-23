@@ -17,8 +17,6 @@ RUN mkdir -p /code
 
 WORKDIR /code
 
-COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
-
 COPY requirements.txt /tmp/requirements.txt
 RUN set -ex && \
     pip install --upgrade pip && \
@@ -29,4 +27,5 @@ COPY . /code
 ENV DJANGO_SETTINGS_MODULE backend.prd_settings
 
 EXPOSE 8000
-ENTRYPOINT litefs mount
+
+CMD bash -c "/code/manage.py migrate && gunicorn --bind :8000 --workers 2 backend.wsgi"
