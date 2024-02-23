@@ -17,6 +17,8 @@ RUN mkdir -p /code
 
 WORKDIR /code
 
+COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
+
 COPY requirements.txt /tmp/requirements.txt
 RUN set -ex && \
     pip install --upgrade pip && \
@@ -27,5 +29,4 @@ COPY . /code
 ENV DJANGO_SETTINGS_MODULE backend.prd_settings
 
 EXPOSE 8000
-
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "core.wsgi:application"]
+ENTRYPOINT litefs mount

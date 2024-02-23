@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'aws-0-us-west-1.pooler.supabase.com',
@@ -88,6 +89,9 @@ DATABASES = {
         'PORT': '5432',
         'PASSWORD': env.str('DB_PASSWORD'),
     }
+=======
+    'default': env.db()
+>>>>>>> parent of 38ffadf (replacing backend database with supabase postgres (WIP))
 }
 
 # Password validation
