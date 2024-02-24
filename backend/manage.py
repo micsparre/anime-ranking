@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    if os.environ.get('VERCEL_ENV') == 'production':
+    if os.environ.get("DEBUG", False):
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.prd_settings')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.dev_settings')

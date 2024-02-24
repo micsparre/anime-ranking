@@ -44,7 +44,6 @@ const SearchAnime: React.FC = () => {
             ) : (
               <SearchList
                 items={data}
-                query={query}
                 animeList={animeList}
                 setAnimeList={setAnimeList}
                 bookmarks={bookmarks}

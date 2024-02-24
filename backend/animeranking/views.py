@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 from .openai import get_recommendations_as_list
+from .utils import sort_anime
+import logging
 
 
 @api_view(['GET'])
@@ -24,10 +26,14 @@ def get_titles_from_anilist(request):
         # Call the function to fetch data from the third-party API
         external_data = fetch_anime_titles(title_query)
         for item in external_data:
-            if item.get('title').get('english') is not None:
+            # Filter out titles with no English translation and low popularity
+            if item.get('title').get('english') is not None and item.get('popularity', 0) > 30000:
                 filtered_data.append(
                     {'id': item.get('id'), 'title': item.get('title').get('english'), 'start_date': item.get('startDate').get('year'), 'end_date': item.get('endDate').get('year'), 'episodes': item.get('episodes')})
-    return Response(filtered_data, status=status.HTTP_200_OK)
+    sorted_titles = sort_anime(filtered_data, title_query)
+    # sorted_titles = filtered_data
+    logging.info(f"sorted_titles: {sorted_titles}")
+    return Response(sorted_titles, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

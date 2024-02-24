@@ -13,6 +13,21 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 from django.core.management.utils import get_random_secret_key
+import logging
+import os
+
+if os.environ.get("DEBUG", True):
+    # will output to your console
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s %(levelname)s %(message)s',
+    )
+else:
+    # will output to logging file
+    logging.basicConfig(
+        level=logging.WARN,
+        format='%(asctime)s %(levelname)s %(message)s'
+    )
 
 
 SESSION_COOKIE_SECURE = False
@@ -21,11 +36,11 @@ CSRF_COOKIE_SECURE = False
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
+env = os.environ
 
 environ.Env.read_env(BASE_DIR / '.env.development')
 
-SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
+SECRET_KEY = env.get('SECRET_KEY', default=get_random_secret_key())
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -40,7 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'animeranking',
     'corsheaders',
-    'django_pdb',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -93,7 +107,7 @@ DATABASES = {
         'NAME': 'animerankingdev',
         'USER': 'postgres.mspbtzzkwshxrruavnnu',
         'PORT': '5432',
-        'PASSWORD': env.str('DB_PASSWORD'),
+        'PASSWORD': env.get('DB_PASSWORD'),
     }
 }
 

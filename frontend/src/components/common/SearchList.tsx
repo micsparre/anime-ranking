@@ -6,14 +6,12 @@ import {
   removeBookmark,
 } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
-import { get as Levenshtein } from "fast-levenshtein";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import RankingModal from "./RankingModal";
 
 interface SearchAnimeListProps {
   items: AnimeObject[];
-  query: string;
   animeList: UserAnimeObject[];
   setAnimeList: (animeList: UserAnimeObject[]) => void;
   bookmarks: AnimeObject[];
@@ -23,19 +21,19 @@ interface SearchAnimeListProps {
 
 const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   items,
-  query,
   animeList,
   setAnimeList,
   bookmarks,
   setBookmarks,
   searched,
 }) => {
-  const [sortedItems, setSortedItems] = useState<AnimeObject[]>([]);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);
   const [rankingItem, setRankingItem] = useState<UserAnimeObject>(
     {} as UserAnimeObject
   );
+  const [rankedItems, setRankedItems] = useState<AnimeObject[]>([]);
+  const [bookmarkedItems, setBookmarkedItems] = useState<AnimeObject[]>([]);
 
   const isAnimeAdded = (anime: AnimeObject) => {
     return animeList.some((item) => item.id === anime.id);
@@ -43,35 +41,6 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
 
   const isBookmarkAdded = (anime: AnimeObject) => {
     return bookmarks.some((item) => item.id === anime.id);
-  };
-
-  const sortItems = (items: AnimeObject[]) => {
-    return items
-      .sort((a, b) => {
-        if (a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase()) {
-          return 1;
-        }
-        if (a.title.toLocaleLowerCase() > b.title.toLocaleLowerCase()) {
-          return -1;
-        }
-        return 0;
-      })
-      .sort((a, b) => {
-        const aTitle = a.title.toLowerCase();
-        const bTitle = b.title.toLowerCase();
-        const aDistance = Levenshtein(aTitle, query);
-        const bDistance = Levenshtein(bTitle, query);
-        return (
-          aDistance -
-          bDistance +
-          (aTitle.includes(query) ? -100 : bTitle.includes(query) ? 100 : 0)
-        );
-      })
-      .sort((a, b) => {
-        const aAdded = isAnimeAdded(a);
-        const bAdded = isAnimeAdded(b);
-        return aAdded === bAdded ? 0 : aAdded ? -1 : 1;
-      });
   };
 
   useEffect(() => {
@@ -91,10 +60,13 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   }, []);
 
   useEffect(() => {
-    const sorted = sortItems(items);
-    setSortedItems(sorted);
-    // eslint-disable-next-line
-  }, [items]);
+    // add to rankedItems from items if they are in animeList
+    const ranked = items.filter((item) => isAnimeAdded(item));
+    setRankedItems(ranked);
+    // add to bookmarkedItems from items if they are in bookmarks
+    const bookmarked = items.filter((item) => isBookmarkAdded(item));
+    setBookmarkedItems(bookmarked);
+  }, [items, animeList, bookmarks]);
 
   const openRankingModal = (item: AnimeObject) => {
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -166,7 +138,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
       <div className="flex justify-center pr-6 pl-6">
         <div className="w-full max-w-md">
           <ul className="divide-y divide-gray-200">
-            {sortedItems.map((item: AnimeObject) => (
+            {rankedItems.map((item: AnimeObject) => (
               <li key={item.id} className="flex py-4">
                 <SearchItem
                   item={item}
@@ -178,6 +150,32 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                 />
               </li>
             ))}
+            {bookmarkedItems.map((item: AnimeObject) => (
+              <li key={item.id} className="flex py-4">
+                <SearchItem
+                  item={item}
+                  isAdded={isAnimeAdded(item)}
+                  isBookmarked={isBookmarkAdded(item)}
+                  handleAddBookmark={handleAddBookmark}
+                  handleRemoveBookmark={handleRemoveBookmark}
+                  handleAddAnime={openRankingModal}
+                />
+              </li>
+            ))}
+            {items
+              .filter((item) => !isAnimeAdded(item) && !isBookmarkAdded(item))
+              .map((item: AnimeObject) => (
+                <li key={item.id} className="flex py-4">
+                  <SearchItem
+                    item={item}
+                    isAdded={isAnimeAdded(item)}
+                    isBookmarked={isBookmarkAdded(item)}
+                    handleAddBookmark={handleAddBookmark}
+                    handleRemoveBookmark={handleRemoveBookmark}
+                    handleAddAnime={openRankingModal}
+                  />
+                </li>
+              ))}
           </ul>
         </div>
       </div>

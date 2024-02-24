@@ -85,6 +85,7 @@ def fetch_anime_titles(title):
                     endDate {
                         year
                     }
+                    popularity
                 }
             }
         }
