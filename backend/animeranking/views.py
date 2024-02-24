@@ -20,6 +20,7 @@ def get_titles_from_anilist(request):
     Returns a list of anime titles from the third-party API.
     """
     # Get the 'title' query parameter from the request
+    print("get_titles_from_anilist")
     title_query = request.query_params.get('title', None)
     filtered_data = []
     if title_query is not None:

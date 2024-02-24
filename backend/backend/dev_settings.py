@@ -38,11 +38,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = os.environ
 
-environ.Env.read_env(BASE_DIR / '.env.development')
+if os.environ.get('DEBUG') == True:
+    load_dotenv(find_dotenv(".env.development"))
+    environ.Env.read_env(BASE_DIR / '.env.development')
+
 
 SECRET_KEY = env.get('SECRET_KEY', default=get_random_secret_key())
 
-ALLOWED_HOSTS = ['*', ]
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
