@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   getUserAnimeList,
   getUserBookmarks,
@@ -35,13 +35,19 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   const [rankedItems, setRankedItems] = useState<AnimeObject[]>([]);
   const [bookmarkedItems, setBookmarkedItems] = useState<AnimeObject[]>([]);
 
-  const isAnimeAdded = (anime: AnimeObject) => {
-    return animeList.some((item) => item.id === anime.id);
-  };
+  const isAnimeAdded = useCallback(
+    (anime: AnimeObject) => {
+      return animeList.some((item) => item.id === anime.id);
+    },
+    [animeList]
+  );
 
-  const isBookmarkAdded = (anime: AnimeObject) => {
-    return bookmarks.some((item) => item.id === anime.id);
-  };
+  const isBookmarkAdded = useCallback(
+    (anime: AnimeObject) => {
+      return bookmarks.some((item) => item.id === anime.id);
+    },
+    [bookmarks]
+  );
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -66,7 +72,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     // add to bookmarkedItems from items if they are in bookmarks
     const bookmarked = items.filter((item) => isBookmarkAdded(item));
     setBookmarkedItems(bookmarked);
-  }, [items, animeList, bookmarks]);
+  }, [items, animeList, bookmarks, isAnimeAdded, isBookmarkAdded]);
 
   const openRankingModal = (item: AnimeObject) => {
     const isLoggedIn = localStorage.getItem("token") !== null;
