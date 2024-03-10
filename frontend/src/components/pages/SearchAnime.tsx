@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SearchBar from "../common/SearchBar";
 import SearchList from "../common/SearchList";
 import { AnimeObject, UserAnimeObject } from "../common/types";
+import { getUserAnimeList, getUserBookmarks } from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import DisplayMessage from "../common/DisplayMessage";
 
@@ -9,24 +10,46 @@ const SearchAnime: React.FC = () => {
   const [data, setData] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [searchMessage, setSearchMessage] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
-  const [searchMessage, setSearchMessage] = useState("");
-  const [searched, setSearched] = useState(false);
 
   useEffect(() => {
-    if (data.length === 0 && searched) {
-      setSearchMessage("No results found. Please try another search.");
-    } else {
-      setSearchMessage("");
+    const isLoggedIn = localStorage.getItem("token") !== null;
+    if (!isLoggedIn) {
+      return;
     }
-  }, [data, searched]);
+    getUserAnimeList().then((response) => {
+      setAnimeList(response);
+    });
+
+    getUserBookmarks().then((response) => {
+      setBookmarks(response);
+    });
+  }, []);
 
   useEffect(() => {
     if (loading) {
-      setSearched(true);
+      setHasSearched(true);
     }
   }, [loading]);
+
+  const updateSearchMessage = useCallback((message: string) => {
+    setSearchMessage(message);
+  }, []);
+
+  const updateAnimeList = useCallback((anime: UserAnimeObject) => {
+    setAnimeList((a) => a.concat(anime));
+  }, []);
+
+  const updateBookmarks = useCallback((anime: AnimeObject) => {
+    setBookmarks((b) => b.concat(anime));
+  }, []);
+
+  const updateBookmarkRemoval = useCallback((anime: AnimeObject) => {
+    setBookmarks((b) => b.filter((item) => item.id !== anime.id));
+  }, []);
 
   return (
     <div className="py-6 bg-gray-100 min-h-screen">
@@ -43,12 +66,14 @@ const SearchAnime: React.FC = () => {
               <DisplayMessage message={searchMessage} />
             ) : (
               <SearchList
-                items={data}
                 animeList={animeList}
-                setAnimeList={setAnimeList}
+                updateAnimeList={updateAnimeList}
+                updateBookmarks={updateBookmarks}
+                updateBookmarkRemoval={updateBookmarkRemoval}
                 bookmarks={bookmarks}
-                setBookmarks={setBookmarks}
-                searched={searched}
+                searchItems={data}
+                hasSearched={hasSearched}
+                updateSearchMessage={updateSearchMessage}
               />
             )}
           </>

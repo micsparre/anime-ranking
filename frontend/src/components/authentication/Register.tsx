@@ -35,7 +35,6 @@ const Register = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // added async keyword
     event.preventDefault();
     const apiUrl = process.env.REACT_APP_API_URL;
     const newErrors: Partial<User> = {};

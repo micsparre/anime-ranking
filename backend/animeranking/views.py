@@ -9,7 +9,7 @@ from .models import UserAnime, UserProfile, UserBookmarks
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
-from .openai import get_recommendations_as_list
+from .openai_api import get_recommendations_as_list
 from .utils import sort_anime
 import logging
 

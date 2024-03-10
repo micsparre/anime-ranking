@@ -1,31 +1,30 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  getUserAnimeList,
-  getUserBookmarks,
-  addBookmark,
-  removeBookmark,
-} from "./api";
+import React, { useState, useEffect, useCallback, memo } from "react";
+import { addBookmark, removeBookmark } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import RankingModal from "./RankingModal";
 
-interface SearchAnimeListProps {
-  items: AnimeObject[];
+interface SearchListProps {
   animeList: UserAnimeObject[];
-  setAnimeList: (animeList: UserAnimeObject[]) => void;
+  updateAnimeList: (anime: UserAnimeObject) => void;
   bookmarks: AnimeObject[];
-  setBookmarks: (bookmarks: AnimeObject[]) => void;
-  searched: boolean;
+  updateBookmarks: (anime: AnimeObject) => void;
+  updateBookmarkRemoval: (anime: AnimeObject) => void;
+  searchItems: AnimeObject[];
+  hasSearched: boolean;
+  updateSearchMessage: (message: string) => void;
 }
 
-const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
-  items,
+const SearchList: React.FC<SearchListProps> = ({
   animeList,
-  setAnimeList,
+  updateAnimeList,
   bookmarks,
-  setBookmarks,
-  searched,
+  updateBookmarks,
+  updateBookmarkRemoval,
+  searchItems,
+  hasSearched,
+  updateSearchMessage,
 }) => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);
@@ -50,29 +49,19 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   );
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("token") !== null;
-    if (searched || !isLoggedIn) {
-      return;
+    if (searchItems.length === 0 && hasSearched) {
+      updateSearchMessage("No results found. Please try another search.");
+    } else {
+      updateSearchMessage("");
     }
-    getUserAnimeList().then((response) => {
-      setAnimeList(response);
-    });
-
-    getUserBookmarks().then((response) => {
-      setBookmarks(response);
-    });
-
-    // eslint-disable-next-line
-  }, []);
+  }, [searchItems, hasSearched, updateSearchMessage]);
 
   useEffect(() => {
-    // add to rankedItems from items if they are in animeList
-    const ranked = items.filter((item) => isAnimeAdded(item));
+    const ranked = searchItems.filter((item) => isAnimeAdded(item));
     setRankedItems(ranked);
-    // add to bookmarkedItems from items if they are in bookmarks
-    const bookmarked = items.filter((item) => isBookmarkAdded(item));
+    const bookmarked = searchItems.filter((item) => isBookmarkAdded(item));
     setBookmarkedItems(bookmarked);
-  }, [items, animeList, bookmarks, isAnimeAdded, isBookmarkAdded]);
+  }, [searchItems, animeList, bookmarks, isAnimeAdded, isBookmarkAdded]);
 
   const openRankingModal = (item: AnimeObject) => {
     const isLoggedIn = localStorage.getItem("token") !== null;
@@ -86,7 +75,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
 
   const closeRankingModal = async () => {
     setShowRankingModal(false);
-    setAnimeList([...animeList, rankingItem]);
+    updateAnimeList(rankingItem);
   };
 
   const handleAddBookmark = async (item: AnimeObject) => {
@@ -98,7 +87,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     const itemId = item.id;
     const response = await addBookmark(itemId);
     if (response) {
-      setBookmarks([...bookmarks, item]);
+      updateBookmarks(item);
     }
     return true;
   };
@@ -107,7 +96,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
     const itemId = item.id;
     const response = await removeBookmark(itemId);
     if (response) {
-      setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+      updateBookmarkRemoval(item);
     }
   };
 
@@ -168,7 +157,7 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
                 />
               </li>
             ))}
-            {items
+            {searchItems
               .filter((item) => !isAnimeAdded(item) && !isBookmarkAdded(item))
               .map((item: AnimeObject) => (
                 <li key={item.id} className="flex py-4">
@@ -189,4 +178,4 @@ const SearchAnimeList: React.FC<SearchAnimeListProps> = ({
   );
 };
 
-export default SearchAnimeList;
+export default memo(SearchList);

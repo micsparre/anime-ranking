@@ -1,4 +1,3 @@
-// src/components/AnimeList/Bookmark.tsx
 import React, { useEffect, useState } from "react";
 import { getUserAnimeList, getUserBookmarks } from "../common/api";
 import { UserAnimeObject, AnimeObject } from "../common/types";
