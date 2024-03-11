@@ -11,17 +11,15 @@ const Recommendations: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // fetchRecommendations();
     getUserAnimeList().then((response) => {
       setAnimeList(response);
-      setRecommendations(
-        recommendations.filter(
+      setRecommendations((r) =>
+        r.filter(
           (anime: AnimeObject) =>
             !response.some((item: AnimeObject) => item.id === anime.id)
         )
       );
     });
-    // eslint-disable-next-line
   }, []);
 
   const fetchRecommendations = () => {

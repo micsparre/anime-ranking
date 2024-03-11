@@ -1,4 +1,3 @@
-// src/components/Auth/Login.tsx
 import React, { useState } from "react";
 import api from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";

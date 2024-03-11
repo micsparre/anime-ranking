@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { UserAnimeObject } from "./types";
 import api from "./api";
 import { getRankingColor } from "./utils";
@@ -22,6 +22,43 @@ const RankingModal: React.FC<RankingModalProps> = ({
   const [bounds, setBounds] = useState<number[]>([0, 1000]);
   const [isFinished, setIsFinished] = useState(false);
 
+  const assignRankings = useCallback(async () => {
+    let maxValue = 0;
+    let minValue = 0;
+    if (rankingGroup === "bad") {
+      minValue = 0;
+      maxValue = 3.3;
+    } else if (rankingGroup === "mid") {
+      minValue = 3.4;
+      maxValue = 6.6;
+    } else if (rankingGroup === "good") {
+      minValue = 6.7;
+      maxValue = 10;
+    }
+
+    for (let i = 0; i < rankingList.length; i++) {
+      const fraction = (i + 1) / rankingList.length;
+      const value = minValue + fraction * (maxValue - minValue);
+      rankingList[i].ranking = parseFloat(value.toFixed(2));
+    }
+  }, [rankingGroup, rankingList]);
+
+  const handleSubmit = useCallback(async () => {
+    await assignRankings();
+    try {
+      await api.post(
+        "/api/rank-anime",
+        rankingList.map((item) => ({
+          anime_id: item.id,
+          ranking: item.ranking,
+        }))
+      );
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [assignRankings, rankingList, onClose]);
+
   useEffect(() => {
     setRankingGroup(null);
     setRankingItemIndex(null);
@@ -37,21 +74,21 @@ const RankingModal: React.FC<RankingModalProps> = ({
     } else if (isFinished) {
       handleSubmit();
     }
-    // eslint-disable-next-line
-  }, [rankingList]);
+  }, [rankingList, handleSubmit, isFinished, rankingGroup]);
 
   useEffect(() => {
     if (bounds[0] >= bounds[1]) {
-      setIsFinished((prevState) => true);
-      const newRankingList = [...rankingList];
-      newRankingList.splice(bounds[0], 0, item);
-      setRankingList(newRankingList);
+      setIsFinished((_) => true);
+      setRankingList((prevRankingList) => {
+        const newRankingList = [...prevRankingList];
+        newRankingList.splice(bounds[0], 0, item);
+        return newRankingList;
+      });
     } else {
       const midIndex = Math.floor((bounds[0] + bounds[1]) / 2);
       setRankingItemIndex(midIndex);
     }
-    // eslint-disable-next-line
-  }, [bounds]);
+  }, [bounds, setIsFinished, item]);
 
   const handleRanking = (isHigher: boolean) => {
     // isHigher is true if the chosen ranking is higher than the current anime's intrinsic ranking
@@ -63,46 +100,6 @@ const RankingModal: React.FC<RankingModalProps> = ({
           return [prevBounds[0], rankingItemIndex];
         }
       });
-    }
-  };
-
-  const assignRankings = async () => {
-    let maxValue = 0;
-    let minValue = 0;
-    if (rankingGroup === "bad") {
-      minValue = 0;
-      maxValue = 3.3;
-    } else if (rankingGroup === "mid") {
-      minValue = 3.4;
-      maxValue = 6.6;
-    } else if (rankingGroup === "good") {
-      minValue = 6.7;
-      maxValue = 10;
-    }
-
-    for (let i = 0; i < rankingList.length; i++) {
-      // Calculate the value as a fraction of the position relative to the total length
-      const fraction = (i + 1) / rankingList.length;
-
-      // Scale the fraction to the specified range
-      const value = minValue + fraction * (maxValue - minValue);
-      rankingList[i].ranking = parseFloat(value.toFixed(2));
-    }
-  };
-
-  const handleSubmit = async () => {
-    await assignRankings();
-    try {
-      api.post(
-        "/api/rank-anime",
-        rankingList.map((item) => ({
-          anime_id: item.id,
-          ranking: item.ranking,
-        }))
-      );
-      onClose();
-    } catch (error) {
-      console.error(error);
     }
   };
 
