@@ -13,12 +13,8 @@ charset-normalizer==3.2.0
 comm==0.1.4
 debugpy==1.6.7.post1
 decorator==5.1.1
-<<<<<<< HEAD:requirements.txt
 distro==1.9.0
 Django==3.2.23
-=======
-Django==3.2.24
->>>>>>> main:backend/requirements.txt
 django-cors-headers==4.1.0
 django-environ==0.9.0
 django-pdb==0.6.2
