@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,19 +13,40 @@ import Account from "./authentication/Account";
 import Navbar from "./Navbar";
 import SearchAnime from "./pages/SearchAnime";
 
-const AnimeRoutes: React.FC = () => {
-  const isLoggedIn = localStorage.getItem("token") !== null;
+interface AnimeRoutesProps {
+  token: string | null;
+  handleTokenChange: (token: string | null) => void;
+}
+
+const AnimeRoutes: React.FC<AnimeRoutesProps> = ({
+  token,
+  handleTokenChange,
+}) => {
+  const isLoggedIn = token !== null;
+
   return (
     <Router>
-      <Navbar />
+      <Navbar token={token} />
       <Routes>
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
+          element={
+            isLoggedIn ? (
+              <Navigate to="/" />
+            ) : (
+              <Login token={token} handleTokenChange={handleTokenChange} />
+            )
+          }
         />
         <Route
           path="/register"
-          element={isLoggedIn ? <Navigate to="/" /> : <Register />}
+          element={
+            isLoggedIn ? (
+              <Navigate to="/" />
+            ) : (
+              <Register handleTokenChange={handleTokenChange} />
+            )
+          }
         />
         <Route
           path="/anime-list"
@@ -42,7 +62,13 @@ const AnimeRoutes: React.FC = () => {
         />
         <Route
           path="/account"
-          element={isLoggedIn ? <Account /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? (
+              <Account token={token} handleTokenChange={handleTokenChange} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route path="/" element={<SearchAnime />} />
         <Route path="*" element={<Navigate to="/" replace />} />

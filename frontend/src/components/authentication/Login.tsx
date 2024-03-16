@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import api from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { UnsuccessfulResponse, SuccessfulUserResponse } from "../common/types";
 
-interface SuccessfulLoginResponse {
-  token: string;
-  username: string;
+interface LoginProps {
+  token: string | null;
+  handleTokenChange: (token: string | null) => void;
 }
 
-interface UnsuccessfulLoginResponse {
-  message: string;
-}
-
-const Login = () => {
+const Login: React.FC<LoginProps> = ({ token, handleTokenChange }) => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -36,8 +33,8 @@ const Login = () => {
         setLoggingIn(false);
         if (response.status === 200) {
           setErrorMessage("");
-          const data = response.data as SuccessfulLoginResponse;
-          localStorage.setItem("token", data.token);
+          const data = response.data as SuccessfulUserResponse;
+          handleTokenChange(data.token);
           window.location.href = "/";
           setLoading(false);
         }
@@ -45,10 +42,11 @@ const Login = () => {
       .catch((error) => {
         setLoggingIn(false);
         if (error.response.status === 401) {
-          const data = error.response.data as UnsuccessfulLoginResponse;
+          const data = error.response.data as UnsuccessfulResponse;
           setErrorMessage(data.message);
           setLoading(false);
         }
+        handleTokenChange(null);
       });
   };
 
@@ -117,15 +115,6 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-
-            {/* <div className="text-sm">
-                            <a
-                                href="#"
-                                className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                                Forgot your password?
-                            </a>
-                        </div> */}
           </div>
 
           <div>

@@ -19,6 +19,15 @@ export interface User {
   first_name: string;
   last_name: string;
   email: string;
-  password: string;
   username: string;
+  token?: string;
+  password?: string;
+}
+
+export interface UnsuccessfulResponse {
+  message: string;
+}
+
+export interface SuccessfulUserResponse {
+  token: string;
 }
