@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  token: string | null;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ token }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isLoggedIn = token !== null;
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -29,7 +34,6 @@ const Navbar: React.FC = () => {
     };
   }, [handleClickOutside]);
 
-  const isLoggedIn = localStorage.getItem("token") !== null;
   return (
     <nav className="fixed top-0 w-full bg-blue-900 p-4 flex justify-between">
       <ul className="inline-block space-x-6 text-md flex-grow">

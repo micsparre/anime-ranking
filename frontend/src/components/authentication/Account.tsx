@@ -1,29 +1,35 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import LoadingSpinner from "../common/LoadingSpinner";
 import { User } from "../common/types";
 import { getUser } from "../common/api";
-import LoadingSpinner from "../common/LoadingSpinner";
 
-const Account = () => {
-  const [user, setUser] = useState<User>();
+interface AccountProps {
+  token: string | null;
+  handleTokenChange: (token: string | null) => void;
+}
+
+const Account: React.FC<AccountProps> = ({ token, handleTokenChange }) => {
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    getUser()
+      .then((response) => {
+        setUser(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, []);
 
   const handleSignOut = async () => {
     window.location.href = "/login";
     setLoading(true);
-    setUser(undefined);
-    localStorage.clear();
+    handleTokenChange(null);
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setLoading(true);
-      getUser().then((response) => {
-        setLoading(false);
-        setUser(response);
-      });
-    }
-  }, []);
 
   return (
     <>

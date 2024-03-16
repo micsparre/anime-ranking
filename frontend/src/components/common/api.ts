@@ -60,17 +60,6 @@ export async function removeUserAnime(id: number): Promise<boolean> {
   }
 }
 
-export async function getUser(): Promise<User> {
-  try {
-    const response = await api.get(apiUrl + "/api/user");
-    const user = response.data as User;
-    return user;
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return {} as User;
-  }
-}
-
 export async function addBookmark(id: number): Promise<boolean> {
   try {
     api.post(apiUrl + "/api/add-bookmark", { anime_id: id });
@@ -103,6 +92,17 @@ export async function getSearchTitles(query: string): Promise<AnimeObject[]> {
   } catch (error) {
     console.error("Error fetching search results:", error);
     return [];
+  }
+}
+
+export async function getUser(): Promise<User> {
+  try {
+    const response = await api.get(apiUrl + "/api/user");
+    const user = response.data as User;
+    return user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return {} as User;
   }
 }
 
