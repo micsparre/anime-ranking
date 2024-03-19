@@ -34,7 +34,7 @@ const AnimeRoutes: React.FC<AnimeRoutesProps> = ({
             isLoggedIn ? (
               <Navigate to="/" />
             ) : (
-              <Login token={token} handleTokenChange={handleTokenChange} />
+              <Login handleTokenChange={handleTokenChange} />
             )
           }
         />
@@ -64,7 +64,7 @@ const AnimeRoutes: React.FC<AnimeRoutesProps> = ({
           path="/account"
           element={
             isLoggedIn ? (
-              <Account token={token} handleTokenChange={handleTokenChange} />
+              <Account handleTokenChange={handleTokenChange} />
             ) : (
               <Navigate to="/login" />
             )

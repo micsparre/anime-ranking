@@ -4,11 +4,10 @@ import { User } from "../common/types";
 import { getUser } from "../common/api";
 
 interface AccountProps {
-  token: string | null;
   handleTokenChange: (token: string | null) => void;
 }
 
-const Account: React.FC<AccountProps> = ({ token, handleTokenChange }) => {
+const Account: React.FC<AccountProps> = ({ handleTokenChange }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 

@@ -4,11 +4,10 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import { UnsuccessfulResponse, SuccessfulUserResponse } from "../common/types";
 
 interface LoginProps {
-  token: string | null;
   handleTokenChange: (token: string | null) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ token, handleTokenChange }) => {
+const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -24,7 +23,7 @@ const Login: React.FC<LoginProps> = ({ token, handleTokenChange }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL;
     setLoggingIn(true);
     setLoading(true);
     api

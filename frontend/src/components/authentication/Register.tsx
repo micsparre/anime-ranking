@@ -33,7 +33,7 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL;
     const newErrors: Partial<User> = {};
 
     if (!formUser.first_name) {

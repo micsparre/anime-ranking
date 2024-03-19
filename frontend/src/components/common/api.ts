@@ -1,10 +1,10 @@
 import axios from "axios";
 import { UserAnimeObject, AnimeObject, User } from "./types";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: apiUrl,
 });
 
 api.interceptors.request.use((config) => {
@@ -107,6 +107,9 @@ export async function removeBookmark(id: number): Promise<boolean> {
 }
 
 export async function getSearchTitles(query: string): Promise<AnimeObject[]> {
+  if (query.length < 3) {
+    return [];
+  }
   try {
     const response = await api.get(apiUrl + "/api/titles", {
       params: { title: query },

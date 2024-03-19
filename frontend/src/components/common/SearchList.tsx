@@ -115,7 +115,6 @@ const SearchList: React.FC<SearchListProps> = ({
   const closeLoginPrompt = () => {
     setShowLoginPrompt(false);
   };
-
   return (
     <>
       {showLoginPrompt && (
