@@ -29,7 +29,6 @@ const Account: React.FC<AccountProps> = ({ token, handleTokenChange }) => {
     window.location.href = "/login";
     setLoading(true);
     handleTokenChange(null);
-    localStorage.clear();
   };
 
   return (

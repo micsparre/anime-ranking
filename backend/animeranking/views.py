@@ -142,7 +142,7 @@ def register_user(request):
         user_profile = UserProfile(user=user)
         user_profile.save()
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'username': username}, status=status.HTTP_201_CREATED)
+        return Response({'token': token.key}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -162,8 +162,7 @@ def user_login(request):
         login(request, user)
         # Create or retrieve an authentication token
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'username': user.username, 'first_name': user.first_name,
-                         'last_name': user.last_name, 'email': user.email}, status=status.HTTP_200_OK)
+        return Response({'token': token.key}, status=status.HTTP_200_OK)
     else:
         return Response({'message': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
 

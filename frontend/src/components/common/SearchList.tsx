@@ -14,6 +14,7 @@ interface SearchListProps {
   searchItems: AnimeObject[];
   hasSearched: boolean;
   updateSearchMessage: (message: string) => void;
+  token: string | null;
 }
 
 const SearchList: React.FC<SearchListProps> = ({
@@ -25,6 +26,7 @@ const SearchList: React.FC<SearchListProps> = ({
   searchItems,
   hasSearched,
   updateSearchMessage,
+  token,
 }) => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);
@@ -64,7 +66,7 @@ const SearchList: React.FC<SearchListProps> = ({
   }, [searchItems, animeList, bookmarks, isAnimeAdded, isBookmarkAdded]);
 
   const openRankingModal = (item: AnimeObject) => {
-    const isLoggedIn = localStorage.getItem("token") !== null;
+    const isLoggedIn = token !== null;
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
       return;
@@ -79,7 +81,7 @@ const SearchList: React.FC<SearchListProps> = ({
   };
 
   const handleAddBookmark = async (item: AnimeObject) => {
-    const isLoggedIn = localStorage.getItem("token") !== null;
+    const isLoggedIn = token !== null;
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
       return;

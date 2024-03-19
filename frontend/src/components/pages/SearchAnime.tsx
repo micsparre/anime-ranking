@@ -6,7 +6,11 @@ import { getUserAnimeList, getUserBookmarks } from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import DisplayMessage from "../common/DisplayMessage";
 
-const SearchAnime: React.FC = () => {
+interface SearchAnimeProps {
+  token: string | null;
+}
+
+const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
   const [data, setData] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
@@ -16,10 +20,6 @@ const SearchAnime: React.FC = () => {
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("token") !== null;
-    if (!isLoggedIn) {
-      return;
-    }
     getUserAnimeList().then((response) => {
       setAnimeList(response);
     });
@@ -74,6 +74,7 @@ const SearchAnime: React.FC = () => {
                 searchItems={data}
                 hasSearched={hasSearched}
                 updateSearchMessage={updateSearchMessage}
+                token={token}
               />
             )}
           </>

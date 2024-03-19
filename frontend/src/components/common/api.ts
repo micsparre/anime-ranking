@@ -15,7 +15,27 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => {
+    //Response Successful
+    return response;
+  },
+  (error) => {
+    console.error("Error from API:", error);
+    if (error.response.status === 401) {
+      //Unauthorized
+      //redirect to Login
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+  }
+);
+
 export async function getUserAnimeList(): Promise<UserAnimeObject[]> {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return [];
+  }
   try {
     const response = await api.get(apiUrl + "/api/anime-list");
     const userAnimeList = response.data as UserAnimeObject[];
@@ -27,6 +47,10 @@ export async function getUserAnimeList(): Promise<UserAnimeObject[]> {
 }
 
 export async function getUserBookmarks(): Promise<AnimeObject[]> {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return [];
+  }
   try {
     const response = await api.get(apiUrl + "/api/bookmarks");
     const userBookmarks = response.data as AnimeObject[];

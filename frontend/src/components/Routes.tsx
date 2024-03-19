@@ -70,7 +70,7 @@ const AnimeRoutes: React.FC<AnimeRoutesProps> = ({
             )
           }
         />
-        <Route path="/" element={<SearchAnime />} />
+        <Route path="/" element={<SearchAnime token={token} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
