@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}", // JavaScript and TypeScript files
     "./public/**/*.html", // HTML files in the public folder
+    ".index.html", // The index.html file
   ],
   theme: {
     extend: {

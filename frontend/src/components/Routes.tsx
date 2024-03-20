@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
-import UserAnime from "./common/UserList";
+import UserAnime from "./pages/UserAnime";
 import Recommendations from "./pages/Recommendations";
 import Bookmarks from "./pages/Bookmarks";
 import Account from "./authentication/Account";

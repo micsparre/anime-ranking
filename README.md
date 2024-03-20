@@ -23,18 +23,11 @@ py manage.py makemigrations
 py manage.py migrate
 ```
 
-### Frontend (React + Typescript + Tailwind)
+### Frontend (Vite + React + Typescript + Tailwind)
 
 #### Start the React server
 
 ```bash
 cd frontend
-npm run start
-```
-
-#### Start the tailwind css watch
-
-```bash
-cd frontend
-npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch
+npm run dev
 ```
