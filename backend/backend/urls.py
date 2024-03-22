@@ -19,5 +19,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('animeranking.urls')),
+    path('api/', include('jaku.urls')),
 ]

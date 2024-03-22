@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'animeranking',
+    'jaku',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -73,12 +73,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# CORS_ALLOWED_ORIGINS = [
-#     "https://anime-ranking-frontend.onrender.com",
-#     "*"
-# ]
-
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -107,7 +101,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'aws-0-us-west-1.pooler.supabase.com',
-        'NAME': 'animerankingdev',
+        'NAME': 'jakudev',
         'USER': 'postgres.mspbtzzkwshxrruavnnu',
         'PORT': '5432',
         'PASSWORD': env.get('DB_PASSWORD'),

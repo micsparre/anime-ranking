@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'animeranking',
+    'jaku',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'aws-0-us-west-1.pooler.supabase.com',
-        'NAME': 'animerankingprd',
+        'NAME': 'jakuprd',
         'USER': 'postgres.mspbtzzkwshxrruavnnu',
         'PORT': '5432',
         'PASSWORD': env.str('DB_PASSWORD'),
