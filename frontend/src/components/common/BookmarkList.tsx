@@ -23,24 +23,44 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
   );
 
   const handleRemoveBookmark = async (item: AnimeObject) => {
-    const itemId = item.id;
-    const response = await removeBookmark(itemId);
-    if (response) {
-      setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+    try {
+      const itemId = item.id;
+      const response = await removeBookmark(itemId);
+      if (response) {
+        setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return false;
     }
+    return true;
   };
 
   const openRankingModal = (item: AnimeObject) => {
-    setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
-    setShowRankingModal(true);
+    try {
+      setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
+      setShowRankingModal(true);
+    } catch (error) {
+      console.error("Error:", error);
+      return false;
+    }
+
+    return true;
   };
 
   const closeRankingModal = async () => {
     // TODO get ranking from rankingmodal object?
     setShowRankingModal(false);
-    handleRemoveBookmark(rankingItem);
-    setAnimeList([...animeList, rankingItem]);
-    setBookmarks(bookmarks.filter((anime) => anime.id !== rankingItem.id));
+    await handleRemoveBookmark(rankingItem)
+      .then(() => {
+        setBookmarks(bookmarks.filter((anime) => anime.id !== rankingItem.id));
+        setAnimeList([...animeList, rankingItem]);
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
+    return true;
   };
 
   return (

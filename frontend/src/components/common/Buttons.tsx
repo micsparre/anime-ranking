@@ -2,7 +2,7 @@ import React from "react";
 import { AnimeObject, UserAnimeObject } from "./types";
 
 interface ButtonProps {
-  handleClick: (item: AnimeObject) => void;
+  handleClick: (item: AnimeObject) => boolean;
   item: AnimeObject;
 }
 
@@ -12,7 +12,7 @@ interface RemoveButtonProps {
 }
 
 interface BookmarkButtonProps {
-  handleClick: (item: AnimeObject) => void;
+  handleClick: (item: AnimeObject) => Promise<boolean>;
   item: AnimeObject;
   isBookmarked: boolean;
 }
@@ -67,7 +67,9 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
 }) => {
   return (
     <button
-      onClick={() => handleClick(item)}
+      onClick={() => {
+        handleClick(item).catch((err) => console.error(err));
+      }}
       className="inline-flex items-center justify-center w-9 h-9 focus:shadow-outline"
     >
       <svg

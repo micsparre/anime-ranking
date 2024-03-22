@@ -7,9 +7,9 @@ interface SearchItemProps {
   item: AnimeObject;
   isAdded: boolean;
   isBookmarked: boolean;
-  handleAddBookmark: (item: AnimeObject) => void;
-  handleRemoveBookmark: (item: AnimeObject) => void;
-  handleAddAnime: (item: AnimeObject) => void;
+  handleAddBookmark: (item: AnimeObject) => Promise<boolean>;
+  handleRemoveBookmark: (item: AnimeObject) => Promise<boolean>;
+  handleAddAnime: (item: AnimeObject) => boolean;
 }
 
 const SearchItem: React.FC<SearchItemProps> = ({
@@ -34,7 +34,9 @@ const SearchItem: React.FC<SearchItemProps> = ({
             <AddButton handleClick={handleAddAnime} item={item} />
             <BookmarkButton
               handleClick={
-                isBookmarked ? handleRemoveBookmark : handleAddBookmark
+                isBookmarked
+                  ? (anime) => handleRemoveBookmark(anime)
+                  : (anime) => handleAddBookmark(anime)
               }
               item={item}
               isBookmarked={isBookmarked}

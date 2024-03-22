@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { addBookmark, removeBookmark } from "./api";
 import { UserAnimeObject, AnimeObject } from "./types";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import RankingModal from "./RankingModal";
 
-interface SearchListProps {
+export interface SearchListProps {
   animeList: UserAnimeObject[];
   updateAnimeList: (anime: UserAnimeObject) => void;
   bookmarks: AnimeObject[];
@@ -65,41 +65,52 @@ const SearchList: React.FC<SearchListProps> = ({
     setBookmarkedItems(bookmarked);
   }, [searchItems, animeList, bookmarks, isAnimeAdded, isBookmarkAdded]);
 
-  const openRankingModal = (item: AnimeObject) => {
+  const openRankingModal = (item: AnimeObject): boolean => {
     const isLoggedIn = token !== null;
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
-      return;
+      return false;
     }
     setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
     setShowRankingModal(true);
+    return true;
   };
 
-  const closeRankingModal = async () => {
-    setShowRankingModal(false);
-    updateAnimeList(rankingItem);
+  const closeRankingModal = () => {
+    try {
+      setShowRankingModal(false);
+      updateAnimeList(rankingItem);
+    } catch (error) {
+      console.error(error);
+      return Promise.resolve(false);
+    }
+
+    return Promise.resolve(true);
   };
 
-  const handleAddBookmark = async (item: AnimeObject) => {
+  const handleAddBookmark = async (item: AnimeObject): Promise<boolean> => {
     const isLoggedIn = token !== null;
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
-      return;
+      return false;
     }
     const itemId = item.id;
+    updateBookmarks(item);
     const response = await addBookmark(itemId);
-    if (response) {
-      updateBookmarks(item);
+    if (!response) {
+      updateBookmarkRemoval(item);
     }
     return true;
   };
 
-  const handleRemoveBookmark = async (item: AnimeObject) => {
+  const handleRemoveBookmark = async (item: AnimeObject): Promise<boolean> => {
     const itemId = item.id;
     const response = await removeBookmark(itemId);
     if (response) {
       updateBookmarkRemoval(item);
+      return true;
     }
+    return false;
   };
 
   const handleLoginClick = () => {
@@ -179,4 +190,4 @@ const SearchList: React.FC<SearchListProps> = ({
   );
 };
 
-export default memo(SearchList);
+export default SearchList;

@@ -6,7 +6,7 @@ interface RankingProps {
   rankingItem: UserAnimeObject;
   setRankingItem: (item: UserAnimeObject) => void;
   animeList: UserAnimeObject[];
-  onClose: () => void;
+  onClose: () => Promise<boolean>;
 }
 
 const Ranking: React.FC<RankingProps> = ({

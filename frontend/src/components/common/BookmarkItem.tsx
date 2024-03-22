@@ -4,8 +4,8 @@ import { AddButton, BookmarkButton } from "./Buttons";
 import { AnimeObject } from "./types";
 interface BookmarkItemProps {
   item: AnimeObject;
-  handleAddAnime: (item: AnimeObject) => void;
-  removeBookmark: (item: AnimeObject) => void;
+  handleAddAnime: (item: AnimeObject) => boolean;
+  removeBookmark: (item: AnimeObject) => Promise<boolean>;
 }
 
 const BookmarkItem: React.FC<BookmarkItemProps> = ({

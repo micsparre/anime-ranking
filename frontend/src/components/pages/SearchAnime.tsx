@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SearchBar from "../common/SearchBar";
-import SearchList from "../common/SearchList";
+import MemoizedSearchList from "../common/MemoizedSearchList";
 import { AnimeObject, UserAnimeObject } from "../common/types";
 import { getUserAnimeList, getUserBookmarks } from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -20,13 +20,20 @@ const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
 
   useEffect(() => {
-    getUserAnimeList().then((response) => {
-      setAnimeList(response);
-    });
-
-    getUserBookmarks().then((response) => {
-      setBookmarks(response);
-    });
+    getUserAnimeList()
+      .then((response) => {
+        setAnimeList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    getUserBookmarks()
+      .then((response) => {
+        setBookmarks(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   useEffect(() => {
@@ -65,7 +72,7 @@ const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
             {searchMessage ? (
               <DisplayMessage message={searchMessage} />
             ) : (
-              <SearchList
+              <MemoizedSearchList
                 animeList={animeList}
                 updateAnimeList={updateAnimeList}
                 updateBookmarks={updateBookmarks}

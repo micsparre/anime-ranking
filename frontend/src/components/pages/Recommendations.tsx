@@ -11,28 +11,36 @@ const Recommendations: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getUserAnimeList().then((response) => {
-      setAnimeList(response);
-      setRecommendations((r) =>
-        r.filter(
-          (anime: AnimeObject) =>
-            !response.some((item: AnimeObject) => item.id === anime.id)
-        )
-      );
-    });
+    getUserAnimeList()
+      .then((response) => {
+        setAnimeList(response);
+        setRecommendations((r) =>
+          r.filter(
+            (anime: AnimeObject) =>
+              !response.some((item: AnimeObject) => item.id === anime.id)
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const fetchRecommendations = () => {
     setLoading(true);
-    getRecommendations().then((response) => {
-      setRecommendations(
-        response.filter(
-          (anime: AnimeObject) =>
-            !animeList.some((item: AnimeObject) => item.id === anime.id)
-        )
-      );
-      setLoading(false);
-    });
+    getRecommendations()
+      .then((response) => {
+        setRecommendations(
+          response.filter(
+            (anime: AnimeObject) =>
+              !animeList.some((item: AnimeObject) => item.id === anime.id)
+          )
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

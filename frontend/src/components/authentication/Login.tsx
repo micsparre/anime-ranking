@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { UnsuccessfulResponse, SuccessfulUserResponse } from "../common/types";
+import { AxiosError } from "axios";
 
 interface LoginProps {
   handleTokenChange: (token: string | null) => void;
@@ -26,7 +27,7 @@ const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
     const apiUrl = import.meta.env.VITE_API_URL;
     setLoggingIn(true);
     setLoading(true);
-    api
+    await api
       .post(apiUrl + "/api/login", credentials)
       .then((response) => {
         setLoggingIn(false);
@@ -38,9 +39,9 @@ const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
           setLoading(false);
         }
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         setLoggingIn(false);
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
           const data = error.response.data as UnsuccessfulResponse;
           setErrorMessage(data.message);
           setLoading(false);
@@ -57,7 +58,7 @@ const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
             Sign in to your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={(e) => void handleSubmit(e)}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div>
             <div className="rounded-md shadow-sm -space-y-px">

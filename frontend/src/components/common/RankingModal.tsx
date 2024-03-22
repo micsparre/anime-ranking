@@ -6,7 +6,7 @@ import { getRankingColor } from "./utils";
 interface RankingModalProps {
   item: UserAnimeObject;
   animeList: UserAnimeObject[];
-  onClose: () => void;
+  onClose: () => Promise<boolean>;
 }
 
 const RankingModal: React.FC<RankingModalProps> = ({
@@ -22,7 +22,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
   const [bounds, setBounds] = useState<number[]>([0, 1000]);
   const [isFinished, setIsFinished] = useState(false);
 
-  const assignRankings = useCallback(async () => {
+  const assignRankings = useCallback(() => {
     let maxValue = 0;
     let minValue = 0;
     if (rankingGroup === "bad") {
@@ -44,7 +44,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
   }, [rankingGroup, rankingList]);
 
   const handleSubmit = useCallback(async () => {
-    await assignRankings();
+    assignRankings();
     try {
       await api.post(
         "/api/rank-anime",
@@ -53,7 +53,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
           ranking: item.ranking,
         }))
       );
-      onClose();
+      await onClose();
     } catch (error) {
       console.error(error);
     }
@@ -72,13 +72,15 @@ const RankingModal: React.FC<RankingModalProps> = ({
       const midIndex = Math.floor(rankingList.length / 2);
       setRankingItemIndex(midIndex);
     } else if (isFinished) {
-      handleSubmit();
+      handleSubmit().catch((error) => {
+        console.error("Error in handleSubmit:", error);
+      });
     }
   }, [rankingList, handleSubmit, isFinished, rankingGroup]);
 
   useEffect(() => {
     if (bounds[0] >= bounds[1]) {
-      setIsFinished((_) => true);
+      setIsFinished(() => true);
       setRankingList((prevRankingList) => {
         const newRankingList = [...prevRankingList];
         newRankingList.splice(bounds[0], 0, item);
@@ -160,8 +162,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                             onClick={() => handleRanking(true)}
                           >
                             <div className="mt-2 flex overflow-hidden">
-                              {rankingList[rankingItemIndex] !== undefined &&
-                                rankingList[rankingItemIndex].title}
+                              {rankingList[rankingItemIndex]?.title}
                             </div>
                             <div
                               className={`flex items-center justify-center text-sm ${getRankingColor(
@@ -169,8 +170,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
                                 true
                               )}`}
                             >
-                              {rankingList[rankingItemIndex] !== undefined &&
-                                rankingList[rankingItemIndex].ranking}
+                              {rankingList[rankingItemIndex]?.ranking}
                             </div>
                           </button>
                         </div>
