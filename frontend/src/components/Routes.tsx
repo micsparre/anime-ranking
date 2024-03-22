@@ -4,6 +4,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import PropTypes from "prop-types";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import UserAnime from "./pages/UserAnime";
@@ -75,5 +76,9 @@ const AnimeRoutes: React.FC<AnimeRoutesProps> = ({
       </Routes>
     </Router>
   );
+};
+AnimeRoutes.propTypes = {
+  token: PropTypes.string,
+  handleTokenChange: PropTypes.func.isRequired,
 };
 export default AnimeRoutes;

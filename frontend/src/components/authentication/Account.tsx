@@ -24,7 +24,7 @@ const Account: React.FC<AccountProps> = ({ handleTokenChange }) => {
       });
   }, []);
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     window.location.href = "/login";
     setLoading(true);
     handleTokenChange(null);

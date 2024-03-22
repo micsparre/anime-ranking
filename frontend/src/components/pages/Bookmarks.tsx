@@ -11,13 +11,21 @@ const Bookmarks: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getUserBookmarks().then((response) => {
-      setBookmarks(response);
-      setLoading(false);
-    });
-    getUserAnimeList().then((response) => {
-      setAnimeList(response);
-    });
+    getUserBookmarks()
+      .then((response) => {
+        setBookmarks(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    getUserAnimeList()
+      .then((response) => {
+        setAnimeList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../common/api";
+import PropTypes from "prop-types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { User, SuccessfulUserResponse } from "../common/types";
 
@@ -123,7 +124,7 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
             ) : (
               <>
                 <h2 className="text-3xl font-bold mb-5">Sign up</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e) => void handleSubmit(e)}>
                   <div className="mb-4">
                     <label
                       htmlFor="first_name"
@@ -241,5 +242,7 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
     </>
   );
 };
-
+Register.propTypes = {
+  handleTokenChange: PropTypes.func.isRequired,
+};
 export default Register;

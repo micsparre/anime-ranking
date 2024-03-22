@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { UserAnimeObject, AnimeObject, User } from "./types";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -20,14 +20,15 @@ api.interceptors.response.use(
     //Response Successful
     return response;
   },
-  (error) => {
+  (error: AxiosError) => {
     console.error("Error from API:", error);
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       //Unauthorized
       //redirect to Login
       localStorage.removeItem("token");
       window.location.href = "/login";
     }
+    return Promise.reject(error);
   }
 );
 
@@ -74,7 +75,7 @@ export async function getRecommendations(): Promise<AnimeObject[]> {
 
 export async function removeUserAnime(id: number): Promise<boolean> {
   try {
-    api.post(apiUrl + "/api/remove-anime-from-list", {
+    await api.post(apiUrl + "/api/remove-anime-from-list", {
       anime_id: id,
     });
     return true;
@@ -86,7 +87,7 @@ export async function removeUserAnime(id: number): Promise<boolean> {
 
 export async function addBookmark(id: number): Promise<boolean> {
   try {
-    api.post(apiUrl + "/api/add-bookmark", { anime_id: id });
+    await api.post(apiUrl + "/api/add-bookmark", { anime_id: id });
     return true;
   } catch (error) {
     console.error("Error adding bookmark:", error);
@@ -96,7 +97,7 @@ export async function addBookmark(id: number): Promise<boolean> {
 
 export async function removeBookmark(id: number): Promise<boolean> {
   try {
-    api.post(apiUrl + "/api/remove-bookmark", {
+    await api.post(apiUrl + "/api/remove-bookmark", {
       anime_id: id,
     });
     return true;

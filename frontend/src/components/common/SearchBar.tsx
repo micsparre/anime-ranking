@@ -22,16 +22,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setIsStale(true);
   };
 
-  const handleSearch = async (event: React.FormEvent) => {
+  const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
     if (!isStale) {
       return;
     }
     setLoading(true);
-    getSearchTitles(query).then((response) => {
-      setData(response);
-      setLoading(false);
-    });
+    getSearchTitles(query)
+      .then((response) => {
+        setData(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setIsStale(false);
   };
 

@@ -10,20 +10,28 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getUserAnimeList().then((response) => {
-      setAnimeList(response);
-      setLoading(false);
-    });
+    getUserAnimeList()
+      .then((response) => {
+        setAnimeList(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const handleRemoveAnime = (item: UserAnimeObject) => {
-    removeUserAnime(item.id).then((response) => {
-      if (response) {
-        setAnimeList(
-          animeList.filter((anime: UserAnimeObject) => anime.id !== item.id)
-        );
-      }
-    });
+    removeUserAnime(item.id)
+      .then((response) => {
+        if (response) {
+          setAnimeList(
+            animeList.filter((anime: UserAnimeObject) => anime.id !== item.id)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
