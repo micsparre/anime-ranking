@@ -45,7 +45,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <form onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search by title"
+            placeholder="Search anime titles"
             id="searchTitle"
             name="searchTitle"
             value={query}
@@ -54,7 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           />
           <button
             type="submit"
-            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-700"
+            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-700"
           >
             Search
           </button>

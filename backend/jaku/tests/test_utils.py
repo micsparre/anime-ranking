@@ -1,5 +1,5 @@
 from unittest import TestCase
-from animeranking.utils import sort_anime
+from jaku.utils import sort_anime
 from .test_values import NARUTO_SEARCH_TITLES, SORTED_NARUTO_SEARCH_TITLES
 
 

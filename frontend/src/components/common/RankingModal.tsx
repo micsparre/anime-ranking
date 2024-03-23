@@ -131,7 +131,7 @@ const RankingModal: React.FC<RankingModalProps> = ({
           <div className="min-h-full relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-lg">
             <div className="mt-5 px-4 text-left pointer-events-none">
               <h3
-                className="text-sm leading-6 font-medium text-gray-400"
+                className="text-sm leading-6  text-gray-400"
                 id="modal-headline"
               >
                 Ranking: <i>{item.title}</i>

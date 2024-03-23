@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
   }, [handleClickOutside]);
 
   return (
-    <nav className="fixed top-0 w-full bg-blue-900 p-4 flex justify-between">
+    <nav className="relative top-0 w-full bg-blue-900 p-4 flex justify-center items-center">
       <ul className="inline-block space-x-6 text-md flex-grow">
         <Link
           to="/"
@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
         {isLoggedIn ? (
           <>
             <li className="inline-block">
-              <div className="container mx-auto flex justify-between items-center">
+              <div className="container mx-auto flex justify-center items-center">
                 <div className="relative group" ref={dropdownRef}>
                   <button
                     className="text-white hover:text-blue-300 focus:outline-none"
@@ -72,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
                     </div>
                   </button>
                   {isDropdownOpen && (
-                    <div className="absolute mt-4 w-40 bg-white border rounded shadow-lg">
+                    <div className="absolute mt-4 w-42 bg-white border rounded shadow-lg text-gray-500">
                       <ul>
                         <Link
                           to="/anime-list"
@@ -114,8 +114,9 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
           <> </>
         )}
       </ul>
+      <div className="absolute text-white text-xl">jaku</div>
       {isLoggedIn ? (
-        <ul className="inline-block space-x-6 text-md">
+        <ul className="inline-block space-x-6">
           <Link
             to="/account"
             className="text-white hover:text-blue-300 transition duration-300"
@@ -124,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
           </Link>
         </ul>
       ) : (
-        <ul className="inline-block space-x-6 text-md">
+        <ul className="inline-block space-x-6">
           <Link
             to="/login"
             className="text-white hover:text-blue-300 transition duration-300"

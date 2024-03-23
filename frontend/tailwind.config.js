@@ -12,6 +12,9 @@ module.exports = {
         secondary: "#00ff00",
         tertiary: "#0000ff",
       },
+      fontFamily: {
+        customFont: ["Mona Sans", "sans-serif"],
+      },
     },
   },
   plugins: [],

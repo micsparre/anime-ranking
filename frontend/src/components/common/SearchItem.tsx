@@ -23,7 +23,7 @@ const SearchItem: React.FC<SearchItemProps> = ({
   return (
     <>
       <div className="ml-3 mr-10">
-        <div className="text-lg font-medium text-gray-900">{item.title}</div>
+        <div className="text-lg  text-gray-900">{item.title}</div>
         <div className="text-sm text-gray-500">{getDescription(item)}</div>
       </div>
       <div className="ml-auto flex mt-1 mr-2 items-center justify-center">
