@@ -50,8 +50,8 @@ const Recommendations: React.FC = () => {
           recommendations={recommendations}
           animeList={animeList}
           bookmarks={bookmarks}
-          setAnimeList={setAnimeList}
-          setBookmarks={setBookmarks}
+          updateAnimeList={setAnimeList}
+          updateBookmarks={setBookmarks}
         />
         <div className="flex flex-col items-center h-screen">
           <button

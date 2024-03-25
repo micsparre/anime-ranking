@@ -12,7 +12,6 @@ export interface SearchListProps {
   updateBookmarks: (anime: AnimeObject) => void;
   updateBookmarkRemoval: (anime: AnimeObject) => void;
   searchItems: AnimeObject[];
-  hasSearched: boolean;
   updateSearchMessage: (message: string) => void;
   token: string | null;
 }
@@ -24,7 +23,6 @@ const SearchList: React.FC<SearchListProps> = ({
   updateBookmarks,
   updateBookmarkRemoval,
   searchItems,
-  hasSearched,
   updateSearchMessage,
   token,
 }) => {
@@ -51,12 +49,13 @@ const SearchList: React.FC<SearchListProps> = ({
   );
 
   useEffect(() => {
-    if (searchItems.length === 0 && hasSearched) {
+    console.log("searchItems:", searchItems);
+    if (searchItems && searchItems.length === 0) {
       updateSearchMessage("No results found. Please try another search.");
     } else {
       updateSearchMessage("");
     }
-  }, [searchItems, hasSearched, updateSearchMessage]);
+  }, [searchItems, updateSearchMessage]);
 
   useEffect(() => {
     const ranked = searchItems.filter((item) => isAnimeAdded(item));

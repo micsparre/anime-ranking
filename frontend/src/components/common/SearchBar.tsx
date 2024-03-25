@@ -3,22 +3,22 @@ import { getSearchTitles } from "./api";
 import { AnimeObject } from "./types";
 
 interface SearchBarProps {
-  setData: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  updateItems: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
+  updateLoading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  updateQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  setData,
-  setLoading,
+  updateItems,
+  updateLoading,
   query,
-  setQuery,
+  updateQuery,
 }) => {
   const [isStale, setIsStale] = useState(false);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value.toLowerCase());
+    updateQuery(event.target.value.toLowerCase());
     setIsStale(true);
   };
 
@@ -27,11 +27,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
     if (!isStale) {
       return;
     }
-    setLoading(true);
+    updateLoading(true);
     getSearchTitles(query)
       .then((response) => {
-        setData(response);
-        setLoading(false);
+        updateItems(response);
+        updateLoading(false);
       })
       .catch((error) => {
         console.error(error);

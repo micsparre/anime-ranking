@@ -8,16 +8,16 @@ interface RecommendationListProps {
   recommendations: AnimeObject[];
   animeList: UserAnimeObject[];
   bookmarks: AnimeObject[];
-  setAnimeList: React.Dispatch<React.SetStateAction<UserAnimeObject[]>>;
-  setBookmarks: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
+  updateAnimeList: React.Dispatch<React.SetStateAction<UserAnimeObject[]>>;
+  updateBookmarks: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
 }
 
 const RecommendationList: React.FC<RecommendationListProps> = ({
   recommendations,
   animeList,
   bookmarks,
-  setAnimeList,
-  setBookmarks,
+  updateAnimeList,
+  updateBookmarks,
 }) => {
   const [showRankingModal, setShowRankingModal] = useState(false);
   const [rankingItem, setRankingItem] = useState<UserAnimeObject>(
@@ -36,7 +36,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
       const itemId = item.id;
       const response = await removeBookmark(itemId);
       if (response) {
-        setBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+        updateBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
       }
     } catch (error) {
       console.error("Error:", error);
@@ -50,7 +50,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
       const itemId = item.id;
       const response = await addBookmark(itemId);
       if (response) {
-        setBookmarks([...bookmarks, item]);
+        updateBookmarks([...bookmarks, item]);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -76,7 +76,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
         await handleRemoveBookmark(rankingItem);
       }
       setShowRankingModal(false);
-      setAnimeList([...animeList, rankingItem]);
+      updateAnimeList([...animeList, rankingItem]);
     } catch (error) {
       console.error("Error:", error);
       return false;

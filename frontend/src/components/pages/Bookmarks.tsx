@@ -34,8 +34,8 @@ const Bookmarks: React.FC = () => {
         <BookmarkList
           bookmarks={bookmarks}
           animeList={animeList}
-          setBookmarks={setBookmarks}
-          setAnimeList={setAnimeList}
+          updateBookmarks={setBookmarks}
+          updateAnimeList={setAnimeList}
         />
       </div>
     )

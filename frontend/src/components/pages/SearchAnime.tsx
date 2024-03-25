@@ -11,11 +11,10 @@ interface SearchAnimeProps {
 }
 
 const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
-  const [data, setData] = useState<AnimeObject[]>([]);
+  const [items, setItems] = useState<AnimeObject[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [searchMessage, setSearchMessage] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
   const [animeList, setAnimeList] = useState<UserAnimeObject[]>([]);
   const [bookmarks, setBookmarks] = useState<AnimeObject[]>([]);
 
@@ -37,10 +36,8 @@ const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
   }, []);
 
   useEffect(() => {
-    if (loading) {
-      setHasSearched(true);
-    }
-  }, [loading]);
+    setSearchMessage("");
+  }, [items]);
 
   const updateSearchMessage = useCallback((message: string) => {
     setSearchMessage(message);
@@ -61,10 +58,10 @@ const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
   return (
     <div className="py-6 bg-gray-100 min-h-screen">
       <SearchBar
-        setData={setData}
-        setLoading={setLoading}
+        updateItems={setItems}
+        updateLoading={setLoading}
         query={query}
-        setQuery={setQuery}
+        updateQuery={setQuery}
       />
       <>
         {(loading && <LoadingSpinner />) || (
@@ -78,8 +75,7 @@ const SearchAnime: React.FC<SearchAnimeProps> = ({ token }) => {
                 updateBookmarks={updateBookmarks}
                 updateBookmarkRemoval={updateBookmarkRemoval}
                 bookmarks={bookmarks}
-                searchItems={data}
-                hasSearched={hasSearched}
+                searchItems={items}
                 updateSearchMessage={updateSearchMessage}
                 token={token}
               />
