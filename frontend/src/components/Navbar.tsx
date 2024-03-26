@@ -35,12 +35,9 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
   }, [handleClickOutside]);
 
   return (
-    <nav className="relative top-0 w-full bg-blue-900 p-4 flex justify-center items-center">
+    <nav className="fixed top-0 w-full bg-[#49392c] p-4 flex justify-center items-center">
       <ul className="inline-block space-x-6 text-md flex-grow">
-        <Link
-          to="/"
-          className="text-white hover:text-blue-300 transition duration-300"
-        >
+        <Link to="/" className="text-white transition duration-300">
           <li className="inline-block">Home</li>
         </Link>
         {isLoggedIn ? (
@@ -49,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
               <div className="container mx-auto flex justify-center items-center">
                 <div className="relative group" ref={dropdownRef}>
                   <button
-                    className="text-white hover:text-blue-300 focus:outline-none"
+                    className="text-white focus:outline-none"
                     onClick={toggleDropdown}
                   >
                     <div className="flex items-center">
@@ -72,14 +69,14 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
                     </div>
                   </button>
                   {isDropdownOpen && (
-                    <div className="absolute mt-4 w-42 bg-white border rounded shadow-lg text-gray-500">
+                    <div className="absolute mt-4 w-42 bg-white rounded text-gray-500">
                       <ul>
                         <Link
                           to="/anime-list"
-                          className=" transition duration-300"
+                          className="transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-[#77625C] hover:text-white cursor-pointer">
                             Your List
                           </li>
                         </Link>
@@ -89,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-[#77625C] hover:text-white cursor-pointer">
                             Bookmarks
                           </li>
                         </Link>
@@ -99,7 +96,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >
-                          <li className="px-3 py-2 hover:bg-blue-100 cursor-pointer">
+                          <li className="px-3 py-2 hover:bg-[#77625C] hover:text-white cursor-pointer">
                             Recommendations
                           </li>
                         </Link>
@@ -117,25 +114,16 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
       <div className="absolute text-white text-xl">jaku</div>
       {isLoggedIn ? (
         <ul className="inline-block space-x-6">
-          <Link
-            to="/account"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
+          <Link to="/account" className="text-white transition duration-300">
             <li className="inline-block">Account</li>
           </Link>
         </ul>
       ) : (
         <ul className="inline-block space-x-6">
-          <Link
-            to="/login"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
+          <Link to="/login" className="text-white transition duration-300">
             <li className="inline-block">Login</li>
           </Link>
-          <Link
-            to="/register"
-            className="text-white hover:text-blue-300 transition duration-300"
-          >
+          <Link to="/register" className="text-white transition duration-300">
             <li className="inline-block">Sign up</li>
           </Link>
         </ul>

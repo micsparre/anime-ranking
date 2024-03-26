@@ -108,14 +108,14 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
   return (
     <>
       {(loading && <LoadingSpinner />) || (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
           <div className=" bg-white p-8 rounded-lg shadow-lg max-w-md w-full space-y-8">
             {registrationSuccess ? (
               <div className="flex flex-col items-center">
                 <div className="text-green-500 font-bold text-center">
                   Account created successfully!
                 </div>
-                <button className="mt-5 bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded transition duration-300">
+                <button className="mt-5 bg-[#77625C] hover:bg-[#49392C] text-white font-bold py-2 px-4 rounded transition duration-300">
                   <Link to="/" className="text-white">
                     Home
                   </Link>
@@ -181,7 +181,7 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
                       value={formUser.email}
                       onChange={handleInputChange}
                       className="border rounded-lg py-2 px-3 w-full"
-                      placeholder="you@example.com"
+                      placeholder="john.doe@example.com"
                     />
                     {errors.email && (
                       <p className="text-red-500 text-sm">{errors.email}</p>
@@ -229,7 +229,7 @@ const Register: React.FC<RegisterProps> = ({ handleTokenChange }) => {
                     type="submit"
                     disabled={creatingUser}
                     aria-disabled={creatingUser}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-[#77625C] hover:bg-[#49392C] text-white font-bold py-2 px-4 rounded"
                   >
                     Submit
                   </button>

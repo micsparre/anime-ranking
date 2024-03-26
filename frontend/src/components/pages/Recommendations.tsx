@@ -55,7 +55,7 @@ const Recommendations: React.FC = () => {
         />
         <div className="flex flex-col items-center h-screen">
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-[#77625C] hover:bg-[#49392C] text-white font-bold py-2 px-4 rounded"
             onClick={fetchRecommendations}
           >
             Generate Recommendations!

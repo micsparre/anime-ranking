@@ -33,7 +33,7 @@ const Account: React.FC<AccountProps> = ({ handleTokenChange }) => {
   return (
     <>
       {(loading && <LoadingSpinner />) || (
-        <div className="flex flex-col items-center h-screen py-20">
+        <div className="flex flex-col items-center h-screen py-20 bg-gray-100">
           <h1 className="text-3xl font-bold mb-4">Hello {user?.username}!</h1>
           <p className="mb-4">
             <strong>Full Name:</strong> {user?.first_name} {user?.last_name}

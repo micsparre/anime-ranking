@@ -130,6 +130,8 @@ export async function getUser(): Promise<User> {
     return user;
   } catch (error) {
     console.error("Error fetching user:", error);
+    localStorage.removeItem("token");
+    window.location.href = "/login";
     return {} as User;
   }
 }

@@ -54,7 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           />
           <button
             type="submit"
-            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-700"
+            className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-[#77625C] hover:bg-[#49392C]"
           >
             Search
           </button>
