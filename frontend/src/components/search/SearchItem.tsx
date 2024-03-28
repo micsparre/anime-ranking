@@ -1,7 +1,7 @@
-import React from "react";
-import { AnimeObject } from "./types";
-import { getDescription } from "./utils";
-import { AddButton, BookmarkButton, CheckButton } from "./Buttons";
+import React, { useState } from "react";
+import { AnimeObject } from "../common/types";
+import { getDescription } from "../common/utils";
+import { AddButton, BookmarkButton, CheckButton } from "../common/Buttons";
 
 interface SearchItemProps {
   item: AnimeObject;
@@ -20,6 +20,22 @@ const SearchItem: React.FC<SearchItemProps> = ({
   handleRemoveBookmark,
   handleAddAnime,
 }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const toggleBookmark = async (item: AnimeObject) => {
+    setIsUpdating(true);
+    try {
+      if (isBookmarked) {
+        await handleRemoveBookmark(item);
+      } else {
+        await handleAddBookmark(item);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return false;
+    }
+    setIsUpdating(false);
+    return true;
+  };
   return (
     <>
       <div className="ml-3 mr-10">
@@ -33,13 +49,10 @@ const SearchItem: React.FC<SearchItemProps> = ({
           <div className="ml-auto flex mt-1 items-center justify-center">
             <AddButton handleClick={handleAddAnime} item={item} />
             <BookmarkButton
-              handleClick={
-                isBookmarked
-                  ? (anime) => handleRemoveBookmark(anime)
-                  : (anime) => handleAddBookmark(anime)
-              }
+              handleClick={toggleBookmark}
               item={item}
               isBookmarked={isBookmarked}
+              isUpdating={isUpdating}
             />
           </div>
         )}

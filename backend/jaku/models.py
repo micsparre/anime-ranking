@@ -11,7 +11,7 @@ class UserProfile(models.Model):
 
 class Anime(models.Model):
     title = models.CharField(max_length=255)
-    genre = models.ManyToManyField('Genre')
+    genre = models.ManyToManyField("Genre")
     average_score = models.FloatField(null=True, blank=True)
     popularity = models.PositiveIntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
@@ -29,20 +29,20 @@ class Genre(models.Model):
         return self.name
 
 
-class UserAnime(models.Model):
+class Rankings(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     ranking = models.FloatField()
 
     class Meta:
         # Ensure a user can't add the same anime more than once
-        unique_together = ('user', 'anime')
+        unique_together = ("user", "anime")
 
     def __str__(self):
         return f"{self.user.user.username}'s list: {self.anime.title} (Ranking: {self.ranking})"
 
 
-class UserBookmarks(models.Model):
+class Bookmarks(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
 

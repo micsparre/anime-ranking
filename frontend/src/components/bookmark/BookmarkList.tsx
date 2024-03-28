@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import { UserAnimeObject, AnimeObject } from "./types";
+import { RankingsObject, AnimeObject } from "../common/types";
 import BookmarkItem from "./BookmarkItem";
-import { removeBookmark } from "./api";
-import RankingModal from "./RankingModal";
+import { removeBookmark } from "../common/api";
+import RankingModal from "../ranking/RankingModal";
 
 interface BookmarkListProps {
+  rankings: RankingsObject[];
   bookmarks: AnimeObject[];
-  animeList: UserAnimeObject[];
-  updateBookmarks: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
-  updateAnimeList: React.Dispatch<React.SetStateAction<UserAnimeObject[]>>;
+  appendRankingItem: (ranking: RankingsObject) => void;
+  removeBookmarksItem: (bookmark: AnimeObject) => void;
 }
 
 const BookmarkList: React.FC<BookmarkListProps> = ({
+  rankings,
   bookmarks,
-  animeList,
-  updateBookmarks,
-  updateAnimeList,
+  appendRankingItem,
+  removeBookmarksItem,
 }) => {
   const [showRankingModal, setShowRankingModal] = useState(false);
-  const [rankingItem, setRankingItem] = useState<UserAnimeObject>(
-    {} as UserAnimeObject
+  const [rankingItem, setRankingItem] = useState<RankingsObject>(
+    {} as RankingsObject
   );
 
   const handleRemoveBookmark = async (item: AnimeObject) => {
@@ -27,7 +27,7 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
       const itemId = item.id;
       const response = await removeBookmark(itemId);
       if (response) {
-        updateBookmarks(bookmarks.filter((anime) => anime.id !== item.id));
+        removeBookmarksItem(item);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -38,7 +38,7 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
 
   const openRankingModal = (item: AnimeObject) => {
     try {
-      setRankingItem({ ...item, ranking: 0 } as UserAnimeObject);
+      setRankingItem({ ...item, ranking: 0 } as RankingsObject);
       setShowRankingModal(true);
     } catch (error) {
       console.error("Error:", error);
@@ -53,10 +53,8 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
     setShowRankingModal(false);
     await handleRemoveBookmark(rankingItem)
       .then(() => {
-        updateBookmarks(
-          bookmarks.filter((anime) => anime.id !== rankingItem.id)
-        );
-        updateAnimeList([...animeList, rankingItem]);
+        removeBookmarksItem(rankingItem);
+        appendRankingItem(rankingItem);
       })
       .catch((error) => {
         console.error(error);
@@ -70,7 +68,7 @@ const BookmarkList: React.FC<BookmarkListProps> = ({
       {showRankingModal && (
         <RankingModal
           item={rankingItem}
-          animeList={animeList}
+          rankings={rankings}
           onClose={closeRankingModal}
         />
       )}

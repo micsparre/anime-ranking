@@ -8,7 +8,7 @@ def similarity_score(item, comparison):
     """
     s = item["title"].lower()
     if s == comparison:
-        return -float('inf')  # Represents infinity
+        return -float("inf")  # Represents infinity
 
     # If the comparison string is a substring of the title, return a negative weight relative to the length of the title
     if comparison in s:
@@ -21,7 +21,7 @@ def similarity_score(item, comparison):
     return distance
 
 
-def sort_anime(anime, comparison):
+def sort_titles(anime, comparison):
     """
     Sorts a list of titles by similarity to a comparison string.
     """

@@ -1,7 +1,7 @@
 import React from "react";
-import { getDescription } from "./utils";
-import { AddButton, BookmarkButton } from "./Buttons";
-import { AnimeObject } from "./types";
+import { getDescription } from "../common/utils";
+import { AddButton, BookmarkButton } from "../common/Buttons";
+import { AnimeObject } from "../common/types";
 interface BookmarkItemProps {
   item: AnimeObject;
   handleAddAnime: (item: AnimeObject) => boolean;
@@ -30,6 +30,7 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({
             handleClick={removeBookmark}
             item={item}
             isBookmarked={true}
+            isUpdating={false}
           />
         </div>
       </div>

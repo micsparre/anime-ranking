@@ -1,18 +1,13 @@
 export interface AnimeObject {
-  id: number;
   title: string;
+  id: number;
+  episodes: number;
   start_date: string;
   end_date: string;
-  episodes: number;
 }
 
-export interface UserAnimeObject {
-  id: number;
-  title: string;
+export interface RankingsObject extends AnimeObject {
   ranking: number;
-  start_date: string;
-  end_date: string;
-  episodes: number;
 }
 
 export interface User {
@@ -20,7 +15,6 @@ export interface User {
   last_name: string;
   email: string;
   username: string;
-  token?: string;
   password?: string;
 }
 
