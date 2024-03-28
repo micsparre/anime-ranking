@@ -1,14 +1,17 @@
 import React from "react";
-import { UserAnimeObject } from "./types";
-import { getDescription, getRankingColor } from "./utils";
-import { RemoveButton } from "./Buttons";
+import { RankingsObject } from "../common/types";
+import { getDescription, getRankingColor } from "../common/utils";
+import { RemoveButton } from "../common/Buttons";
 
-interface UserItemProps {
-  item: UserAnimeObject;
-  handleRemoveAnime: (item: UserAnimeObject) => void;
+interface RankingItemProps {
+  item: RankingsObject;
+  handleRemoveAnime: (item: RankingsObject) => void;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
+const RankingItem: React.FC<RankingItemProps> = ({
+  item,
+  handleRemoveAnime,
+}) => {
   return (
     <div className="w-full flex items-center justify-between p-6 space-x-6">
       <div className="flex-1 truncate">
@@ -34,4 +37,4 @@ const UserItem: React.FC<UserItemProps> = ({ item, handleRemoveAnime }) => {
   );
 };
 
-export default UserItem;
+export default RankingItem;

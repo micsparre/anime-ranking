@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { UserAnimeObject } from "./types";
-import api from "./api";
-import { getRankingColor } from "./utils";
+import { RankingsObject } from "../common/types";
+import { addRanking } from "../common/api";
+import { getRankingColor } from "../common/utils";
 
 interface RankingModalProps {
-  item: UserAnimeObject;
-  animeList: UserAnimeObject[];
+  item: RankingsObject;
+  rankings: RankingsObject[];
   onClose: () => Promise<boolean>;
 }
 
 const RankingModal: React.FC<RankingModalProps> = ({
   item,
-  animeList,
+  rankings,
   onClose,
 }) => {
   const [rankingGroup, setRankingGroup] = useState<string | null>(null);
   const [rankingItemIndex, setRankingItemIndex] = useState<number | null>(null);
-  const [rankingList, setRankingList] = useState<UserAnimeObject[]>(
-    [] as UserAnimeObject[]
+  const [newRankings, setNewRankings] = useState<RankingsObject[]>(
+    [] as RankingsObject[]
   );
   const [bounds, setBounds] = useState<number[]>([0, 1000]);
   const [isFinished, setIsFinished] = useState(false);
@@ -36,55 +36,49 @@ const RankingModal: React.FC<RankingModalProps> = ({
       maxValue = 10;
     }
 
-    for (let i = 0; i < rankingList.length; i++) {
-      const fraction = (i + 1) / rankingList.length;
+    for (let i = 0; i < newRankings.length; i++) {
+      const fraction = (i + 1) / newRankings.length;
       const value = minValue + fraction * (maxValue - minValue);
-      rankingList[i].ranking = parseFloat(value.toFixed(2));
+      newRankings[i].ranking = parseFloat(value.toFixed(2));
     }
-  }, [rankingGroup, rankingList]);
+  }, [rankingGroup, newRankings]);
 
   const handleSubmit = useCallback(async () => {
     assignRankings();
     try {
-      await api.post(
-        "/api/rank-anime",
-        rankingList.map((item) => ({
-          anime_id: item.id,
-          ranking: item.ranking,
-        }))
-      );
+      await addRanking(newRankings);
       await onClose();
     } catch (error) {
       console.error(error);
     }
-  }, [assignRankings, rankingList, onClose]);
+  }, [assignRankings, newRankings, onClose]);
 
   useEffect(() => {
     setRankingGroup(null);
     setRankingItemIndex(null);
-    const sortedAnimeList = animeList.sort((a, b) => a.ranking - b.ranking);
-    setRankingList([...sortedAnimeList]);
-  }, [animeList]);
+    const sortedRankings = rankings.sort((a, b) => a.ranking - b.ranking);
+    setNewRankings([...sortedRankings]);
+  }, [rankings]);
 
   useEffect(() => {
     if (rankingGroup !== null && !isFinished) {
-      setBounds([0, rankingList.length]);
-      const midIndex = Math.floor(rankingList.length / 2);
+      setBounds([0, newRankings.length]);
+      const midIndex = Math.floor(newRankings.length / 2);
       setRankingItemIndex(midIndex);
     } else if (isFinished) {
       handleSubmit().catch((error) => {
         console.error("Error in handleSubmit:", error);
       });
     }
-  }, [rankingList, handleSubmit, isFinished, rankingGroup]);
+  }, [newRankings, handleSubmit, isFinished, rankingGroup]);
 
   useEffect(() => {
     if (bounds[0] >= bounds[1]) {
       setIsFinished(() => true);
-      setRankingList((prevRankingList) => {
-        const newRankingList = [...prevRankingList];
-        newRankingList.splice(bounds[0], 0, item);
-        return newRankingList;
+      setNewRankings((prevNewRankings) => {
+        const newNewRankings = [...prevNewRankings];
+        newNewRankings.splice(bounds[0], 0, item);
+        return newNewRankings;
       });
     } else {
       const midIndex = Math.floor((bounds[0] + bounds[1]) / 2);
@@ -108,13 +102,13 @@ const RankingModal: React.FC<RankingModalProps> = ({
   const handleRankingGroup = (rankingGroup: string) => {
     setRankingGroup(rankingGroup);
     if (rankingGroup === "good") {
-      setRankingList(rankingList.filter((item) => item.ranking >= 6.7));
+      setNewRankings(newRankings.filter((item) => item.ranking >= 6.7));
     } else if (rankingGroup === "mid") {
-      setRankingList(
-        rankingList.filter((item) => item.ranking >= 3.4 && item.ranking < 6.7)
+      setNewRankings(
+        newRankings.filter((item) => item.ranking >= 3.4 && item.ranking < 6.7)
       );
     } else if (rankingGroup === "bad") {
-      setRankingList(rankingList.filter((item) => item.ranking < 3.4));
+      setNewRankings(newRankings.filter((item) => item.ranking < 3.4));
     }
   };
 
@@ -162,15 +156,15 @@ const RankingModal: React.FC<RankingModalProps> = ({
                             onClick={() => handleRanking(true)}
                           >
                             <div className="mt-2 flex overflow-hidden">
-                              {rankingList[rankingItemIndex]?.title}
+                              {newRankings[rankingItemIndex]?.title}
                             </div>
                             <div
                               className={`flex items-center justify-center text-sm ${getRankingColor(
-                                rankingList[rankingItemIndex]?.ranking,
+                                newRankings[rankingItemIndex]?.ranking,
                                 true
                               )}`}
                             >
-                              {rankingList[rankingItemIndex]?.ranking}
+                              {newRankings[rankingItemIndex]?.ranking}
                             </div>
                           </button>
                         </div>

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { UserAnimeObject, AnimeObject, User } from "./types";
+import { RankingsObject, AnimeObject, User } from "./types";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -32,30 +32,30 @@ api.interceptors.response.use(
   }
 );
 
-export async function getUserAnimeList(): Promise<UserAnimeObject[]> {
+export async function getRankings(): Promise<RankingsObject[]> {
   const token = localStorage.getItem("token");
   if (!token) {
     return [];
   }
   try {
-    const response = await api.get(apiUrl + "/api/anime-list");
-    const userAnimeList = response.data as UserAnimeObject[];
-    return userAnimeList;
+    const response = await api.get(apiUrl + "/api/rankings");
+    const rankings = response.data as RankingsObject[];
+    return rankings;
   } catch (error) {
-    console.error("Error fetching user's anime list:", error);
+    console.error("Error fetching user's rankings:", error);
     return [];
   }
 }
 
-export async function getUserBookmarks(): Promise<AnimeObject[]> {
+export async function getBookmarks(): Promise<AnimeObject[]> {
   const token = localStorage.getItem("token");
   if (!token) {
     return [];
   }
   try {
     const response = await api.get(apiUrl + "/api/bookmarks");
-    const userBookmarks = response.data as AnimeObject[];
-    return userBookmarks;
+    const bookmarks = response.data as AnimeObject[];
+    return bookmarks;
   } catch (error) {
     console.error("Error fetching bookmarks:", error);
     return [];
@@ -73,21 +73,39 @@ export async function getRecommendations(): Promise<AnimeObject[]> {
   }
 }
 
-export async function removeUserAnime(id: number): Promise<boolean> {
+export async function addRanking(
+  newRankings: RankingsObject[]
+): Promise<boolean> {
   try {
-    await api.post(apiUrl + "/api/remove-anime-from-list", {
-      anime_id: id,
+    await api.post(
+      "/api/rank-item",
+      newRankings.map((item) => ({
+        item_id: item.id,
+        ranking: item.ranking,
+      }))
+    );
+    return true;
+  } catch (error) {
+    console.error("Error updating user's rankings:", error);
+    return false;
+  }
+}
+
+export async function removeRanking(id: number): Promise<boolean> {
+  try {
+    await api.post(apiUrl + "/api/rm-rankings-item", {
+      item_id: id,
     });
     return true;
   } catch (error) {
-    console.error("Error removing anime from user's list:", error);
+    console.error("Error while removing from user's rankings:", error);
     return false;
   }
 }
 
 export async function addBookmark(id: number): Promise<boolean> {
   try {
-    await api.post(apiUrl + "/api/add-bookmark", { anime_id: id });
+    await api.post(apiUrl + "/api/add-bookmark", { item_id: id });
     return true;
   } catch (error) {
     console.error("Error adding bookmark:", error);
@@ -97,8 +115,8 @@ export async function addBookmark(id: number): Promise<boolean> {
 
 export async function removeBookmark(id: number): Promise<boolean> {
   try {
-    await api.post(apiUrl + "/api/remove-bookmark", {
-      anime_id: id,
+    await api.post(apiUrl + "/api/rm-bookmark", {
+      item_id: id,
     });
     return true;
   } catch (error) {
@@ -123,7 +141,7 @@ export async function getSearchTitles(query: string): Promise<AnimeObject[]> {
   }
 }
 
-export async function getUser(): Promise<User> {
+export async function getUserDetails(): Promise<User> {
   try {
     const response = await api.get(apiUrl + "/api/user");
     const user = response.data as User;

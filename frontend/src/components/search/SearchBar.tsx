@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { getSearchTitles } from "./api";
-import { AnimeObject } from "./types";
+import { getSearchTitles } from "../common/api";
+import { AnimeObject } from "../common/types";
 
 interface SearchBarProps {
-  updateItems: React.Dispatch<React.SetStateAction<AnimeObject[]>>;
+  handleSearchResultsChange: React.Dispatch<
+    React.SetStateAction<AnimeObject[]>
+  >;
   updateLoading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;
   updateQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  updateItems,
+  handleSearchResultsChange,
   updateLoading,
   query,
   updateQuery,
@@ -30,7 +32,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     updateLoading(true);
     getSearchTitles(query)
       .then((response) => {
-        updateItems(response);
+        handleSearchResultsChange(response);
         updateLoading(false);
       })
       .catch((error) => {

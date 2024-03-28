@@ -1,58 +1,65 @@
-import React, { useState, useEffect } from "react";
-import LoadingSpinner from "../common/LoadingSpinner";
+import React from "react";
 import { User } from "../common/types";
-import { getUser } from "../common/api";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 interface AccountProps {
   handleTokenChange: (token: string | null) => void;
+  userDetails: User;
+  isUserLoading: boolean;
 }
 
-const Account: React.FC<AccountProps> = ({ handleTokenChange }) => {
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    getUser()
-      .then((response) => {
-        setUser(response);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, []);
-
+const Account: React.FC<AccountProps> = ({
+  handleTokenChange,
+  userDetails,
+  isUserLoading,
+}) => {
   const handleSignOut = () => {
     window.location.href = "/login";
-    setLoading(true);
     handleTokenChange(null);
   };
-
-  return (
-    <>
-      {(loading && <LoadingSpinner />) || (
+  if (!userDetails) {
+    return (
+      (isUserLoading && <LoadingSpinner />) || (
         <div className="flex flex-col items-center h-screen py-20 bg-gray-100">
-          <h1 className="text-3xl font-bold mb-4">Hello {user?.username}!</h1>
-          <p className="mb-4">
-            <strong>Full Name:</strong> {user?.first_name} {user?.last_name}
-          </p>
-          <p className="mb-4">
-            <strong>Username:</strong> {user?.username}
-          </p>
-          <p className="mb-4">
-            <strong>Email:</strong> {user?.email}
-          </p>
+          <h1 className="text-3xl font-bold mb-4">User Not Found</h1>
           <button
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-            onClick={handleSignOut}
+            onClick={() => {
+              window.location.href = "/login";
+              handleTokenChange(null);
+            }}
           >
-            Sign Out
+            Sign In
           </button>
         </div>
-      )}
-    </>
+      )
+    );
+  }
+
+  return (
+    (isUserLoading && <LoadingSpinner />) || (
+      <div className="flex flex-col items-center h-screen py-20 bg-gray-100">
+        <h1 className="text-3xl font-bold mb-4">
+          Hello {userDetails.username}!
+        </h1>
+        <p className="mb-4">
+          <strong>Full Name:</strong> {userDetails.first_name}{" "}
+          {userDetails.last_name}
+        </p>
+        <p className="mb-4">
+          <strong>Username:</strong> {userDetails.username}
+        </p>
+        <p className="mb-4">
+          <strong>Email:</strong> {userDetails.email}
+        </p>
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          onClick={handleSignOut}
+        >
+          Sign Out
+        </button>
+      </div>
+    )
   );
 };
 

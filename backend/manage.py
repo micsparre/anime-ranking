@@ -7,11 +7,11 @@ from dotenv import load_dotenv, find_dotenv
 
 def main():
     """Run administrative tasks."""
-    if os.environ.get('DEBUG', False):
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.prd_settings')
+    if os.environ.get("DEBUG", False):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.prd_settings")
     else:
         load_dotenv(find_dotenv(".env.development"))
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.dev_settings')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.dev_settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -23,5 +23,5 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

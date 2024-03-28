@@ -72,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
                     <div className="absolute mt-4 w-42 bg-white rounded text-gray-500">
                       <ul>
                         <Link
-                          to="/anime-list"
+                          to="/rankings"
                           className="transition duration-300"
                           onClick={toggleDropdown}
                         >

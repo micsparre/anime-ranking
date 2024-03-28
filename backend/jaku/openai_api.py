@@ -26,11 +26,14 @@ def get_recommendations_as_list(ranked_titles: list, bookmark_titles: list) -> l
     """
     Returns a dictionary of anime recommendations as JSON.
     """
-    content = response_format.format(ranked_titles=", ".join(
-        ranked_titles), bookmark_titles=", ".join(bookmark_titles))
+    content = response_format.format(
+        ranked_titles=", ".join(ranked_titles),
+        bookmark_titles=", ".join(bookmark_titles),
+    )
     print(f"openai query: {content}")
     completion = client.chat.completions.create(
-        model="gpt-4-turbo-preview", messages=[{"role": "user", "content": content}])
+        model="gpt-4-turbo-preview", messages=[{"role": "user", "content": content}]
+    )
     try:
         response = completion.choices[0].message.content
         response = json.loads(response)

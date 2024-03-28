@@ -1,8 +1,8 @@
 import { AnimeObject } from "./types";
 
-export const getDescription = (anime: AnimeObject) => {
-  const startDate = anime.start_date;
-  const endDate = anime.end_date;
+export const getDescription = (item: AnimeObject) => {
+  const startDate = item.start_date;
+  const endDate = item.end_date;
   let description = "";
   if (startDate && endDate) {
     description = `${startDate} - ${endDate}`;
@@ -12,7 +12,7 @@ export const getDescription = (anime: AnimeObject) => {
     description = `Ended on ${endDate}`;
   }
 
-  const numEpisodes = anime.episodes;
+  const numEpisodes = item.episodes;
   let episodes = "";
   if (numEpisodes) {
     if (numEpisodes === 1) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { AnimeObject, UserAnimeObject } from "./types";
+import { AnimeObject, RankingsObject } from "./types";
 
 interface ButtonProps {
   handleClick: (item: AnimeObject) => boolean;
@@ -7,14 +7,15 @@ interface ButtonProps {
 }
 
 interface RemoveButtonProps {
-  handleClick: (item: UserAnimeObject) => void;
-  item: UserAnimeObject;
+  handleClick: (item: RankingsObject) => void;
+  item: RankingsObject;
 }
 
 interface BookmarkButtonProps {
   handleClick: (item: AnimeObject) => Promise<boolean>;
   item: AnimeObject;
   isBookmarked: boolean;
+  isUpdating: boolean;
 }
 
 export const AddButton: React.FC<ButtonProps> = ({ item, handleClick }) => {
@@ -64,12 +65,15 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
   item,
   handleClick,
   isBookmarked,
+  isUpdating,
 }) => {
   return (
     <button
       onClick={() => {
-        handleClick(item).catch((err) => console.error(err));
+        handleClick(item).catch((error) => console.error("Error:", error));
       }}
+      disabled={isUpdating}
+      aria-disabled={isUpdating}
       className="inline-flex items-center justify-center w-9 h-9 focus:shadow-outline"
     >
       <svg
