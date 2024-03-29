@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 from django.core.management.utils import get_random_secret_key
-import os
 import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +36,14 @@ CSRF_TRUSTED_ORIGINS = ["https://anime-ranking-django.fly.dev"]
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "anime-ranking-django.fly.dev"]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://jaku.pages.dev",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -45,7 +51,6 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "jaku",
     "corsheaders",
     "rest_framework",
@@ -136,10 +141,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
