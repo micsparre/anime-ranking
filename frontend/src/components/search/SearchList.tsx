@@ -4,6 +4,7 @@ import { RankingsObject, AnimeObject } from "../common/types";
 import SearchItem from "./SearchItem";
 import LoginPrompt from "../authentication/LoginPrompt";
 import RankingModal from "../ranking/RankingModal";
+import { useNavigate } from "react-router-dom";
 
 export interface SearchListProps {
   token: string | null;
@@ -116,14 +117,16 @@ const SearchList: React.FC<SearchListProps> = ({
     return false;
   };
 
+  const navigate = useNavigate();
+
   const handleLoginClick = () => {
     setShowLoginPrompt(false);
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   const handleSignupClick = () => {
     setShowLoginPrompt(false);
-    window.location.href = "/register";
+    navigate("/register");
   };
 
   const closeLoginPrompt = () => {

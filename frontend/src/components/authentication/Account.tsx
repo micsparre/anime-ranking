@@ -1,6 +1,7 @@
 import React from "react";
 import { User } from "../common/types";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 interface AccountProps {
   handleTokenChange: (token: string | null) => void;
@@ -13,8 +14,9 @@ const Account: React.FC<AccountProps> = ({
   userDetails,
   isUserLoading,
 }) => {
+  const navigate = useNavigate();
   const handleSignOut = () => {
-    window.location.href = "/login";
+    navigate("/login");
     handleTokenChange(null);
   };
   if (!userDetails) {
@@ -25,7 +27,7 @@ const Account: React.FC<AccountProps> = ({
           <button
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
             onClick={() => {
-              window.location.href = "/login";
+              navigate("/login");
               handleTokenChange(null);
             }}
           >

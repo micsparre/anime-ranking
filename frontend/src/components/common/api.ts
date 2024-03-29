@@ -26,7 +26,6 @@ api.interceptors.response.use(
       //Unauthorized
       //redirect to Login
       localStorage.removeItem("token");
-      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -149,7 +148,6 @@ export async function getUserDetails(): Promise<User> {
   } catch (error) {
     console.error("Error fetching user:", error);
     localStorage.removeItem("token");
-    window.location.href = "/login";
     return {} as User;
   }
 }

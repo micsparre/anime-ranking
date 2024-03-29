@@ -3,6 +3,7 @@ import api from "../common/api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { UnsuccessfulResponse, SuccessfulUserResponse } from "../common/types";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   handleTokenChange: (token: string | null) => void;
@@ -22,6 +23,8 @@ const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
     setCredentials({ ...credentials, [name]: value });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -35,8 +38,8 @@ const Login: React.FC<LoginProps> = ({ handleTokenChange }) => {
           setErrorMessage("");
           const data = response.data as SuccessfulUserResponse;
           handleTokenChange(data.token);
-          window.location.href = "/";
           setLoading(false);
+          navigate("/");
         }
       })
       .catch((error: AxiosError) => {
