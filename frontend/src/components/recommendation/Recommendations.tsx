@@ -42,26 +42,30 @@ const Recommendations: React.FC<RecommendationsProps> = ({
   };
 
   return (
-    ((isUserLoading || isRecommendationsLoading) && <LoadingSpinner />) || (
-      <div className="bg-gray-100 min-h-screen">
-        <RecommendationList
-          recommendations={recommendations}
-          rankings={rankings}
-          bookmarks={bookmarks}
-          appendRankingItem={appendRankingItem}
-          appendBookmarksItem={appendBookmarksItem}
-          removeBookmarksItem={removeBookmarksItem}
-        />
-        <div className="flex flex-col items-center h-screen">
-          <button
-            className="bg-[#77625C] hover:bg-[#49392C] text-white font-bold py-2 px-4 rounded"
-            onClick={fetchRecommendations}
-          >
-            Generate Recommendations!
-          </button>
-        </div>
-      </div>
-    )
+    <>
+      {((isUserLoading || isRecommendationsLoading) && <LoadingSpinner />) || (
+        <>
+          <div className="bg-gray-100 min-h-screen">
+            <RecommendationList
+              recommendations={recommendations}
+              rankings={rankings}
+              bookmarks={bookmarks}
+              appendRankingItem={appendRankingItem}
+              appendBookmarksItem={appendBookmarksItem}
+              removeBookmarksItem={removeBookmarksItem}
+            />
+            <div className="flex flex-col items-center">
+              <button
+                className="bg-[#77625C] hover:bg-[#49392C] text-white font-bold py-2 px-4 rounded"
+                onClick={fetchRecommendations}
+              >
+                Generate Recommendations!
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

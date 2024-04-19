@@ -106,105 +106,107 @@ const CustomRouter: React.FC = () => {
   return (
     <Router>
       <Navbar token={token} />
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/" />
-            ) : (
-              <Login handleTokenChange={handleTokenChange} />
-            )
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/" />
-            ) : (
-              <Register handleTokenChange={handleTokenChange} />
-            )
-          }
-        />
-        <Route
-          path="/rankings"
-          element={
-            !isLoggedIn ? (
-              <Navigate to="/login" />
-            ) : (
-              <Rankings
-                rankings={rankings}
-                removeRankingItem={removeRankingItem}
-                isUserLoading={isUserLoading}
-              />
-            )
-          }
-        />
-        <Route
-          path="/bookmarks"
-          element={
-            !isLoggedIn ? (
-              <Navigate to="/login" />
-            ) : (
-              <Bookmarks
+      <div>
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Login handleTokenChange={handleTokenChange} />
+              )
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Register handleTokenChange={handleTokenChange} />
+              )
+            }
+          />
+          <Route
+            path="/rankings"
+            element={
+              !isLoggedIn ? (
+                <Navigate to="/login" />
+              ) : (
+                <Rankings
+                  rankings={rankings}
+                  removeRankingItem={removeRankingItem}
+                  isUserLoading={isUserLoading}
+                />
+              )
+            }
+          />
+          <Route
+            path="/bookmarks"
+            element={
+              !isLoggedIn ? (
+                <Navigate to="/login" />
+              ) : (
+                <Bookmarks
+                  rankings={rankings}
+                  bookmarks={bookmarks}
+                  appendRankingItem={appendRankingItem}
+                  removeBookmarksItem={removeBookmarksItem}
+                  isUserLoading={isUserLoading}
+                />
+              )
+            }
+          />
+          <Route
+            path="/recommendations"
+            element={
+              !isLoggedIn ? (
+                <Navigate to="/login" />
+              ) : (
+                <Recommendations
+                  rankings={rankings}
+                  bookmarks={bookmarks}
+                  recommendations={recommendations}
+                  appendRankingItem={appendRankingItem}
+                  appendBookmarksItem={appendBookmarksItem}
+                  removeBookmarksItem={removeBookmarksItem}
+                  handleRecommendationsChange={handleRecommendationsChange}
+                  isUserLoading={isUserLoading}
+                />
+              )
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              isLoggedIn ? (
+                <Account
+                  handleTokenChange={handleTokenChange}
+                  userDetails={userDetails}
+                  isUserLoading={isUserLoading}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Search
+                token={token}
                 rankings={rankings}
                 bookmarks={bookmarks}
-                appendRankingItem={appendRankingItem}
-                removeBookmarksItem={removeBookmarksItem}
-                isUserLoading={isUserLoading}
-              />
-            )
-          }
-        />
-        <Route
-          path="/recommendations"
-          element={
-            !isLoggedIn ? (
-              <Navigate to="/login" />
-            ) : (
-              <Recommendations
-                rankings={rankings}
-                bookmarks={bookmarks}
-                recommendations={recommendations}
                 appendRankingItem={appendRankingItem}
                 appendBookmarksItem={appendBookmarksItem}
                 removeBookmarksItem={removeBookmarksItem}
-                handleRecommendationsChange={handleRecommendationsChange}
-                isUserLoading={isUserLoading}
               />
-            )
-          }
-        />
-        <Route
-          path="/account"
-          element={
-            isLoggedIn ? (
-              <Account
-                handleTokenChange={handleTokenChange}
-                userDetails={userDetails}
-                isUserLoading={isUserLoading}
-              />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <Search
-              token={token}
-              rankings={rankings}
-              bookmarks={bookmarks}
-              appendRankingItem={appendRankingItem}
-              appendBookmarksItem={appendBookmarksItem}
-              removeBookmarksItem={removeBookmarksItem}
-            />
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
     </Router>
   );
 };

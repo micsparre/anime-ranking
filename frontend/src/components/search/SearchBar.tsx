@@ -4,7 +4,7 @@ import { AnimeObject } from "../common/types";
 
 interface SearchBarProps {
   handleSearchResultsChange: React.Dispatch<
-    React.SetStateAction<AnimeObject[]>
+    React.SetStateAction<AnimeObject[] | null>
   >;
   updateLoading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;

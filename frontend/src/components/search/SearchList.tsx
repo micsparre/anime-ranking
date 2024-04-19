@@ -13,7 +13,7 @@ export interface SearchListProps {
   appendRankingItem: (ranking: RankingsObject) => void;
   appendBookmarksItem: (bookmark: AnimeObject) => void;
   removeBookmarksItem: (bookmark: AnimeObject) => void;
-  searchResults: AnimeObject[];
+  searchResults: AnimeObject[] | null;
   updateSearchMessage: (message: string) => void;
 }
 
@@ -54,19 +54,13 @@ const SearchList: React.FC<SearchListProps> = ({
     [bookmarks]
   );
 
-  //   const isItemRanked = (item: AnimeObject) => {
-  //     return rankings.some((ranking) => ranking.id === item.id);
-  //   };
-
-  //   const isItemBookmarked = (item: AnimeObject) => {
-  //     return bookmarks.some((bookmark) => bookmark.id === item.id);
-  //   };
-
   useEffect(() => {
     if (searchResults && searchResults.length === 0) {
       updateSearchMessage("No results found. Please try another search.");
+      console.log("if statement");
     } else {
       updateSearchMessage("");
+      console.log("else statement");
     }
   }, [searchResults, updateSearchMessage]);
 
@@ -135,7 +129,7 @@ const SearchList: React.FC<SearchListProps> = ({
 
   const isMounted = useRef(false);
   useEffect(() => {
-    if (isMounted.current) {
+    if (isMounted.current || !searchResults) {
       return;
     }
     setRankedSearchItems(searchResults.filter((item) => isItemRanked(item)));
@@ -149,11 +143,6 @@ const SearchList: React.FC<SearchListProps> = ({
     );
     isMounted.current = true;
   }, [searchResults, isItemRanked, isItemBookmarked]);
-
-  //   const rankedSearchItems = searchResults.filter((item) => isItemRanked(item));
-  //   const bookmarkedSearchItems = searchResults.filter((item) =>
-  //     isItemBookmarked(item)
-  //   );
 
   return (
     <>

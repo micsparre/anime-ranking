@@ -22,18 +22,24 @@ const Search: React.FC<SearchProps> = ({
   appendBookmarksItem,
   removeBookmarksItem,
 }) => {
-  const [searchResults, setSearchResults] = useState<AnimeObject[]>([]);
+  const [searchResults, setSearchResults] = useState<AnimeObject[] | null>(
+    null
+  );
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [searchMessage, setSearchMessage] = useState("");
 
-  useEffect(() => {
-    setSearchMessage("");
-  }, [searchResults]);
-
   const updateSearchMessage = useCallback((message: string) => {
     setSearchMessage(message);
   }, []);
+
+  useEffect(() => {
+    if (searchResults && searchResults.length === 0) {
+      updateSearchMessage("No results found. Please try another search.");
+    } else {
+      updateSearchMessage("");
+    }
+  }, [searchResults, updateSearchMessage]);
 
   return (
     <div className="py-6 bg-gray-100 min-h-screen">
@@ -47,7 +53,7 @@ const Search: React.FC<SearchProps> = ({
         {(loading && <LoadingSpinner />) || (
           <>
             {searchMessage ? (
-              <DisplayMessage message={searchMessage} />
+              <DisplayMessage isMiddle={false} message={searchMessage} />
             ) : (
               <MemoizedSearchList
                 rankings={rankings}
