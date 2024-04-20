@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface LoginPromptProps {
   handleLoginClick: () => void;
@@ -11,6 +11,17 @@ const LoginPrompt: React.FC<LoginPromptProps> = ({
   handleSignupClick,
   closeLoginPrompt,
 }) => {
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeLoginPrompt();
+      }
+    };
+    window.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, []);
   return (
     <div
       className="relative z-10"
@@ -19,43 +30,48 @@ const LoginPrompt: React.FC<LoginPromptProps> = ({
       aria-modal="true"
     >
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div className="fixed z-10 w-screen overflow-y-auto">
+        <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
           <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="sm:flex sm:items-start">
-                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <button onClick={() => closeLoginPrompt()}>
-                    <svg
-                      className="h-6 w-6 text-red-600"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                      height="100%"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="flex flex-col items-center justify-between">
+                <div className="flex flex-row items-center justify-between mt-3 text-center sm:text-left">
                   <h3
                     className="text-lg leading-6  text-gray-900"
                     id="modal-headline"
                   >
                     You need to log in or sign up first
                   </h3>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      You must be logged in to add an anime to your list.
-                    </p>
+                  <div className="absolute top-2 right-2 mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center sm:mx-0 sm:h-10 sm:w-10">
+                    <button
+                      type="button"
+                      className="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                      data-modal-hide="default-modal"
+                      onClick={closeLoginPrompt}
+                    >
+                      <svg
+                        className="w-3 h-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          stroke-width="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                      <span className="sr-only">Close modal</span>
+                    </button>
                   </div>
+                </div>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">
+                    You must be logged in to add an anime to your list.
+                  </p>
                 </div>
               </div>
             </div>

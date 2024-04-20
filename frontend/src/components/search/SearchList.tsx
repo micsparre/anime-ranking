@@ -57,10 +57,8 @@ const SearchList: React.FC<SearchListProps> = ({
   useEffect(() => {
     if (searchResults && searchResults.length === 0) {
       updateSearchMessage("No results found. Please try another search.");
-      console.log("if statement");
     } else {
       updateSearchMessage("");
-      console.log("else statement");
     }
   }, [searchResults, updateSearchMessage]);
 

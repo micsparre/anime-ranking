@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ token }) => {
   }, [handleClickOutside]);
 
   return (
-    <nav className="fixed top-0 w-full bg-[#49392c] p-4 flex justify-center items-center">
+    <nav className="fixed top-0 w-full bg-[#49392c] p-4 flex justify-center items-center min-w-96">
       <ul className="inline-block space-x-6 text-md flex-grow">
         <Link to="/" className="text-white transition duration-300">
           <li className="inline-block">Home</li>
