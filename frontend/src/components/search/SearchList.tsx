@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { addBookmark, removeBookmark } from "../common/api";
 import { RankingsObject, AnimeObject } from "../common/types";
 import SearchItem from "./SearchItem";
-import LoginPrompt from "../authentication/LoginPrompt";
+import LoginModal from "../authentication/LoginModal";
 import RankingModal from "../ranking/RankingModal";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +27,7 @@ const SearchList: React.FC<SearchListProps> = ({
   searchResults,
   updateSearchMessage,
 }) => {
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRankingModal, setShowRankingModal] = useState(false);
   const [rankingItem, setRankingItem] = useState<RankingsObject>(
     {} as RankingsObject
@@ -57,17 +57,15 @@ const SearchList: React.FC<SearchListProps> = ({
   useEffect(() => {
     if (searchResults && searchResults.length === 0) {
       updateSearchMessage("No results found. Please try another search.");
-      console.log("if statement");
     } else {
       updateSearchMessage("");
-      console.log("else statement");
     }
   }, [searchResults, updateSearchMessage]);
 
   const openRankingModal = (item: AnimeObject): boolean => {
     const isLoggedIn = token !== null;
     if (!isLoggedIn) {
-      setShowLoginPrompt(true);
+      setShowLoginModal(true);
       return false;
     }
     setRankingItem({ ...item, ranking: 0 } as RankingsObject);
@@ -75,21 +73,18 @@ const SearchList: React.FC<SearchListProps> = ({
     return true;
   };
 
-  const closeRankingModal = () => {
-    try {
-      setShowRankingModal(false);
-      appendRankingItem(rankingItem);
-    } catch (error) {
-      console.error(error);
-      return Promise.resolve(false);
+  const closeRankingModal = (isRanked: boolean) => {
+    setShowRankingModal(false);
+    if (!isRanked) {
+      return false;
     }
-    return Promise.resolve(true);
+    return true;
   };
 
   const handleAddBookmark = async (item: AnimeObject): Promise<boolean> => {
     const isLoggedIn = token !== null;
     if (!isLoggedIn) {
-      setShowLoginPrompt(true);
+      setShowLoginModal(true);
       return false;
     }
     const itemId = item.id;
@@ -114,17 +109,17 @@ const SearchList: React.FC<SearchListProps> = ({
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    setShowLoginPrompt(false);
+    setShowLoginModal(false);
     navigate("/login");
   };
 
   const handleSignupClick = () => {
-    setShowLoginPrompt(false);
+    setShowLoginModal(false);
     navigate("/register");
   };
 
-  const closeLoginPrompt = () => {
-    setShowLoginPrompt(false);
+  const closeLoginModal = () => {
+    setShowLoginModal(false);
   };
 
   const isMounted = useRef(false);
@@ -146,18 +141,21 @@ const SearchList: React.FC<SearchListProps> = ({
 
   return (
     <>
-      {showLoginPrompt && (
-        <LoginPrompt
+      {showLoginModal && (
+        <LoginModal
           handleLoginClick={handleLoginClick}
           handleSignupClick={handleSignupClick}
-          closeLoginPrompt={closeLoginPrompt}
+          closeLoginModal={closeLoginModal}
         />
       )}
       {showRankingModal && (
         <RankingModal
           item={rankingItem}
           rankings={rankings}
+          appendRankingItem={appendRankingItem}
           onClose={closeRankingModal}
+          updateShowRankingModal={setShowRankingModal}
+          removeBookmarksItem={removeBookmarksItem}
         />
       )}
       <div className="flex justify-center pr-6 pl-6">
