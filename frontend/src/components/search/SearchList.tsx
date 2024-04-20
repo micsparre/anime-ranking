@@ -73,15 +73,12 @@ const SearchList: React.FC<SearchListProps> = ({
     return true;
   };
 
-  const closeRankingModal = () => {
-    try {
-      setShowRankingModal(false);
-      appendRankingItem(rankingItem);
-    } catch (error) {
-      console.error(error);
-      return Promise.resolve(false);
+  const closeRankingModal = (isRanked: boolean) => {
+    setShowRankingModal(false);
+    if (!isRanked) {
+      return false;
     }
-    return Promise.resolve(true);
+    return true;
   };
 
   const handleAddBookmark = async (item: AnimeObject): Promise<boolean> => {
@@ -155,7 +152,10 @@ const SearchList: React.FC<SearchListProps> = ({
         <RankingModal
           item={rankingItem}
           rankings={rankings}
+          appendRankingItem={appendRankingItem}
           onClose={closeRankingModal}
+          updateShowRankingModal={setShowRankingModal}
+          removeBookmarksItem={removeBookmarksItem}
         />
       )}
       <div className="flex justify-center pr-6 pl-6">

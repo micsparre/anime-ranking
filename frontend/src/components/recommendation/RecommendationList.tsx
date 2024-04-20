@@ -63,17 +63,9 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
     return true;
   };
 
-  const closeRankingModal = async () => {
-    // TODO get ranking from rankingmodal object?
-    try {
-      const isBookmarked = isItemBookmarked(rankingItem);
-      if (isBookmarked) {
-        await handleRemoveBookmark(rankingItem);
-      }
-      setShowRankingModal(false);
-      appendRankingItem(rankingItem);
-    } catch (error) {
-      console.error("Error:", error);
+  const closeRankingModal = (isRanked: boolean) => {
+    setShowRankingModal(false);
+    if (!isRanked) {
       return false;
     }
     return true;
@@ -85,7 +77,10 @@ const RecommendationList: React.FC<RecommendationListProps> = ({
         <RankingModal
           item={rankingItem}
           rankings={rankings}
+          appendRankingItem={appendRankingItem}
           onClose={closeRankingModal}
+          updateShowRankingModal={setShowRankingModal}
+          removeBookmarksItem={removeBookmarksItem}
         />
       )}
       <div className="max-w-8xl mx-auto pt-10 sm:px-6 lg:px-8">

@@ -6,13 +6,19 @@ import { getRankingColor } from "../common/utils";
 interface RankingModalProps {
   item: RankingsObject;
   rankings: RankingsObject[];
-  onClose: () => Promise<boolean>;
+  appendRankingItem: (ranking: RankingsObject) => void;
+  onClose: (isRanked: boolean) => boolean;
+  updateShowRankingModal: (showRankingModal: boolean) => void;
+  removeBookmarksItem: (bookmark: RankingsObject) => void;
 }
 
 const RankingModal: React.FC<RankingModalProps> = ({
   item,
   rankings,
+  appendRankingItem,
   onClose,
+  updateShowRankingModal,
+  removeBookmarksItem,
 }) => {
   const [rankingGroup, setRankingGroup] = useState<string | null>(null);
   const [rankingItemIndex, setRankingItemIndex] = useState<number | null>(null);
@@ -41,17 +47,18 @@ const RankingModal: React.FC<RankingModalProps> = ({
       const value = minValue + fraction * (maxValue - minValue);
       newRankings[i].ranking = parseFloat(value.toFixed(2));
     }
-  }, [rankingGroup, newRankings]);
+    return newRankings;
+  }, [newRankings, rankingGroup]);
 
   const handleSubmit = useCallback(async () => {
-    assignRankings();
+    const userRankings = assignRankings();
     try {
-      await addRanking(newRankings);
-      await onClose();
+      await addRanking(userRankings);
+      onClose(true);
     } catch (error) {
       console.error(error);
     }
-  }, [assignRankings, newRankings, onClose]);
+  }, [onClose, assignRankings]);
 
   useEffect(() => {
     setRankingGroup(null);
@@ -61,20 +68,28 @@ const RankingModal: React.FC<RankingModalProps> = ({
   }, [rankings]);
 
   useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose(false);
+      }
+    };
+    window.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
     if (rankingGroup !== null && !isFinished) {
       setBounds([0, newRankings.length]);
       const midIndex = Math.floor(newRankings.length / 2);
       setRankingItemIndex(midIndex);
-    } else if (isFinished) {
-      handleSubmit().catch((error) => {
-        console.error("Error in handleSubmit:", error);
-      });
     }
   }, [newRankings, handleSubmit, isFinished, rankingGroup]);
 
   useEffect(() => {
     if (bounds[0] >= bounds[1]) {
-      setIsFinished(() => true);
+      setIsFinished(true);
       setNewRankings((prevNewRankings) => {
         const newNewRankings = [...prevNewRankings];
         newNewRankings.splice(bounds[0], 0, item);
@@ -84,7 +99,27 @@ const RankingModal: React.FC<RankingModalProps> = ({
       const midIndex = Math.floor((bounds[0] + bounds[1]) / 2);
       setRankingItemIndex(midIndex);
     }
-  }, [bounds, setIsFinished, item]);
+  }, [bounds, setIsFinished, item, updateShowRankingModal]);
+
+  useEffect(() => {
+    if (isFinished) {
+      appendRankingItem(item);
+      removeBookmarksItem(item);
+      handleSubmit().catch((error) => {
+        console.error("Error in handleSubmit:", error);
+      });
+
+      updateShowRankingModal(false);
+    }
+  }, [
+    isFinished,
+    appendRankingItem,
+    handleSubmit,
+    updateShowRankingModal,
+    newRankings,
+    item,
+    removeBookmarksItem,
+  ]);
 
   const handleRanking = (isHigher: boolean) => {
     // isHigher is true if the chosen ranking is higher than the current anime's intrinsic ranking
@@ -130,6 +165,31 @@ const RankingModal: React.FC<RankingModalProps> = ({
               >
                 Ranking: <i>{item.title}</i>
               </h3>
+            </div>
+            <div className="absolute top-2 right-2 mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center sm:mx-0 sm:h-10 sm:w-10">
+              <button
+                type="button"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                data-modal-hide="default-modal"
+                onClick={() => onClose(false)}
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
             </div>
             <div className="bg-white p-4 flex-1 justify-center items-center">
               <div className="flex justify-center items-center">
