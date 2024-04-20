@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 
-interface LoginPromptProps {
+interface LoginModalProps {
   handleLoginClick: () => void;
   handleSignupClick: () => void;
-  closeLoginPrompt: () => void;
+  closeLoginModal: () => void;
 }
 
-const LoginPrompt: React.FC<LoginPromptProps> = ({
+const LoginModal: React.FC<LoginModalProps> = ({
   handleLoginClick,
   handleSignupClick,
-  closeLoginPrompt,
+  closeLoginModal,
 }) => {
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        closeLoginPrompt();
+        closeLoginModal();
       }
     };
     window.addEventListener("keydown", handleEscapeKey);
@@ -47,7 +47,7 @@ const LoginPrompt: React.FC<LoginPromptProps> = ({
                       type="button"
                       className="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                       data-modal-hide="default-modal"
-                      onClick={closeLoginPrompt}
+                      onClick={closeLoginModal}
                     >
                       <svg
                         className="w-3 h-3"
@@ -98,4 +98,4 @@ const LoginPrompt: React.FC<LoginPromptProps> = ({
   );
 };
 
-export default LoginPrompt;
+export default LoginModal;
