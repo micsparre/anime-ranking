@@ -22,7 +22,7 @@ export const AddButton: React.FC<ButtonProps> = ({ item, handleClick }) => {
   return (
     <button
       onClick={() => handleClick(item)}
-      className="inline-flex items-center justify-center w-8 h-8 mr-2 text-gray-950 border-2 border-gray-950 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-gray-950 hover:text-indigo-100"
+      className="outline-none inline-flex items-center justify-center w-8 h-8 mr-2 text-gray-950 border-2 border-gray-950 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-gray-950 hover:text-white"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
